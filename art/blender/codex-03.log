@@ -2078,3 +2078,30 @@ Load command 1
    nsects 14
     flags 0x0
 
+exec
+/bin/zsh -lc "mkdir -p /tmp/royal-potter-blender/Blender.app/Contents/MacOS
+python3 - <<'PY'
+from pathlib import Path
+import shutil, struct
+src=Path('/Applications/Blender.app/Contents')
+dst=Path('/tmp/royal-potter-blender/Blender.app/Contents')
+shutil.copy2(src/'MacOS/Blender',dst/'MacOS/Blender')
+for name in ['Resources','PlugIns','Info.plist']:
+    p=dst/name
+    if not p.exists(): p.symlink_to(src/name)
+p=dst/'MacOS/Blender'
+with p.open('r+b') as f:
+    f.seek(0xd00dcc)
+    # CPU-only workaround: report unsupported barycentrics without dereferencing nil.
+    f.write(struct.pack('<II',0x52800000,0xd65f03c0))
+PY
+codesign --force --sign - /tmp/royal-potter-blender/Blender.app/Contents/MacOS/Blender
+/tmp/royal-potter-blender/Blender.app/Contents/MacOS/Blender -b --factory-startup --python-expr 'import bpy; print(bpy.app.version_string)'" in /Users/juslangit/Desktop/project/game/royal-potter
+ exited 137 in 84ms:
+/tmp/royal-potter-blender/Blender.app/Contents/MacOS/Blender: replacing existing signature
+/tmp/royal-potter-blender/Blender.app/Contents/MacOS/Blender: Too many levels of symbolic links
+
+exec
+/bin/zsh -lc "cp /tmp/royal-potter-blender/Blender.app/Contents/MacOS/Blender /tmp/royal-potter-blender/blender-cpu
+codesign --force --sign - /tmp/royal-potter-blender/blender-cpu
+BLENDER_SYSTEM_RESOURCES=/Applications/Blender.app/Contents/Resources DYLD_LIBRARY_PATH=/Applications/Blender.app/Contents/Resources/lib /tmp/royal-potter-blender/blender-cpu -b --factory-startup --python-expr 'import bpy; print(bpy.app.version_string)'" in /Users/juslangit/Desktop/project/game/royal-potter

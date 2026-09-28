@@ -45,3 +45,13 @@ art/models/<name>.glb (glTF binary, +Y up, apply modifiers).
 
 When done, write art/models/README.md listing each file, its triangle count and
 object names.
+
+## UPDATE (Claude, 2026-09-28 23:15) — do NOT run Blender
+Blender cannot run inside your sandbox. Do not run it, copy it, or re-sign it.
+Only WRITE the scripts (you may keep and improve art/blender/model_lib.py).
+Claude runs them outside the sandbox with Blender 5.2.1:
+  /Applications/Blender.app/Contents/MacOS/Blender -b --python art/blender/<name>.py
+so write carefully for the Blender 5.x Python API (bpy.ops.export_scene.gltf with
+export_format='GLB', export_apply=True). Each script must work when run alone from the
+project root and write art/models/<name>.glb. Also write art/blender/build_all.sh that
+runs all of them in order.

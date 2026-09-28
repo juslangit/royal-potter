@@ -38,8 +38,11 @@ def mat(name):
     return m
 
 def reset(name):
-    bpy.ops.object.select_all(action='SELECT')
-    bpy.ops.object.delete(use_global=False)
+    if bpy.context.object and bpy.context.object.mode != 'OBJECT':
+        bpy.ops.object.mode_set(mode='OBJECT')
+    # Selection-based deletion misses hidden objects in an existing startup file.
+    for o in list(bpy.context.scene.objects):
+        bpy.data.objects.remove(o,do_unlink=True)
     for m in list(bpy.data.materials): bpy.data.materials.remove(m)
     bpy.context.scene['asset'] = name
     bpy.context.scene.unit_settings.system = 'NONE'
@@ -91,14 +94,24 @@ def disc(name, pos, radius, height, colour, n=16):
     return lathe(name, [(radius,0),(radius,height)], colour, n, pos)
 
 def ellipsoid(name,pos,scale,colour,n=12,rings=6):
-    # Broad faceted sculpt surface rather than high-resolution UV primitives.
-    profile=[(max(.001, math.sin(math.pi*i/rings)), -math.cos(math.pi*i/rings)) for i in range(rings+1)]
-    o=lathe(name,profile,colour,n)
-    for v in o.data.vertices:
-        v.co.x=v.co.x*scale[0]+pos[0]
-        v.co.y=v.co.y*scale[1]+pos[1]
-        v.co.z=v.co.z*scale[2]+pos[2]
-    return o
+    # Real poles, no coincident rings or tiny cap polygons. Flat organic facets.
+    verts=[(pos[0],pos[1],pos[2]-scale[2])]
+    for i in range(1,rings):
+        t=math.pi*i/rings
+        for j in range(n):
+            a=2*math.pi*j/n
+            verts.append((pos[0]+scale[0]*math.sin(t)*math.cos(a),
+                          pos[1]+scale[1]*math.sin(t)*math.sin(a),
+                          pos[2]-scale[2]*math.cos(t)))
+    top=len(verts); verts.append((pos[0],pos[1],pos[2]+scale[2]))
+    faces=[(0,1+(j+1)%n,1+j) for j in range(n)]
+    for i in range(rings-2):
+        for j in range(n):
+            a=1+i*n+j; b=1+i*n+(j+1)%n
+            faces.append((a,b,b+n,a+n))
+    last=1+(rings-2)*n
+    faces += [(last+j,last+(j+1)%n,top) for j in range(n)]
+    return mesh(name,verts,faces,colour)
 
 def rod(name,a,b,radius,colour,n=8):
     delta=Vector(b)-Vector(a)
@@ -118,6 +131,36 @@ def empty(name,pos):
     o=bpy.data.objects.new(name,None); bpy.context.collection.objects.link(o)
     o.location=pos; o.empty_display_size=.15
     return o
+
+def origin_at(o, pos):
+    """Set a useful runtime pivot without moving the geometry."""
+    bpy.ops.object.select_all(action='DESELECT')
+    o.select_set(True)
+    bpy.context.view_layer.objects.active=o
+    old=bpy.context.scene.cursor.location.copy()
+    bpy.context.scene.cursor.location=pos
+    bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
+    bpy.context.scene.cursor.location=old
+    o.select_set(False)
+    return o
+
+def prism(name, outline, low, high, colour):
+    """Extrude an XY outline; used for chunky pavers and tiny decorative shapes."""
+    k=len(outline)
+    verts=[(x,y,z) for z in (low,high) for x,y in outline]
+    faces=[tuple(reversed(range(k))),tuple(range(k,2*k))]
+    faces += [(i,(i+1)%k,(i+1)%k+k,i+k) for i in range(k)]
+    return mesh(name,verts,faces,colour)
+
+def kiln_door_geometry(name='door_leaf'):
+    """Matches courtyard kiln: opening radius .58, spring .85, bottom .12."""
+    parts=[arch_shape(name+'_wood',0,0,.13,.565,.85,.12,OAK)]
+    for x in (-.32,0,.32):
+        parts.append(box(name+'_plank_seam',(x,-.064,.49),(.018,.012,.69),INK))
+    for z in (.35,.76):
+        parts.append(box(name+'_strap',(0,-.085,z),(1.03,.045,.075),INK))
+    parts.append(ellipsoid(name+'_handle',(.32,-.14,.61),(.065,.06,.065),GOLD,8,4))
+    return join(name,parts)
 
 def arch_shape(name,x,y,bottom,radius,spring,depth,colour,n=10):
     # Filled arched slab, extruded in Y; bottom and spring are absolute Z.
@@ -158,15 +201,24 @@ def wall(name,a,b,height=.48):
 def export(name,root_base=(0,0,0)):
     # Bake modifiers, origins and transforms before exporting. Keep props separate.
     objects=list(bpy.context.scene.objects)
+    bpy.ops.object.select_all(action='DESELECT')
     for o in objects:
         if o.type=='MESH':
             bpy.context.view_layer.objects.active=o
             o.select_set(True)
             for mod in list(o.modifiers): bpy.ops.object.modifier_apply(modifier=mod.name)
             o.select_set(False)
+    bpy.context.view_layer.update()
+    # Reject the asset before writing a GLB if it exceeds the phone budget.
+    for o in objects:
+        if o.type=='MESH': o.data.calc_loop_triangles()
+    source_tris=sum(len(o.data.loop_triangles) for o in objects if o.type=='MESH')
+    if not 0 < source_tris < 3000:
+        raise ValueError(f'{name}: {source_tris} triangles; budget is below 3000')
     root=empty(name,root_base)
     for o in objects:
-        matrix=o.matrix_world.copy(); o.parent=root; o.matrix_world=matrix
+        if o.parent is None:
+            matrix=o.matrix_world.copy(); o.parent=root; o.matrix_world=matrix
     root['front']='Blender -Y / glTF +Z'
     root['palette']='art/concept/palette.md'
     OUT.mkdir(parents=True,exist_ok=True)
@@ -174,11 +226,13 @@ def export(name,root_base=(0,0,0)):
     bpy.ops.export_scene.gltf(filepath=str(path),export_format='GLB',export_yup=True,
         export_apply=True,export_texcoords=False,export_normals=True,
         export_materials='EXPORT',export_cameras=False,export_lights=False,
-        export_animations=False,export_extras=True)
+        export_animations=False,export_extras=True,use_selection=False,
+        use_visible=False,use_renderable=False)
     raw=path.read_bytes()
     magic,version,total=struct.unpack_from('<4sII',raw)
     assert magic==b'glTF' and version==2 and total==len(raw)
     size,kind=struct.unpack_from('<II',raw,12)
+    assert kind==0x4E4F534A
     doc=json.loads(raw[20:20+size])
     assert not doc.get('textures') and not doc.get('images')
     counts={}
@@ -186,9 +240,21 @@ def export(name,root_base=(0,0,0)):
         if 'mesh' in node:
             counts[node['name']]=sum(doc['accessors'][p['indices']]['count']//3 for p in doc['meshes'][node['mesh']]['primitives'])
     tris=sum(counts.values())
-    assert 0<tris<3000, (name,tris)
+    assert tris==source_tris and 0<tris<3000, (name,tris,source_tris)
+    for material in doc['materials']:
+        expected=mat(material['name']).diffuse_color
+        actual=material.get('pbrMetallicRoughness',{}).get('baseColorFactor',[1,1,1,1])
+        assert all(abs(a-b)<1e-5 for a,b in zip(actual,expected)), material['name']
+    names={node['name'] for node in doc['nodes']}
+    if name=='castle_base':
+        assert all(f'socket_{i}' in names for i in range(1,8))
+    if name=='visitor':
+        assert all('prop_'+p in names for p in (
+            'crown','tiara','helmet','wizard_hat','chef_hat','guard_cap','spear'))
     report={'file':path.name,'triangles':tris,'bytes':len(raw),'objects':counts,
             'empties':[n['name'] for n in doc['nodes'] if 'mesh' not in n],
             'materials':[m['name'] for m in doc['materials']]}
     (OUT/(name+'.stats.json')).write_text(json.dumps(report,indent=2)+'\n')
+    from write_readme import write_readme
+    write_readme()
     print('VERIFIED_EXPORT '+json.dumps(report))
