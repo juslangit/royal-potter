@@ -71,13 +71,7 @@ transform = Transform3D(1, 0, 0, 0, 0.978, 0.208, 0, -0.208, 0.978, 0, 2.05, 3.9
 keep_aspect = 0
 fov = 48.0
 
-[node name="WheelHead" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.07, 0)
-mesh = SubResource("wheel_head")
 
-[node name="WheelBody" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.39, 0)
-mesh = SubResource("wheel_body")
 
 [node name="Clay" type="MeshInstance3D" parent="."]
 

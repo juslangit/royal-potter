@@ -16,8 +16,14 @@ const GHOST_WIDTH := 0.022                 ## thickness of the dotted outline
 const WET_CLAY := Color("ad5c37")
 const FIRE_TIME := 1.6                     ## seconds in the kiln
 const CAMERA_MOVE := 1.1                   ## seconds for the camera to swing to the castle
-const CASTLE_POS := Vector3(0, 0, -9)
-const VISITOR_POS := Vector3(1.55, 0, -1.0)
+const FLOOR_Y := -1.02                    ## the courtyard floor: the wheel's feet stand here, its head is at 0
+const CASTLE_POS := Vector3(0, FLOOR_Y, -9)
+const VISITOR_POS := Vector3(1.55, -1.02, -1.0)
+## Which hats and props each visitor wears (object names in Codex's visitor.glb).
+const PROPS := {
+	"king": ["prop_crown"], "queen": ["prop_tiara"], "knight": ["prop_helmet"],
+	"wizard": ["prop_wizard_hat"], "baker": ["prop_chef_hat"], "guard": ["prop_guard_cap", "prop_spear"],
+}
 const VISITOR_COLORS := [Color("7ba2da"), Color("b2675d"), Color("959b68"), Color("f2b345"), Color("f0d6ae"), Color("9f683b"), Color("959b68")]
 
 enum State { TITLE, ARRIVE, SHAPING, GLAZE, FIRING, REVEAL, PLACING, COLLAPSED, END }
@@ -65,6 +71,10 @@ func _ready() -> void:
 	day = Visitors.load_day()
 	wheel_view = camera.transform
 	castle_view = Transform3D(Basis(), CASTLE_POS + Vector3(0, 3.0, 6.2)).looking_at(CASTLE_POS + Vector3(0, 1.1, 0))
+	add_child(Toonify.load_model("res://assets/models/wheel.glb"))
+	var courtyard := Toonify.load_model("res://assets/models/courtyard.glb")
+	courtyard.position.y = FLOOR_Y
+	add_child(courtyard)
 	castle = Castle.new()
 	castle.position = CASTLE_POS
 	add_child(castle)
@@ -188,7 +198,7 @@ func _on_done() -> void:
 func _pick_glaze(id: String) -> void:
 	glaze_id = id
 	Flow.blip(1.3)
-	clay.material_override = Castle.material(Visitors.GLAZES[id].color, 0.3)
+	clay.material_override = Toonify.material(Visitors.GLAZES[id].color, 0.3)
 	_button("FIRE THE KILN", _fire)
 
 
@@ -206,7 +216,7 @@ func _fire() -> void:
 	ui.add_child(glow)
 	var tw := create_tween()
 	tw.tween_property(glow, "color:a", 0.85, FIRE_TIME * 0.5)
-	tw.tween_callback(func(): clay.material_override = Castle.material(Visitors.GLAZES[glaze_id].color, 0.0, 1.0))
+	tw.tween_callback(func(): clay.material_override = Toonify.material(Visitors.GLAZES[glaze_id].color, 0.0, 1.0))
 	tw.tween_property(glow, "color:a", 0.0, FIRE_TIME * 0.5)
 	tw.tween_callback(glow.queue_free)
 	tw.tween_callback(_reveal)
@@ -270,7 +280,7 @@ func _end_day() -> void:
 
 func _reset_clay() -> void:
 	clay.visible = true
-	clay.material_override = Castle.material(WET_CLAY, 1.0)
+	clay.material_override = Toonify.material(WET_CLAY, 1.0)
 	clay.reset()
 
 
@@ -283,26 +293,23 @@ func _move_camera(to: Transform3D) -> void:
 func _spawn_visitor() -> void:
 	if bean:
 		bean.queue_free()
-	bean = Node3D.new()
-	var body := MeshInstance3D.new()
-	var cap := CapsuleMesh.new()
-	cap.radius = 0.35; cap.height = 1.0
-	body.mesh = cap
-	body.position.y = 0.5
-	body.material_override = Castle.material(VISITOR_COLORS[visitor_index % VISITOR_COLORS.size()])
-	bean.add_child(body)
-	var head := MeshInstance3D.new()
-	var sph := SphereMesh.new()
-	sph.radius = 0.3; sph.height = 0.6
-	head.mesh = sph
-	head.position.y = 1.25
-	head.material_override = Castle.material(Color("f2c7a0"))
-	bean.add_child(head)
 	if visitor.get("id", "") == "dragon":
-		bean.scale = Vector3.ONE * 1.3
+		bean = Toonify.load_model("res://assets/models/dragon.glb")
+	else:
+		bean = Toonify.load_model("res://assets/models/visitor.glb", {"Body": _body_color()})
+		var keep: Array = PROPS.get(visitor.get("id", ""), [])
+		for child in bean.find_children("prop_*", "", true, false):
+			child.visible = child.name in keep
 	add_child(bean)
+	bean.rotation.y = -0.5   # turned a little towards the wheel
 	bean.position = VISITOR_POS + Vector3(2.5, 0, 0)
 	create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).tween_property(bean, "position", VISITOR_POS, 0.7)
+
+
+## The visitor's body colour: the first #hex in their "look" line, or a palette colour.
+func _body_color() -> Color:
+	var m := RegEx.create_from_string("#[0-9a-fA-F]{6}").search(str(visitor.get("look", "")))
+	return Color(m.get_string()) if m else VISITOR_COLORS[visitor_index % VISITOR_COLORS.size()]
 
 
 func _leave_visitor() -> void:

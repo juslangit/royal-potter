@@ -1,0 +1,44 @@
+{
+  "file": "castle_base.glb",
+  "triangles": 1296,
+  "bytes": 76188,
+  "objects": {
+    "courtyard_plinth": 44,
+    "gate_arch": 132,
+    "gate_handle_0.12": 48,
+    "gate_handle_-0.12": 48,
+    "gate_plank_0": 12,
+    "gate_plank_0.3": 12,
+    "gate_plank_-0.3": 12,
+    "socket_disc_1": 76,
+    "socket_disc_2": 76,
+    "socket_disc_3": 76,
+    "socket_disc_4": 76,
+    "socket_disc_5": 76,
+    "socket_disc_6": 76,
+    "socket_disc_7": 76,
+    "wall_back": 144,
+    "wall_front_left": 60,
+    "wall_front_right": 60,
+    "wall_left": 72,
+    "wall_right": 72,
+    "wooden_gate": 48
+  },
+  "empties": [
+    "socket_1",
+    "socket_2",
+    "socket_3",
+    "socket_4",
+    "socket_5",
+    "socket_6",
+    "socket_7",
+    "castle_base"
+  ],
+  "materials": [
+    "Cream Plaster",
+    "Kiln Gold",
+    "Potter's Ink",
+    "Courtyard Sage",
+    "Warm Oak"
+  ]
+}

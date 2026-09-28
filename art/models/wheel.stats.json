@@ -1,0 +1,33 @@
+{
+  "file": "wheel.glb",
+  "triangles": 948,
+  "bytes": 58920,
+  "objects": {
+    "body_band_0.61": 32,
+    "body_band_1.015": 32,
+    "body_stave_01": 12,
+    "body_stave_02": 12,
+    "body_stave_03": 12,
+    "body_stave_04": 12,
+    "body_stave_05": 12,
+    "body_stave_06": 12,
+    "body_stave_07": 12,
+    "body_stave_08": 12,
+    "body_stave_09": 12,
+    "body_stave_10": 12,
+    "body_stave_11": 12,
+    "body_stave_12": 12,
+    "splash_tray": 384,
+    "wheel_axle": 44,
+    "wheel_body": 124,
+    "wheel_head": 188
+  },
+  "empties": [
+    "wheel"
+  ],
+  "materials": [
+    "Potter's Ink",
+    "Warm Oak",
+    "Cream Plaster"
+  ]
+}

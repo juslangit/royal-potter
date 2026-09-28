@@ -1,0 +1,36 @@
+{
+  "file": "visitor.glb",
+  "triangles": 1880,
+  "bytes": 117840,
+  "objects": {
+    "arm_nub_1": 48,
+    "arm_nub_-1": 48,
+    "body": 164,
+    "eye_1": 48,
+    "eye_-1": 48,
+    "foot_1": 60,
+    "foot_-1": 60,
+    "head": 168,
+    "prop_chef_hat": 296,
+    "prop_crown": 168,
+    "prop_guard_cap": 144,
+    "prop_helmet": 116,
+    "prop_spear": 36,
+    "prop_tiara": 180,
+    "prop_wizard_hat": 256,
+    "smile": 40
+  },
+  "empties": [
+    "visitor"
+  ],
+  "materials": [
+    "Body",
+    "Potter's Ink",
+    "Skin",
+    "Cream Plaster",
+    "Kiln Gold",
+    "Royal Rose",
+    "Warm Oak",
+    "Storybook Sky"
+  ]
+}

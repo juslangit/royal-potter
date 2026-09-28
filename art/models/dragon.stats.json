@@ -1,0 +1,44 @@
+{
+  "file": "dragon.glb",
+  "triangles": 1624,
+  "bytes": 108756,
+  "objects": {
+    "arm_1": 80,
+    "arm_-1": 80,
+    "back_spike_1": 16,
+    "back_spike_2": 16,
+    "back_spike_3": 16,
+    "belly": 120,
+    "body": 164,
+    "cheek_1": 48,
+    "cheek_-1": 48,
+    "eye_1": 48,
+    "eye_-1": 48,
+    "eye_glint_1": 36,
+    "eye_glint_-1": 36,
+    "foot_1": 80,
+    "foot_-1": 80,
+    "head": 168,
+    "horn_1": 44,
+    "horn_-1": 44,
+    "muzzle": 120,
+    "nostril_1": 48,
+    "nostril_-1": 48,
+    "smile": 40,
+    "tail": 92,
+    "wing_1": 32,
+    "wing_-1": 32,
+    "wing_ridge_1": 20,
+    "wing_ridge_-1": 20
+  },
+  "empties": [
+    "dragon"
+  ],
+  "materials": [
+    "Courtyard Sage",
+    "Royal Rose",
+    "Cream Plaster",
+    "Potter's Ink",
+    "Kiln Gold"
+  ]
+}

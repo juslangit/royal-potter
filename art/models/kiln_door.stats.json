@@ -1,0 +1,17 @@
+{
+  "file": "kiln_door.glb",
+  "triangles": 156,
+  "bytes": 11296,
+  "objects": {
+    "door_leaf": 156
+  },
+  "empties": [
+    "door_hinge",
+    "kiln_door"
+  ],
+  "materials": [
+    "Warm Oak",
+    "Potter's Ink",
+    "Kiln Gold"
+  ]
+}

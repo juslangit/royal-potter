@@ -1,0 +1,48 @@
+{
+  "file": "courtyard.glb",
+  "triangles": 2556,
+  "bytes": 126920,
+  "objects": {
+    "back_wall_left": 72,
+    "back_wall_right": 72,
+    "bench_leg_0.97_0.36": 12,
+    "bench_leg_0.97_-0.36": 12,
+    "bench_leg_-0.97_0.36": 12,
+    "bench_leg_-0.97_-0.36": 12,
+    "bench_lower_shelf": 12,
+    "bench_top": 44,
+    "cobbled_floor": 1176,
+    "floor_grout": 12,
+    "glaze_bowl_1": 188,
+    "glaze_bowl_2": 188,
+    "kiln_back": 48,
+    "kiln_chimney": 12,
+    "kiln_chimney_cap": 12,
+    "kiln_chimney_soot": 12,
+    "kiln_dark_interior": 48,
+    "kiln_front_arch": 132,
+    "kiln_hearth": 12,
+    "kiln_log_1": 20,
+    "kiln_log_2": 20,
+    "kiln_log_3": 20,
+    "kiln_vault": 144,
+    "kiln_warm_interior": 40,
+    "tool_pot": 164,
+    "wooden_tool_1": 20,
+    "wooden_tool_2": 20,
+    "wooden_tool_3": 20
+  },
+  "empties": [
+    "kiln_door_mount",
+    "courtyard"
+  ],
+  "materials": [
+    "Cream Plaster",
+    "Warm Oak",
+    "Wet Terracotta",
+    "Courtyard Sage",
+    "Royal Rose",
+    "Potter's Ink",
+    "Kiln Gold"
+  ]
+}
