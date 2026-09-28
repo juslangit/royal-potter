@@ -1,0 +1,1872 @@
+Reading additional input from stdin...
+OpenAI Codex v0.158.0
+--------
+workdir: /Users/juslangit/Desktop/project/game/royal-potter
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0e891-1a5f-7e22-b2c9-b3809e639bff
+--------
+user
+Read art/writing/BRIEF-02-customers.md and complete every deliverable in it. Validate that customers.json parses as JSON (e.g. python3 -m json.tool). List the files you created.
+2026-09-28T15:10:19.515590Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when AuthRequired(AuthRequiredError { www_authenticate_header: "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.cloudflare.com/.well-known/oauth-protected-resource/mcp\", scope=\"user:read account:read\"" })
+hook: SessionStart
+hook: SessionStart Completed
+codex
+I’ll read the brief and project notes, complete the writing deliverables, and validate `customers.json`.
+exec
+/bin/zsh -lc "pwd; rg --files -g 'AGENTS.md' -g 'BRIEF-02-customers.md' -g '*customers*'; cat /Users/juslangit/.claude/knowledge/_index/projects.md /Users/juslangit/.claude/knowledge/global/conventions.md /Users/juslangit/.claude/knowledge/global/stack.md" in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+/Users/juslangit/Desktop/project/game/royal-potter
+art/writing/BRIEF-02-customers.md
+# Index of All Projects
+
+> Update this every time a new project is opened or a status changes.
+> This is the entry point — Claude reads this file first to see what exists.
+
+| Project | Status | Phase | Started | Updated | Folder |
+|---|---|---|---|---|---|
+| [pipeline](../projects/pipeline/00-overview.md) | live | free release | 2026-09-05 | 2026-09-05 | `projects/pipeline/` |
+| [retopology](../projects/retopology/00-overview.md) | testing | v1.0.0, pre-launch | 2026-09-05 | 2026-09-05 | `projects/retopology/` |
+| [siti](../projects/siti/00-overview.md) | paused | paused 2026-09-13 — no paid API key; planned as main agent with 3D maker jobs on the Todak Academy PC | 2026-09-06 | 2026-09-13 | `projects/siti/` |
+| [kedai-runtuh](../projects/kedai-runtuh/00-overview.md) | building | art pass 2 now committed on `feat/mamak-art-pass` (fc2f2f6) — waiting for Luqman to play it before merging; store feature graphic built, dev checks repaired; M8 still needs a phone plugged in; portfolio card to update after merge | 2026-09-07 | 2026-09-16 | `projects/game/kedai-runtuh/` |
+| [referee-for-fun](../projects/referee-for-fun/00-overview.md) | testing | **everything is on `main`**. 2026-09-18: gamepad support and rebindable keys (M-040), clearer team colours for colour-blind players (M-041), a wider pool of light on court (M-042), the libero in a real shirt (M-039), and a proper opening sequence (M-038). Sepak takraw played and okay 2026-09-18 (M-043). Both platforms ship as one file (M-045); umpire's chair fixed (M-044). Six action posters redrawn (M-046); umpire character closed as not worth further spending (D-076). First-run pass done (M-047). Four more checks ended in a verdict (M-048); one lighting rig, not two (M-049). 2026-09-20: every net is a real see-through mesh instead of a white slab, drawn as a tiled cord texture at regulation spacing, four gauges for six sports (M-050, D-077); line judges put their arms down again after an OUT (M-051); the crowd got a real 80-triangle arena seat, taking 19-37% off the hall and putting every venue at ~142 fps (M-052, D-078); tennis and table tennis came off the flat rig onto the shared truss lighting, the last sports-wide inconsistency (M-053); the crowd sits in its chairs and stands up only to react (M-054). 2026-09-21: the game credits its authors, on a screen in the game (M-055, D-079), and **v0.2.0 is published** for macOS and Windows with the website and pitch deck pointing at it (M-056); a two-minute trailer recorded out of the running game, nothing staged (M-057); the open list worked through, including a real bug the trailer caught and a false finding corrected (M-058); the crowd and its seats both turned round to face the court (M-059); **v0.2.1 published** with the trailer re-cut against the fixed hall (M-060). Open: of 106 checks, 63 print numbers without a verdict, 3 do not finish, and _contact fails at random about half the time. **Published 2026-09-20**: v0.1.0 builds on GitHub Releases (`.dmg` + `.exe`) and the website now carries a platform download section, hosted on GitHub Pages at https://juslangit.github.io/referee-for-fun/ | 2026-09-07 | 2026-09-21 | `projects/referee-for-fun/` |
+| [portfolio](../projects/portfolio/00-overview.md) | live | **2026-09-23: moved to Cloudflare at https://luqmanhakeem.pages.dev — records behind a login; every GitHub repo made private, old github.io links redirect.** v1 complete — 39 cards in 4 categories. **2026-09-21: every project card links its own documentation record, 34 verified live.** Six projects that had a record but no card got one (bluff-show, codebot, gudang, out-loud, posture, retopology), and the twelve older Behance-only pieces got archive records built by `tools/build_archive.py`. Two silent `docs-site` defects fixed: record folders are slugified (The Forsaken published at a `%20` URL and failed its notes lookup) and shorts-factory is excluded rather than collected on every publish | 2026-09-08 | 2026-09-23 | `projects/portfolio/` |
+| [tuition-lms](../projects/tuition-lms/00-overview.md) | building | phase 0, client demo published | 2026-09-10 | 2026-09-10 | `projects/tuition-lms/` |
+| [print-quote](../projects/print-quote/00-overview.md) | testing | v1 published, needs real STL checks | 2026-09-10 | 2026-09-10 | `projects/print-quote/` |
+| [claude-chat](../projects/claude-chat/00-overview.md) | testing | #8–#27 on Mac and PC; since #27 other people can install it on a Mac or Windows PC straight from GitHub (repo public since 2026-09-11); iPhone notifications to try | 2026-09-10 | 2026-09-11 | `projects/claude-chat/` |
+| [auxetic-chess](../projects/auxetic-chess/00-overview.md) | testing | **Phaser rebuild played by Luqman and merged 2026-09-18** (`c06fe49`, "the chess is good") — live at https://juslangit.github.io/auxetic-chess/ on Phaser 4.2.1 with WebGL, CC0 sound, particles and camera shake. The test server was swapped for one that does not drop connections (the Phaser build's eleven files tripped the stock one); 212/213 checks, the odd one out a headless fps check at 49 against 50. The shared leaderboard is shipped but **not connected**: waits on Luqman creating the Supabase project, then `tools/deploy_online.sh` | 2026-09-12 | 2026-09-18 | `projects/game/auxetic-chess/` |
+| [scribble-relay](../projects/scribble-relay/00-overview.md) | testing | v1 live on GitHub Pages **with a Phaser effects layer, merged and published 2026-09-18** (`12c62e2`) — confetti, hand-over stars, time's-up flash, real CC0 sounds, drawn over the page so drawing and typing stay HTML (D-004). 120 game + 58×2 effects checks. Still needs a real party | 2026-09-13 | 2026-09-18 | `projects/scribble-relay/` |
+| [bluff-show](../projects/bluff-show/00-overview.md) | testing | v1 built 2026-09-14 — bluffing trivia, pass-the-device + TV room mode; **Phaser effects layer merged 2026-09-18** (`e8cfbb1`) — TRUTH/LIE stamp effects, score rings, winner confetti, drum roll and sax stings (D-005). 33 rules + 582 browser + 59×2 effects checks. Public repo since 2026-09-18, no `main` yet; room mode waits for a Supabase project | 2026-09-14 | 2026-09-18 | `projects/bluff-show/` |
+| [posture](../projects/posture/00-overview.md) | planning | M0 — PLAN.md draft v0.1; Retool two-portal build to apply for FCI Cyber junior Retool dev role | 2026-09-15 | 2026-09-15 | `projects/posture/` |
+| [direct-hit](../projects/direct-hit/00-overview.md) | testing | **the sea and the fleet, 2026-09-18** — she now looks under way: a wake astern of all five ships (a mesh strip riding the same Gerstner waves as the sea, after the particle version cost five minutes a frame), burning wrecks as eight-hundred-metre columns instead of smudges, and her two forward turrets cut out of the bought hull so they train on the square you called. The smudges were particle turbulence, which advects rather than jitters — three attempts had blamed the velocities. 5 suites green including 60 new fleet checks; battle at 50 fps. **Never played by hand** — still the next thing. No Windows export, no `.dmg` | 2026-09-17 | 2026-09-18 | `projects/direct-hit/` |
+| [codebot](../projects/codebot/00-overview.md) | building | M1–M6 done: interpreter, 8 rooms, robot, panel, the tap-to-build palette, the workshop shell, and saved progress with server-checked solves. 339 headless checks. Record at https://luqman-docs.netlify.app/codebot/. **Never played yet** — Luqman has not pressed Play, and the palette has not been on a phone | 2026-09-17 | 2026-09-17 | `projects/game/codebot/` |
+| [out-loud](../projects/out-loud/00-overview.md) | testing | v1 built 2026-09-17 in one session — a Japanese class that speaks to you and makes you speak back, in the browser, with no API key and no cost. macOS voices for the teacher, Chrome speech recognition for the ears, five lessons of drill-then-scene, 47 passing checks on the marking. **Never spoken to by a human** — that is M6 and the only thing that matters next. Private repo at github.com/juslangit/out-loud since 2026-09-18, not published | 2026-09-17 | 2026-09-17 | `projects/out-loud/` |
+| [peta-lot-tanah](../projects/peta-lot-tanah/00-overview.md) | live | v1 in use — 64,770 cadastral lots within 5 km of a point in Klang drawn offline from a baked 6.5 MB payload; notes written 2026-09-17 from the repo itself, the only project that had none. Open: the three Python scripts still hardcode the pre-move path | 2026-09-04 | 2026-09-17 | `projects/peta-lot-tanah/` |
+| [gudang](../projects/gudang/00-overview.md) | building | **M1 done 2026-09-17 — the inspector works.** Reads any model in headless Blender and reports triangles, real scale, topology, UVs, textures and rig as JSON; 75/75 real files read in 73s. Two measurements were wrong on the first run and were corrected (open borders are not defects; inside-out faces are unknowable on an open mesh). Found that 16 of 32 Sketchfab downloads are at the wrong scale while 0 of 33 Meshy files are. kilang folded in as M7. Next is M2, where the verdicts get measured against Luqman grading 20 assets by hand | 2026-09-17 | 2026-09-17 | `projects/gudang/` |
+| [shorts-factory](../projects/shorts-factory/00-overview.md) | testing | v1 built 2026-09-17 in one session — one command turns a sourced fact into a narrated, word-captioned 1080x1920 YouTube Short with its title, description and tags. System Python + PIL + ffmpeg + macOS `say`; nothing to install, nothing to pay for. 10 videos built. **None published, and no YouTube channel confirmed to exist** — that is M5 and the only thing that matters next. API upload is written but cannot publish publicly until a YouTube compliance audit passes (D-003). **Local Mac tool — no git repo and deliberately not on the portfolio (D-006)**; never run `docs-build --publish` in it | 2026-09-17 | 2026-09-17 | `projects/shorts-factory/` |
+| [snapshot](../projects/snapshot/00-overview.md) | testing | **first played 2026-09-18** (M10): the camera works, every shot is easy. Same day, two rounds of changes, neither played yet: (1) review advice in dials and keys, a 4 m/s walk with a `C` crouch, a Poly Haven sky; (2) "a proper game" — desktop Mac/Windows, polished (D-014): main menu over the yard, job board with best scores, a photo album saved as real PNGs, a six-page illustrated guide, settings, a pause menu, and a Tekken-style control legend bottom right (D-015). 192 checks. Known, left per "ignore bugs for now": the shutter is silent (`shutter.wav` not PCM) and the washing does not block the judge's line of sight. Public repo at github.com/juslangit/snapshot since 2026-09-18, the new work on `feat/proper-game`; no export | 2026-09-17 | 2026-09-18 | `projects/game/snapshot/` |
+| [gdevelop-tetris](../projects/gdevelop-tetris/00-overview.md) | idea | — | 2026-09-18 | 2026-09-18 | `projects/gdevelop-tetris/` |
+| [red-card](../projects/red-card/00-overview.md) | building | first playable build 2026-09-18: first-person football referee, 11 v 11 AI, the Laws as truth, career across four grounds, 9 drills + 8 challenges, VAR at the top, macOS and Windows builds. **Published 2026-09-20**: v0.1.0 on GitHub Releases and a website at https://juslangit.github.io/red-card/. **2026-09-23: every running animation is the one Luqman keyed by hand in gerak** — he re-did the legs and feet of the footballer's run in bengkel and it ships exactly as he saved it, with no amplification anywhere (D-041, D-042); stride re-measured, `CLIP_SPEED` run 3.04 → 2.82 and sprint 3.98 → 2.82. Still waiting for Luqman to play it; all 64 commits of real work are on `main` | 2026-09-18 | 2026-09-23 | `projects/red-card/` |
+| [boneka](../projects/boneka/00-overview.md) | testing | **2026-09-22: joined bengkel.** It prints a ready line at startup so bengkel can find its port, and an "Animate it in gerak" button appears when it is running inside bengkel — exports a .glb and opens it next door. Both changes sit behind a check for bengkel, so boneka alone is unchanged; its 801 checks still pass. v1 built 2026-09-20 and then **rebuilt five times the same day on Luqman's verdicts**: reference-led proportions and a sculpt pass; lofted cross-sections after a silhouette render showed the torso was a box; modular characters assembled body → face → clothing → armour → gear; palettes (ten moods plus any Lospec palette, snapped in Oklab); and **surfaces from Texturelabs**, multiplied over each part's colour by what it is made of, with UVs and a licence note beside every textured export. A `texturelabs` CLI joined `polyhaven` and `sfx` on the PATH. The app fetches reference photographs beside the viewport and names the pass it is on as it builds. 19 moves across four body types, 34 props, `.fbx` retargeting, export to `.glb`/`.fbx`/`.blend`. System Python plus the installed Blender. 779 checks green. Meshy behind a button that always asks first, **untried**. **Never used by a person** — the only thing that matters next | 2026-09-20 | 2026-09-20 | `projects/3d/bengkel/boneka/` |
+| [the-forsaken](../projects/the-forsaken/00-overview.md) | testing | **Act I complete as a system, 2026-09-20** — an original isometric ARPG, six roles, Emberhollow and the Gloamwood, three ward embers and the Bellkeeper. Built by Codex and Claude working the same repository at once: equipment, a smith, masteries, caches and waypoint travel from one; 33 original synthesised sounds with a proper voice pool, and skill slots 3–13 filled with 36 earned abilities, from the other. 284 checks across seven suites. Folder keeps the game's title with its space (D-012), so it carries its own docs builder (D-013). **Published 2026-09-20**: public repo at github.com/juslangit/the-forsaken, v0.1.0 on Releases with **both a macOS and a Windows build**, and a website at https://juslangit.github.io/the-forsaken/ with the six roles as painted portraits. The Windows `.exe` was added the same day and has not been run on Windows hardware. **Never played by a person** — that is M9 and the only thing that matters next | 2026-09-19 | 2026-09-20 | `projects/game/The Forsaken/` |
+| [killzone](../projects/killzone/00-overview.md) | building | **phase 1 complete 2026-09-21, first session** — a top-down shooter with a Diablo bird view: a man with a rifle on a 60 m square of grass, mouse aim independent of movement, and forward/backward/strafe/jump/crouch/fire all animated. Nine animation clips built from the seven the Sketchfab model shipped — backpedal plays the legs in reverse against a forward torso, strafe yaws the hips 68°, the jump comes from pushing a stand-to-squat blend past both ends (`tools/build_character.py`). Three animation faults were caught only by rendering contact sheets and looking; none raised an error. Hitscan firing at ~9 rounds/sec with pooled tracers and a muzzle flash on the rifle bone; the recoil plays on the upper body only so he keeps running while firing. Verified by a self-driving screenshot harness (`tools/capture.tscn`). **Shipped facing backward and was fixed the same day** — the build script's 180° yaw had always been a no-op because Blender's glTF importer leaves objects in quaternion rotation mode, where `rotation_euler` is silently ignored while `scale` on the next line works. It passed review because the check was numeric (facing · aim = 1.0) and measured the CharacterBody3D, which was right; the model inside it was turned around. There are now visual checks, `capture.tscn -- facing` and `-- clips`. **2026-09-22: the recoil rebuilt** — it was keyed neutral→kick→settle→neutral over 0.30 s while the rifle fires every 0.11 s and each shot seeks back to frame zero, so it only ever played its first third and snapped through neutral on every shot; it now opens on the kick and decays, with the rotation moved to the chest so the grip survives and the neck counter-pitched so the head does not whip. Two defects found then and **left unfixed as out of scope**: shots are aimed at a plane 1.0 m up while the muzzle is at 1.92 m, so aiming 8 m out buries the round at 16.2 m; and the model imports **2.73 m tall** against a 1.8 m collider. **Nothing to shoot at, no sound, no objective** — all deliberate; the next conversation is what the game *is*, not what to build next. Private repo at github.com/juslangit/killzone since 2026-09-23 | 2026-09-21 | 2026-09-21 | `projects/game/killzone/` |
+| [gerak](../projects/gerak/00-overview.md) | in use | **2026-09-23, fifth session: a clip cut to 20 frames stayed 45.** Both exporters only ever extended a track to reach the end of the clip, never shortened one — so limiting an animation's length changed what gerak played and nothing about what it wrote, and reopening showed a 20-frame timeline whose keys still ran to 45 (D-030). The key at the new end is sampled, not copied from the last key before it, and nothing is deleted: the row says `25 after the end` and lengthening brings them back. **Fourth session: the push that wrote nothing.** He edited keyframes, pressed Save, pressed Update the game, and the game did not change — the log said `pushed nothing`. Save cleared the very flag the push reads, so the two buttons fought (D-026); saved edits were never read back when a character was reopened, so work sitting safely in the clips folder looked lost (D-027); and restoring a reference picture on every animation switch marked the clip edited, which is why a few edits saved fourteen clips (D-028). Four of his edits — fb_fall, fb_idle, fb_keeper_catch, fb_keeper_dive — come back on open and are queued for the game. **Third session: used or unused, and deleting.** Each animation now says beside its keys whether the game actually asks for it, from one search of the game's own files for the name in quotes — on red-card's footballer that is 36 of 53 used and 17 not, the tennis and volleyball moves that came with the shared rig (D-024). Delete on one or more ticked animations shows the exact lines that name them before it goes ahead (D-025). Two bugs found in the same day's code: a 40-hit cap that made later names read as unused, and openAnim clearing the undo stack so deleting the open animation could not be undone. **Second session: a character's whole set of animations.** Opening a model used to prompt for one of the animations in the file and put the rest out of reach — Red Card's footballer has 53 and referee-for-fun's athletes have 12, so all but one were unreachable. Now the Animations tab lists them all, any one is editable, edits survive switching, and undo covers the lot (D-018). **Merge two…** keeps whichever motion is chosen and deletes the other name, after searching the game's own scripts for it and showing every line that says it — seven in `scripts/footballer.gd` the first time it ran (D-020). **Update the game** writes the edited animations straight back into the game's `.glb` by editing its glTF JSON in place, not through Blender: only what was edited is rewritten, the mesh, skin, materials and untouched animations come out byte for byte, orphans are collected so the file never grows, keys are thinned (1,509 → 314 on one athlete), and a copy goes to `~/Documents/gerak/backups` first (D-019, D-021 — the one exception to D-008). 66 new checks; 309 total. **2026-09-23: used for real work at last (M7)** — Luqman re-keyed the run of Red Card's footballer by hand inside bengkel, and every running animation in that game is now his clip; the first work gerak has done that left the tool. **2026-09-22: reference pictures.** A search panel over Wikimedia Commons with Muybridge's frame-by-frame motion studies first — pin one over the viewport, fade it, and Follow steps it with the timeline proportionally (frame 24 of 48 lands on reference frame 6 of 12); Flip plays it on its own. Saved with the clip, picture copied to disk, served by gerak's own server so the page never talks to Commons. 205 checks. **2026-09-22: joined bengkel.** Its library now has a row of chips saying where each model came from, boneka pinned first (213 rigged models one click away); it can send an animated model back to boneka; and it answers bengkel's menu bar. All behind a check for bengkel, so gerak alone is unchanged. built 2026-09-21 — pose by hand, FK/IK with pinning, template rigging through Blender, exports to .glb/.fbx/.blend/.mp4. Wrapped the same day as a real Mac app in /Applications: own window, menu bar, drag and drop, opens from Finder, starts and stops its own server. Six engine suites plus 32 app checks, all green. **Used by hand for real work on 2026-09-23** (M7 done) | 2026-09-21 | 2026-09-23 | `projects/3d/bengkel/gerak/` |
+| [notula](../projects/notula/00-overview.md) | testing | v1 built 2026-09-21 — records room + call, local Whisper, Claude writes the notes; not yet used on a real meeting | 2026-09-21 | 2026-09-21 | `projects/ai/notula/` |
+| [siti-sihat](../projects/siti-sihat/00-overview.md) | testing | v1 built 2026-09-21 in one session — a six-feature healthy-lifestyle web app for the phone: water reminder, cut-sugar tracker, three guided routines (jawline, inner thigh, core) sharing one player with spoken cues and countdown beeps, and a menstrual tracker that predicts from the user's own logged history rather than a fixed 28 days. Plain HTML, CSS and ES modules — no framework, no build step, no dependencies — installable as a PWA and working offline. Everything stays in `localStorage` on the device (D-002), and each routine states plainly what it cannot do: no thigh gap from adductor work, no spot reduction from crunches (D-003). 23 checks green through a self-driving headless-Chrome harness, which caught nothing that three screenshots did not — the back arrow on the home screen, icons reading as a padlock and two drinking glasses, and a chart rendering as seven empty boxes. **Published 2026-09-22**: public repo at github.com/juslangit/siti-sihat, live at **https://siti-sihat.pages.dev** (Cloudflare Pages, primary — Netlify refused every deploy with "Account credit usage exceeded") and mirrored at https://juslangit.github.io/siti-sihat/ — moved off the LAN route because the Mac's address changed overnight and plain HTTP is not a secure context, so iOS would not have registered the service worker. Verified live: secure context, worker registered at the right scope, manifest and icons served, no console errors. **Never opened on a real phone** — that is M8 and the only thing that matters next | 2026-09-21 | 2026-09-22 | `projects/siti-sihat/` |
+| [bengkel](../projects/bengkel/00-overview.md) | testing | **2026-09-23: an assistant in every tool (M15).** A floating panel, injected into every page bengkel hosts, that asks the `claude` command already on the Mac — no API key, nothing billed per question. It may only call actions each tool declares (26 to start: gerak 10, jaring 4, hantar 4, boneka 3, pasar 2, kulit 2, periksa 1), which is what makes every change undoable: it photographs the tool first, twenty deep, and gerak lends its own history rather than keeping a second. Anything reaching outside a tool — updating a game, shipping, building, remeshing — always asks first and is deliberately left off the undo stack. First real turn: "move the playhead to frame 12", done and undone. 59 checks added. **2026-09-23: used for real work (M6)** — Luqman re-keyed Red Card's run in gerak on the rail and it went into the game the same day; one tool of the seven, not the rail, so M7 and M14 stay open. built 2026-09-22 and turned into a **full 3D asset pipeline** the same day. One macOS window with a rail in the order the work happens — **find it, make it, clean it up, dress it, check it, move it, ship it** — holding seven tools: **pasar** (Sketchfab, Poly Haven and Texturelabs in one search, licence on every card before the download), **boneka**, **jaring** (new remesher: one slider asking how wide a quad should be in centimetres, then weld, Quadriflow, UVs, a baked normal map and LODs through headless Blender — a paladin went 12,332 → 2,632 triangles in 3s, same size and still recognisably a paladin), **kulit** (a colour and a material per part, with detail, normal and roughness maps derived from one photograph), **periksa** (size, origin, weight and UVs read straight out of the .glb in milliseconds, judged against what the model is for), **gerak**, and **hantar** (into one of the 12 game projects, under that project's own naming, standing on the floor, .glb for Godot or .fbx at 100 units/m for Unreal). Verified as a loop, not just tool by tool: periksa flagged a model's origin, hantar fixed it, periksa passed it. Everything the tools share lives in `common/`, so an eighth is a page and ~100 lines. ~145 checks green, boneka's 801 and gerak's suites unbroken. **First real work done on 2026-09-23** (M6 done; M7 and M14 open — one tool, not the rail) | 2026-09-22 | 2026-09-23 | `projects/3d/bengkel/` |
+| [kasih-alza](../projects/kasih-alza/00-overview.md) | live | **live 2026-09-23** at **https://kasih-alza.pages.dev** — two-house homestay site for Bachang, Melaka: bilingual EN/BM, both video tours, 20 room photos cut out of the WhatsApp posters, a live availability calendar on Supabase and an owner page to block dates and edit prices. **2026-09-23: the owner signs in on the site itself** — a quiet **Admin** button in the header opens a sign-in box over the page, and a signed-in owner taps the customer's own calendar to mark dates occupied or free (D-011, M13). A new `tools/check.mjs` drives headless Chrome through the whole route against the real Supabase project, 36 checks, proving the database refuses the write rather than the page hiding a button; it deletes its own test booking even when a check fails. Sign-in is by **username** rather than email since the same day (D-012), and the write policies were found granting everything to the whole `authenticated` role — with the anon key published and signup open, a stranger could have signed themselves up and read every guest note; they now name the two admin user ids (D-013, M14). 38 checks. Netlify is credit-blocked; after a few hours on a public GitHub Pages mirror it moved to Cloudflare Pages by direct upload, so the source repo stays private with no public copy (D-008, D-010). Open: the exact map pin, and photos at camera resolution rather than ~315px poster crops | 2026-09-22 | 2026-09-23 | `projects/web/kasih-alza/` |
+| [gravebound](../projects/gravebound/00-overview.md) | testing | Local macOS ranger prototype: painted sprites, click movement, single/five-arrow attacks, five dummies; 29 checks pass. Awaiting Luqman playtest | 2026-09-23 | 2026-09-23 | `projects/game/gravebound/` |
+| [earth-globe](../projects/earth-globe/00-overview.md) | building | — | 2026-09-26 | 2026-09-26 | `projects/earth-globe/` |
+| [invoice-flow](../projects/invoice-flow/00-overview.md) | building | M0 done 2026-09-27: fake Finance data (1,596 invoices). Next M1 Power BI on the Windows PC. Demo for the Aisling BI Developer / AI agents job | 2026-09-27 | 2026-09-27 | `projects/invoice-flow/` |
+| [orderdesk](../projects/orderdesk/00-overview.md) | building | M4 done 2026-09-28 — orders, products & stock on local Postgres; CV + cover note drafted; go-live waits on a new Supabase token. Demo for the ETD Digital Global Full Stack Developer application (apply by 2026-10-11) | 2026-09-27 | 2026-09-27 | `projects/web/orderdesk/` |
+| [royal-potter](../projects/royal-potter/00-overview.md) | idea | — | 2026-09-28 | 2026-09-28 | `projects/royal-potter/` |
+<!-- NEW-PROJECT-ROW-GOES-HERE: don't delete this line, new-project.sh depends on it -->
+
+## Statuses in use
+- `idea` — just thought of it, not committed yet
+- `planning` — working out scope & stack
+- `building` — under construction
+- `testing` — built, being tested
+- `live` — actually in use
+- `paused` — deliberately on hold
+- `archived` — finished / abandoned
+
+## Archived projects
+| Project | Ended | Reason | Lesson |
+|---|---|---|---|
+| claude-terminal | 2026-09-14 | Dropped two days after it started. Built and working — a real terminal on the phone over tmux + Tailscale, 38 server and 12 phone checks — but never once opened on the actual iPhone, and claude-chat already covers the same need well enough. | Three of its four worst bugs were invisible in the code and only appeared when the thing was exercised: a localhost server with no auth could be driven by any website the user visited; a server restart stranded every running session; a launchd job's bare PATH broke the installer. Also: two projects aimed at the same need is one too many — the second was built before the first had been shown to fall short. Code kept private at github.com/juslangit/claude-terminal. |
+| kilang | 2026-09-17 | Folded into [gudang](../projects/gudang/00-overview.md) as its generation phase (M7). Opened 2026-09-13, reached planning only — no code was written and its code folder was never created. Gudang covers the same ground from the other end: kilang makes assets, gudang judges and prepares them, and both target Godot and Unreal through the same add-ons. | Two projects aimed at the same need is one too many — the same lesson as claude-terminal, applied this time before either was built rather than after. Notes kept at `projects/kilang/`. |
+---
+doc: global-conventions
+updated: 2026-09-17
+---
+
+# Conventions Across All Projects
+
+> Rules that apply to EVERY project. If one project differs, record the exception
+> in that project's `04-methods.md`.
+
+## Language
+- Conversation with Claude: English
+- Code, variable names, commit messages: English
+- Internal documentation (knowledge base): English
+
+## Git
+- Branch: `<type>/<short-description>` — e.g. `feat/user-login`, `fix/cart-total`
+- Commit: imperative mood, lowercase — e.g. `add user login endpoint`
+- Never commit straight to `main`
+- Commit identity: `Luqman Hakeem <luqmanh1891@gmail.com>` (set globally on 2026-09-15).
+  This is the email linked to the GitHub account `juslangit`, so commits count on the
+  contribution graph. Never commit as `academy@todak.com` — it is not linked, and
+  commits made with it do not count. Don't set a per-repo email that overrides it.
+- On 2026-09-15 every older commit in every repo on GitHub (all branches, plus the local-only
+  bluff-show) was re-authored to that identity with `git filter-repo --mailmap` and
+  force-pushed, at Luqman's request, so all of his history counts under `juslangit`. The
+  old emails were `academy@todak.com`, `luqmanhakeem@todak.com` and
+  `juslangit@Luqmans-MacBook-Air.local`. Every commit hash from before that date changed;
+  the hashes quoted in the knowledge base were replaced with the new ones. Mirror backups of
+  the old history are in `~/Documents/dev/backups/git-rewrite-2026-09-15/`.
+
+## Where things live
+- **`~/Desktop/` holds one thing: the `project` folder.** Nothing else goes on the
+  Desktop — no scratch files, no downloads, no new folders.
+- **`~/Desktop/project/<subject>/<name>/` holds actual projects only,** filed by
+  subject: `game/`, `3d/`, `ai/`, `web/` (arranged 2026-09-13). A new subject folder
+  is fine when a project fits none of them. Subject folders hold only project
+  folders. Tools, dependencies and experiments do not belong there, even when they
+  are code and even when they are git repositories.
+- **A project may hold other projects** when it is the app they live inside.
+  Set 2026-09-22, when `boneka` and `gerak` moved into `3d/bengkel/`, the app
+  that holds them both. The nested projects keep their own git repositories,
+  their own notes in `~/.claude/knowledge/projects/<name>/`, and their own
+  entry in the index; the holder's `.gitignore` excludes them so the two
+  histories stay separate. `docs-build` and `docs-site` look two levels deep
+  for this reason — before that change both nested records vanished from the
+  records site without a word.
+- **New projects:** pick the subject from what the project is, tell Luqman which
+  folder it's going in, and let him overrule. Pass it as
+  `new-project.sh <name> <subject>`.
+- claude-chat's phone project list reads the subject folders and shows projects as
+  `game/referee-for-fun`. Its LaunchAgent points at `~/Desktop/project/ai/claude-chat`,
+  so update the plist if it moves again.
+- **Everything else goes in `~/Documents/`.** Development tools live in
+  `~/Documents/dev/tools/`, throwaway experiments in `~/Documents/dev/scratch/`.
+- Notes for each project stay in `~/.claude/knowledge/projects/<name>/`.
+- Before moving a tool, grep `~/.claude.json`, `~/.claude/settings.json` and the
+  knowledge base for its absolute path — MCP servers are referenced by full path
+  and a move breaks them silently.
+
+## Documentation is a website
+Set by Luqman on 2026-09-17: *"make every documentation a website, not an artifact
+from claude."*
+
+- Every project's record is generated into `docs/index.html` in its own repo by
+  `tools/docs/build_docs.py`, which reads these notes — the notes stay the source
+  of truth.
+- The shareable copy is a **website**, never a Claude artifact link:
+  **https://luqman-docs.netlify.app/** lists every record and serves each one at
+  `/<project>/`. One Netlify site (`luqman-docs`), so a private repo is no obstacle.
+- `docs-site` (in `~/.local/bin`) is the publisher. `docs-site list` shows what is
+  there and how old each record is, `docs-site publish` rebuilds the index and
+  deploys, `docs-site publish --dry-run` builds into `/tmp/docs-site-preview` first.
+  It finds any `~/Desktop/project/<subject>/<project>/docs/index.html`, so a new
+  project joins the site as soon as its builder writes that file.
+- **Every project has a record**, not only the games (all 17, as of 2026-09-17).
+  A game has its own hand-tuned `tools/docs/build_docs.py`; every other project is
+  built by `docs-build`, which takes the notes, the git history and any pictures in
+  the repo and renders them with the same engine, so both kinds look identical.
+  `docs-build` in a project folder, `docs-build --all` for every project that has no
+  builder of its own, `--publish` to deploy afterwards.
+- In a project repo with its own builder the shortcut is
+  `python3 tools/docs/build_docs.py --publish`, which rebuilds that record and then
+  runs `docs-site publish`.
+- The shared engine is `~/Documents/dev/tools/docs-engine/engine.py` — the markdown
+  converter, the JPEG embedding and the page template, lifted from a game builder.
+  A project that outgrows `docs-build` should get its own copy of a game builder.
+- A project with no notes gets no record: write `00-overview.md` first. `docs-build`
+  never invents prose, it only arranges what is already written.
+- The five old `claude.ai/artifact/...` record links are frozen, not deleted. They
+  show the state of 2026-09-17 and are not updated again.
+- New Netlify sites are created behind a login wall. Turn it off with
+  `PUT /api/v1/sites/<id> {"sso_login": false}` — a `PATCH` is silently ignored.
+
+## Secrets
+- All keys/tokens live in `~/.claude/.env` (chmod 600)
+- In documents, write only the **name** of the env var — never its value
+- Every project must have a `.gitignore` that covers `.env`
+
+## Document structure
+- Every file has `updated: YYYY-MM-DD` frontmatter
+- Dates are always absolute, never "last week"
+- Important decisions go to `06-decisions.md`, don't leave them only in the log
+
+## When to update the knowledge base
+| What happened | File to update |
+|---|---|
+| New idea | `01-idea.md` |
+| Scope changed | `02-planning.md` |
+| Milestone done/changed | `03-milestones.md` + `_index/projects.md` |
+| Found a new method/pattern | `04-methods.md` |
+| Added a service/dependency | `05-relations.md` |
+| Chose A over B | `06-decisions.md` |
+| Finished a work session | `log/YYYY-MM-DD.md` |
+| Anything worth showing a stranger | the portfolio, `~/Desktop/project/web/portfolio/index.html` |
+---
+doc: global-stack
+updated: 2026-09-18
+---
+
+# Preferred Stack
+
+> Your defaults. Having defaults means not rethinking this for every new project —
+> and when you deviate, the reason becomes obvious and worth recording.
+
+| Layer | Default | Reason | Alternatives considered |
+|---|---|---|---|
+| Language | | | |
+| Frontend | | | |
+| Backend | | | |
+| Database | | | |
+| Hosting | | | |
+| Auth | | | |
+| Payments | | | |
+| Email | | | |
+| Analytics | | | |
+| CI/CD | | | |
+
+## Machines
+
+### Windows PC — DESKTOP-K2M7L30 (Todak Academy)
+Spec read from the machine itself on 2026-09-17, over Tailscale through its claude-chat.
+It runs WSL with Blender 4.2 and Claude Code (signed in as academy@todak.com, Max 20x),
+and is the machine Siti's maker jobs were meant to run on. Likely off outside work hours.
+
+| Part | What it is |
+|---|---|
+| Build | Self-built; no OEM model, so Windows reports the board name |
+| Motherboard | Gigabyte B660M DS3H AX DDR4 (micro-ATX, LGA1700, built-in Wi-Fi) |
+| CPU | Intel Core i5-12400F (12th gen), 6 cores / 12 threads, 2.5 GHz base. The **F** means no integrated GPU |
+| RAM | 16 GB DDR4 — 2 x 8 GB Antec at 2667 MT/s; 15.85 GB usable |
+| GPU | NVIDIA GeForce RTX 3060, **12 GB VRAM**, driver 32.0.16.1656 |
+| Storage | One drive: AX3600 512GB NVMe SSD (476.9 GiB) |
+| OS | Windows 11 Pro, 10.0.26200 build 26200 (25H2) |
+
+Two traps when reading this spec again:
+
+- `Win32_VideoController.AdapterRAM` is a 32-bit field, so it reported ~4 GB for a
+  12 GB card. Use `nvidia-smi --query-gpu=memory.total` for the real VRAM.
+- This WSL instance has **Windows PATH interop disabled**, so `powershell.exe` is not
+  found by bare name. Call it at
+  `/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe`. (Turning it on
+  would be `appendWindowsPath` in `/etc/wsl.conf` — not changed.)
+
+What it means in practice: 12 GB of VRAM is comfortable for Blender Cycles GPU
+rendering and for local models up to roughly a 13B at 4-bit, but 16 GB of system RAM
+is the tighter limit for heavy scenes and for WSL running alongside Windows.
+
+## Subscribed services
+| Service | Plan | Cost/month | Used for |
+|---|---|---|---|
+| Sketchfab | free (basic) | — | 3D asset library, via the `sketchfab` CLI |
+| Meshy AI | — | — | Text/image to 3D model generation. Key in `MESHY_API_KEY` |
+| Aseprite | owned (Steam) | — | 2D pixel art. Scriptable headless via its Lua API — see below |
+| Freesound | free | — | 700k+ Creative Commons sound library, via the `sfx` CLI |
+| ElevenLabs | **none — not subscribed** | — | Luqman said on 2026-09-10 he has no subscription and cannot pay for one, and the key is absent from `.env` (confirmed 2026-09-17, API returns 401). Do not propose ElevenLabs audio or `sfx make`; use Freesound, Kenney packs or macOS `say`. |
+| Kenney | free, no account | — | CC0 sound packs, via `sfx packs` / `sfx pack` |
+| Texturelabs | free, no account | — | 2,035 surface textures in 18 categories, via the `texturelabs` CLI. Free for commercial use, no credit required, but **not redistributable and not to be shipped inside a 3D model file** — see `projects/boneka/06-decisions.md` D-019/D-020 |
+| Lospec | free, no account | — | Thousands of hand-made colour palettes, fetched by name. Used by boneka |
+| Roblox Studio | free | — | Game engine, `/Applications/RobloxStudio.app` (v0.738.0). Ships an official MCP server — see below |
+| Phaser | free account, **0 credits** | — | HTML5 2D game framework. The engine itself is free npm. The *Game Agent* MCP is credit-billed and currently has no access — see below |
+
+## API access available
+Keys live in `~/.claude/.env` (chmod 600). Names only here — never values.
+
+| Service | Env var | Notes |
+|---|---|---|
+| Meshy AI | `MESHY_API_KEY` | `https://api.meshy.ai/openapi/v1/...`, Bearer auth. Balance checked 2026-09-08: 1300 credits |
+| Sketchfab | `SKETCHFAB_API_TOKEN` | Used by the `sketchfab` CLI |
+| Freesound | `FREESOUND_API_KEY`, `FREESOUND_CLIENT_ID` | Both from one application at `freesound.org/apiv2/apply`. The API key doubles as the OAuth client secret. Token auth gives search plus 128k mp3 previews; original WAVs need the one-time `sfx auth` login, which caches a refresh token in `~/.claude/.freesound-token.json` |
+| ElevenLabs | `ELEVENLABS_API_KEY` | **The key is not in `~/.claude/.env`** — checked 2026-09-17, the API returns 401 `needs_authorization`. Anything planning to use it must add the key first or fall back. `POST https://api.elevenlabs.io/v1/sound-generation`, `xi-api-key` header. The free tier grants no commercial rights, so a paid plan is required for anything we might sell |
+
+## Known gaps in local tools
+
+- **Godot will not import a 24-bit WAV.** Freesound originals are often 24-bit, and the
+  `sfx` tool saves them as downloaded, so the import fails with "Format not supported for
+  WAVE file (not PCM)" and the game loads nothing. Convert each one and load the
+  conversion: `ffmpeg -y -i original.wav -acodec pcm_s16le -ar 44100 shutter.wav`. Keep the
+  originals for provenance and drop a `.gdignore` in their folder so Godot stops trying.
+  Found in `snapshot`, 2026-09-17.
+- **Godot's `class_name` globals need `--import` after editing scripts from outside the
+  editor.** The list lives in `.godot/global_script_class_cache.cfg`, and until it is
+  rebuilt every `class_name` fails with "Could not find type X in the current scope" -
+  which reads like a syntax error and is not one. Run
+  `Godot --headless --path . --import` once after creating script files with anything
+  other than the editor. Found in `snapshot`, 2026-09-17.
+- **ffmpeg has no `drawtext` and no `subtitles` filter.** The Homebrew build (9.0.1) was compiled
+  without libfreetype and libass, so text cannot be burned in by a filter at all. Check with
+  `ffmpeg -filters | grep drawtext` before planning on it. The way round it is to draw frames with
+  PIL and pipe raw RGB24 into ffmpeg, which only encodes — see `projects/shorts-factory/04-methods.md`.
+
+## Tried & abandoned
+| Tool | When | Why we stopped |
+|---|---|---|
+| Pixabay audio | 2026-09-09 | Their API exposes images and video endpoints only. The 130k sound effects on the website are not reachable programmatically, so it cannot be automated |
+| Jamendo | 2026-09-09 | Free downloads are licensed for personal use only, which is unsafe for a game that might be sold |
+
+## Local tools Claude can drive
+
+| Tool | How | Notes |
+|---|---|---|
+| `sfx` | `sfx search "whistle" --max-sec 2` · `sfx get <id>` · `sfx make "wooden bat hit" -d 1.5 --wav` · `sfx packs` · `sfx pack ui-audio` | At `~/.local/bin/sfx`. One tool over Freesound, ElevenLabs and Kenney. Defaults to CC0 only; `--any-license` widens it to CC-BY. Saves into `<project>/assets/audio/` when run inside a Godot project, and appends every file to a `SOURCES.md` so provenance and licence are always traceable. |
+| `rojo` | `rojo init` · `rojo build -o game.rbxlx` · `rojo serve` | v7.7.0. Keeps a Roblox game as Luau files on disk so it lives in git, and live-syncs into Studio through the Rojo Studio plugin. `rojo build` produces a place file with Studio closed. |
+| `lune` | `lune run script.luau` | v0.10.5. Standalone Luau runtime — lets Claude execute and test Luau logic without opening Studio. |
+| `stylua` / `selene` | `stylua src/` · `selene src/` | v2.5.2 / v0.31.0. Luau formatter and linter. |
+| `wally` | `wally install` | v0.3.2. Roblox package manager. |
+| macOS `say` | `say -v Samantha -r 172 --data-format=LEI16@22050 -o line.wav "text"` | Free offline text-to-speech, no key and no quota. `say -v '?'` lists installed voices; only the basic ones are here, and **Premium** voices are a large free quality gain via System Settings → Accessibility → Spoken Content → Manage Voices. It reports no word timings, so render each line to its own file and measure it with `ffprobe` (the pattern used in `shorts-factory`). The format must match the extension — `LEI16` needs `.wav`, not `.aiff`. |
+| `texturelabs` | `texturelabs categories` · `texturelabs search wood` · `texturelabs pick metal -n 3` · `texturelabs get metal_167` · `texturelabs sync` | At `~/.local/bin/texturelabs`. Surface textures from texturelabs.org — no key, no account. Downloads land in `<project>/assets/texturelabs/` inside a project, and every file is recorded in a `SOURCES.md` beside it with the licence line. Only the "S" size is served publicly, and it is 1920 px despite the site calling it small. **Never commit the files** |
+| Phaser API reference | `grep -n 'setVelocity' ~/Documents/dev/tools/phaser-api/node_modules/phaser/types/phaser.d.ts` | Phaser 4.2.1 installed as a plain npm package purely so the full typed API is readable offline. It is a reference copy, not a project — a real Phaser game gets its own `npm install phaser` in its own folder. |
+| Codex CLI | `codex` in a project folder · `codex exec "task"` for one-shot, non-interactive runs | OpenAI's terminal coding agent, v0.155.0 (checked 2026-09-18; the latest release then). A standalone build at `~/.local/bin/codex` (symlink into `~/.codex/packages/standalone/`), not via npm or Homebrew. Signed in with Luqman's ChatGPT account, so usage counts against that plan rather than an API key. `codex login status` checks the sign-in. **Set up like Claude Code on 2026-09-19:** runs with no prompts and no sandbox (`approval_policy = "never"`, `sandbox_mode = "danger-full-access"` in `~/.codex/config.toml`), with Claude's deny list (sudo, rm -rf, git reset --hard, git clean, force-push) blocked in `~/.codex/rules/default.rules`. `~/.codex/.env` is a symlink to `~/.claude/.env`, so there is one key file. `~/.codex/AGENTS.md` is generated by `codex-sync` from `~/.claude/CLAUDE.md` plus the Claude memory files, and refreshed on every Codex start. `~/.codex/hooks.json` runs the Sky AI Brain recall on start and the portfolio-sync reminder after edits. The same MCP servers (godot, phaser-game-agent — Phaser's token is `PHASER_MCP_TOKEN` in the .env) and the docx/pdf/pptx/xlsx skills. Old config backed up in `~/Documents/dev/backups/codex-2026-09-19/`. |
+| Aseprite | `"$HOME/Library/Application Support/Steam/steamapps/common/Aseprite/Aseprite.app/Contents/MacOS/aseprite" -b --script x.lua` | v1.3.18.3-arm64, installed via Steam (not `/Applications`). Full Lua API: sprites, layers, frames, tags, palettes. Export sheets with `--sheet` + `--data --format json-array`; preview with `--scale 8`. Claude reads the exported PNG back to check its own work. |
+
+## Game engines and their MCP servers
+
+| Engine | MCP server | What Claude can do | Limit |
+|---|---|---|---|
+| Godot | `godot-mcp` at `~/Documents/dev/tools/godot-mcp`, configured in `~/.claude.json` and `~/.codex/config.toml` | Create scenes, add nodes, save, run the project, read debug output | Cannot see the game |
+| Roblox Studio | Official, built into Studio — Assistant Settings → MCP Servers → *Enable Studio as MCP server* | Create objects, set properties, write script sources, execute Luau, read the data model | Studio must stay open; cannot see the game |
+| Phaser | `phaser-game-agent`, remote HTTP at `https://mcp.phaser.io/agent/mcp`, configured in `~/.claude.json` and `~/.codex/config.toml` (installed 2026-09-17) | Opens a sandbox project and builds a playable HTML5 game, including generated art and audio | **Costs money.** ~500 credits for a typical game build, billed per-minute of sandbox time plus generation. Account balance is 0, so `status` reports `access: NO` until credits are bought at <https://phaser.io/credits> |
+
+The structural difference is that a Godot project is text on disk (`.tscn`, `.gd`),
+so it can be built with the editor closed and committed to git as-is. A Roblox
+project is a live Studio session or a binary `.rbxl`. Rojo closes that gap by
+keeping the Luau on disk and syncing it in.
+
+In both cases Claude is blind to how the game looks and feels. Luqman plays it and
+reports back — that is the loop.
+
+exec
+/bin/zsh -lc 'cat art/writing/BRIEF-02-customers.md; cat /Users/juslangit/.claude/knowledge/projects/royal-potter/00-overview.md; rg --files art/writing tools/docs; git status --short; find .. -name AGENTS.md -print' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 694ms:
+# Brief 02 — Customers and words for "Kiln & Keep"
+
+Read first: art/concept/key-art.png (approved style), art/concept/palette.md,
+art/concept/style-notes.md. The game name is **Kiln & Keep** (approved).
+
+## The game (recap)
+Jam theme: Castles. You are the royal potter. Over ONE day (morning → evening) castle folk
+visit your courtyard workshop, each ordering a castle tower. You throw it on the wheel with
+your thumb, pick a glaze, fire it in the kiln, and it is placed on the growing castle.
+The last visitor is a dragon. Calm, warm, gently funny, for all ages. No game over: clay
+can collapse ("sploosh") and the visitor laughs kindly.
+
+Tower types the game can make (use ONLY these ids):
+`watchtower` (tall, slim), `round_keep` (short, wide), `turret` (flares out at the top),
+`onion_dome` (swells then narrows to a point), `spire` (wide base tapering to a point),
+`gatehouse` (wide base and top, pinched waist).
+
+Glaze ids (from palette.md): `cream_crown`, `sage_keep`, `sky_spire`, `honey_hall`,
+`rose_turret`, `terracotta_throne`.
+
+## Deliverable: art/writing/customers.json
+Exactly this shape (valid JSON, English only, no emoji):
+
+{
+  "intro": "one line shown on the title screen under the name (max 60 chars)",
+  "day_start": "a line when the workshop opens (max 60 chars)",
+  "customers": [
+    {
+      "id": "king",
+      "name": "King Bertram",
+      "role": "The King",
+      "tower": "watchtower",
+      "glaze_hint": "sage_keep",
+      "look": "short visual description for the 3D model: body colour (hex from palette), hat/crown, one prop",
+      "arrive": "what they say walking in (max 50 chars)",
+      "wish": "the order, in their voice, that hints at the shape and the glaze colour (max 70 chars)",
+      "react": ["0 stars (kind, max 40 chars)", "1 star", "2 stars", "3 stars (delighted)"],
+      "sploosh": "their reaction when the clay collapses (kind, funny, max 40 chars)"
+    }
+  ],
+  "dragon": {
+    "name": "...", "role": "The Dragon", "look": "...",
+    "arrive": "...", "wish": "...", "react": ["...","...","...","..."], "sploosh": "...",
+    "tower": "a NEW tower id for the dragon's special tower",
+    "tower_shape": [ten widths from bottom to top, each 0.1–1.0, 1.0 = widest],
+    "tower_height": number between 1.6 and 2.6,
+    "glaze_hint": "one glaze id"
+  },
+  "ending": ["3 short lines shown after the dragon, the castle complete (max 60 chars each)"]
+}
+
+- 6 customers (king, queen, knight, wizard, + two you invent, e.g. a baker, a guard),
+  each ordering a DIFFERENT tower type, in an order that gets gently harder:
+  round_keep first, then watchtower, turret, gatehouse, onion_dome, spire.
+- The dragon is the 7th visitor and the ending. Friendly, not scary. Its tower should
+  make sense for a dragon (a roost? a chimney?) and be satisfying to shape.
+- Short lines. Phone screen, big font. Warm humour, no sarcasm, no pop-culture references.
+
+Also write art/writing/itch-page.md: a 120-word itch.io description (pitch, how to play,
+how it uses the Castles theme) and a one-line tagline.
+---
+project: royal-potter
+status: building
+owner: luqmanhakeem@todak.com
+started: 2026-09-28
+updated: 2026-09-28
+tags: [game, godot, mobile, web, game-jam, slapjam, calm]
+---
+
+# royal-potter — Overview
+
+Royal Potter (working title; Codex's top name pick is "Kiln & Keep") is Luqman's solo
+entry for the Slapjam 2026 AI game jam (https://itch.io/jam/slapjam-ai-1), theme
+**Castles**. It is a calm, funny pottery game for phones: you are the royal potter, castle
+folk order towers (watchtower, keep, turret, onion dome, spire, gatehouse), you throw each
+one on a potter's wheel with your thumb, glaze and fire it, and the castle grows out of
+your pottery over one day. The last customer is a dragon. Clay can collapse ("sploosh")
+for laughs; there is no game over.
+
+## Quick summary
+
+| Item | Value |
+|---|---|
+| Status | building |
+| Current phase | Wheel MVP done (2026-09-28 night) |
+| Deadline / target | Submit by 2026-09-30 20:30 MYT (jam closes 22:59 MYT) |
+| Repo | local git only (no GitHub repo yet) |
+| URL / deployment | itch.io HTML upload (not yet) |
+| Main stack | Godot 4.7.2 (Compatibility renderer, Web export), GDScript |
+| Roles | Claude: mechanics + glue. Codex (`codex exec`): all creative work — writing, images, UI, Blender-script models. Luqman: approves and playtests |
+
+## Paths
+- Code: `~/Desktop/project/game/royal-potter/`
+- Plan: `~/Desktop/slapjam-plan.html` (kept on the Desktop at Luqman's request)
+- Codex briefs and output: `art/concept/`
+rg: tools/docs: No such file or directory (os error 2)
+art/writing/codex-02.log
+art/writing/BRIEF-02-customers.md
+ M project.godot
+?? art/blender/
+?? art/concept/APPROVED.md
+?? art/writing/
+
+exec
+/bin/zsh -lc "cat art/concept/palette.md art/concept/style-notes.md art/concept/APPROVED.md; rg --files /Users/juslangit/.claude/knowledge/projects/royal-potter; rg --files -g '"'!art/writing/codex-02.log'"' -g '"'!*.png'"' -g '"'!*.glb'"' -g '"'!*.blend'"' -g '"'!*.import'"' | head -65" in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+---
+updated: 2026-09-28
+---
+
+# Royal Potter — palette
+
+Eight colours drawn from [key-art.png](key-art.png). Samples refer to the final
+1080×1920 image, with coordinates measured from its top-left corner. Use these as
+base colours; lighting supplies the two or three shade bands.
+
+| Colour | Hex | Use in the artwork | Sample (x, y) |
+|---|---|---|---|
+| Potter's Ink | `#2A2420` | Warm dark outlines and deep creases | Locked brief colour; nearest image pixel is `#2A2421` |
+| Wet Terracotta | `#AD5C37` | Unfired tower and clay slip | 496, 1248 |
+| Cream Plaster | `#F0D6AE` | Ceramic walls, tower lips and pale glaze | 691, 304 |
+| Warm Oak | `#9F683B` | Wheel surround and workshop timber | 200, 1716 |
+| Courtyard Sage | `#959B68` | Green glazed watchtower | 421, 624 |
+| Storybook Sky | `#7BA2DA` | Open blue sky above the castle | 540, 67 |
+| Kiln Gold | `#F2B345` | Warm glow inside the kiln | 102, 876 |
+| Royal Rose | `#B2675D` | Castle's dusty rose banner | 670, 624 |
+
+## Six player glaze colours
+
+These reuse the scene palette so any combination belongs in the same castle.
+Their names are the proposed English labels for the glaze picker.
+
+| Glaze | Hex | Character |
+|---|---|---|
+| Cream Crown | `#F0D6AE` | Warm ivory, like the castle walls |
+| Sage Keep | `#959B68` | Gentle green, like the round watchtower |
+| Sky Spire | `#7BA2DA` | Clear blue, echoing the sky and blue dome |
+| Honey Hall | `#F2B345` | Golden yellow, used sparingly for warmth |
+| Rose Turret | `#B2675D` | Muted rose, echoing the royal banners |
+| Terracotta Throne | `#AD5C37` | Earthy red-brown with a fired gloss |
+
+Wet clay always starts as Wet Terracotta. Even when the player chooses Terracotta
+Throne, firing changes its broad wet sheen into small, crisp glaze highlights.
+Keep highlights cream-tinted and preserve visible throwing rings beneath every glaze.
+---
+updated: 2026-09-28
+---
+
+# Royal Potter — asset style rules
+
+Match [key-art.png](key-art.png) and use the base colours in [palette.md](palette.md).
+This is the proposed art reference for Luqman's review.
+
+- **Shape:** Build chunky, lightly faceted volumes; start round tower bodies with 12–16 radial sides and avoid razor-sharp edges.
+- **Silhouette:** Distinguish watchtower, squat keep, turret, onion dome and spire by their outer shape before adding decoration.
+- **Proportion:** Keep most tower bodies 1–2.5 times their diameter in height; exaggerate rims, battlements and roof overhangs for phone readability.
+- **Pottery:** Give every tower 3–6 broad horizontal throwing rings, a thick lip and slight handmade asymmetry; reserve masonry blocks for courtyard and kiln.
+- **Outline:** Use warm dark `#2A2420` contours, about 4–6 pixels on foreground silhouettes at 1080-pixel width, with lighter internal detail.
+- **Shading:** Use flat base colours and only 2–3 hard light bands per material; let polygon facets show without noisy surface textures.
+- **Lighting:** Place one warm sun above the upper left, with gentle warm fill and readable contact shadows beneath props and rims.
+- **Materials:** Give wet clay broad broken streaks of sheen, fired glaze small cream highlight patches, and wood or plaster a matte finish.
+- **Detail:** Limit each tower to a few deep arched windows and one small flag; simplify leaves, tools and wood grain into broad shapes.
+- **Composition:** Work in 9:16 portrait with the wheel in the lower third, the wet tower above it and a clearly separated pottery castle behind.
+
+## Generation record
+
+Created on 2026-09-28 with the built-in image generation tool. The generated PNG
+was copied into this folder and resized from 941×1672 to the brief's exact
+1080×1920 delivery size using macOS `sips`; the composition was preserved.
+The original generated file remains in the tool's generated-images folder.
+
+### Final generation prompt
+
+```text
+Use case: stylized-concept.
+Asset type: ONE mobile game key art / art-direction reference, 1080x1920 pixels, portrait 9:16.
+Primary request: The royal potter's open-air workshop in a castle courtyard, a calm cosy funny storybook pottery game.
+Composition: A large potter's wheel occupies the lower third, with a half-thrown hollow round watchtower of wet terracotta clay centered on its spinning wheelhead. Its unfinished thick open rim, slight wobble, horizontal throwing rings and wet highlights make it unmistakably hand-thrown pottery. Behind it in the middle distance stands a small whimsical castle assembled from glazed pottery towers: a round watchtower, squat keep, turret, onion dome and slender spire, joined by low cream ceramic walls. Every tower has clear horizontal wheel-thrown rings, a pronounced pottery lip/rim, glossy glaze and small cloth pennant. Keep the castle clearly readable and separated from the foreground clay tower. A few simple glaze bowls and pottery tools on warm wooden surfaces frame the wheel; a small warm kiln is tucked to one side of the courtyard. Sky and a few simple cloud shapes above, understated sage plants at the edges. All major subjects within frame.
+Style/medium: Toon LOW-POLY 3D game render, clearly faceted polygonal volumes, flat colour areas, precisely 2–3 hard cel-shading bands, thick warm dark outlines (#2a2420). Broad simple silhouettes and chunky rounded forms. Soft warm sunlight in mood but stepped hard-band shading, no painterly texture.
+Palette: muted terracotta clay, cream plaster, warm wood, sage green, sky blue, kiln-gold and dusty rose, with dark brown outline #2a2420. Glazed castle towers alternate these gentle ceramic colours. Glaze has sparse graphic cream highlight shapes, clay is visibly wet and unglazed. Welcoming, playful and tactile.
+Constraints: No text, no lettering, no logo, no watermark, no UI, no border, no collage. No photorealism, no noisy texture, no oversaturation, no realistic stone fortress; the castle is visibly made of pottery. Produce one complete portrait image.
+```
+# Approvals (Luqman)
+
+| # | Checkpoint | Status | Date |
+|---|---|---|---|
+| 1 | Style sheet — key-art.png, palette.md, style-notes.md | ✅ approved | 2026-09-28 |
+| — | Name: **Kiln & Keep** | ✅ chosen | 2026-09-28 |
+| 2 | Customer writing | pending | |
+| 3 | Models in the game | pending | |
+| 4 | Cover | pending | |
+
+key-art.png is the style reference for every later asset.
+/Users/juslangit/.claude/knowledge/projects/royal-potter/02-planning.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/06-decisions.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/log/2026-09-28.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/log/_TEMPLATE.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/04-methods.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/01-idea.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/03-milestones.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/07-references.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/05-relations.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/00-overview.md
+assets/audio/blip.wav
+export_presets.cfg
+project.godot
+shaders/toon.gdshader
+shaders/toon.gdshader.uid
+shaders/outline.gdshader
+shaders/outline.gdshader.uid
+shaders/ghost.gdshader
+shaders/ghost.gdshader.uid
+scripts/clay.gd.uid
+scripts/flow.gd
+scripts/flow.gd.uid
+scripts/towers.gd
+scripts/wheel.gd.uid
+scripts/wheel.gd
+scripts/towers.gd.uid
+scripts/clay.gd
+icon.svg
+art/writing/BRIEF-02-customers.md
+art/blender/codex-03.log
+art/blender/BRIEF-03-models.md
+art/concept/codex-01.log
+art/concept/palette.md
+art/concept/APPROVED.md
+art/concept/style-notes.md
+art/concept/BRIEF-01-style.md
+art/concept/names.md
+tools/serve_phone.sh
+tools/build_web.sh
+tools/checks/match_check.gd
+tools/checks/shape_demo.gd.uid
+tools/checks/match_check.gd.uid
+tools/checks/shape_demo.gd
+scenes/wheel.tscn
+
+exec
+/bin/zsh -lc 'cat /Users/juslangit/.claude/knowledge/projects/royal-potter/02-planning.md /Users/juslangit/.claude/knowledge/projects/royal-potter/04-methods.md /Users/juslangit/.claude/knowledge/projects/royal-potter/06-decisions.md; cat scripts/towers.gd; cat art/blender/BRIEF-03-models.md' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+---
+doc: planning
+project: royal-potter
+updated: 2026-09-28
+---
+
+# Planning
+
+## Scope
+### Must have (MVP)
+- [ ] 
+
+### Nice to have (v2)
+- [ ] 
+
+### Won't build
+- 
+
+## Phases
+| Phase | Goal | Output | Estimate |
+|---|---|---|---|
+| 1 | | | |
+| 2 | | | |
+
+## Stack & tooling
+| Layer | Choice | Reason |
+|---|---|---|
+| Frontend | | |
+| Backend | | |
+| Database | | |
+| Hosting | | |
+| Auth | | |
+| Other | | |
+
+## Requirements
+### Functional
+- 
+
+### Non-functional
+<!-- Performance, security, scale, uptime, cost. -->
+- 
+
+## Risks
+| Risk | Impact | Likelihood | Mitigation |
+|---|---|---|---|
+| | high/medium/low | | |
+
+## Resources needed
+<!-- People, budget, access, API keys (name only — values live in ~/.claude/.env). -->
+- 
+---
+doc: methods
+project: royal-potter
+updated: 2026-09-28
+---
+
+# Methods — how this project is worked on
+
+> Anyone (Claude included) who reads this file should be able to start working without asking.
+
+## Setup from scratch
+```bash
+# step by step
+```
+
+## Daily commands
+| Purpose | Command |
+|---|---|
+| Run dev | |
+| Build | |
+| Test | |
+| Lint / format | |
+| Deploy | |
+
+## Folder structure
+```
+<!-- short folder tree + what each part does -->
+```
+
+## Conventions
+### Naming
+- 
+
+### Git
+- Branch: 
+- Commit: 
+- PR: 
+
+### Code
+- 
+
+## Patterns in use
+<!-- Patterns that recur in this project. Write them ONCE here, refer back later. -->
+### <pattern name>
+**When to use:** 
+**How:** 
+```
+```
+
+## Gotchas / traps
+<!-- Things that once cost hours. Write them down so it doesn't happen twice. -->
+| Problem | Cause | Fix |
+|---|---|---|
+| | | |
+---
+doc: decisions
+project: royal-potter
+updated: 2026-09-28
+---
+
+# Decision Log
+
+> One decision = one entry. Never delete old entries — mark them `Superseded by D-00X`.
+> The point of this file: six months from now you'll ask "why did I do it this way?" — the answer is here.
+
+---
+
+## D-001 — <decision title>
+- **Date:** 2026-09-28
+- **Status:** active | superseded | reversed
+- **Context:** <what situation forced this decision>
+- **Options considered:**
+  | Option | Pros | Cons |
+  |---|---|---|
+  | A | | |
+  | B | | |
+- **Decision:** <what was chosen>
+- **Reason:** <why, in clear sentences>
+- **Consequences / trade-offs:** <what we gave up>
+- **Reversible?** easily / with difficulty / no
+
+---
+class_name Towers
+## The towers customers can order. Each is a list of widths from bottom to top
+## (1.0 = the widest part) and how tall the finished tower should stand.
+## The widths are scaled so the tower uses exactly the clay on the wheel,
+## so every wish can be made perfectly.
+##
+## Adding a tower is one line.
+
+const LIST := [
+	{"id": "watchtower", "name": "Watchtower", "height": 2.3,  "shape": [0.62, 0.58, 0.55, 0.53, 0.52, 0.52, 0.53, 0.56, 0.62, 0.66]},
+	{"id": "round_keep", "name": "Round keep", "height": 0.9,  "shape": [1.0, 0.98, 0.96, 0.95, 0.95, 0.96, 0.98, 1.0]},
+	{"id": "turret", "name": "Turret", "height": 1.7,      "shape": [0.55, 0.62, 0.66, 0.66, 0.66, 0.68, 0.8, 0.9, 0.9]},
+	{"id": "onion_dome", "name": "Onion dome", "height": 1.8,  "shape": [0.5, 0.5, 0.55, 0.72, 0.86, 0.9, 0.82, 0.6, 0.38, 0.22]},
+	{"id": "spire", "name": "Spire", "height": 2.4,       "shape": [0.95, 0.86, 0.74, 0.62, 0.5, 0.4, 0.3, 0.22, 0.16]},
+	{"id": "gatehouse", "name": "Gatehouse", "height": 1.2,   "shape": [0.9, 0.9, 0.7, 0.66, 0.66, 0.7, 0.9, 0.95]},
+]
+
+
+## Width of a tower at a height given as 0..1 (1.0 = its widest part).
+static func width_at(tower_shape: Array, t: float) -> float:
+	var f := clampf(t, 0.0, 1.0) * (tower_shape.size() - 1)
+	var i := int(floor(f))
+	if i >= tower_shape.size() - 1:
+		return tower_shape[tower_shape.size() - 1]
+	return lerpf(tower_shape[i], tower_shape[i + 1], f - i)
+
+
+## How much to scale a tower's widths so it uses exactly `clay_amount` of clay at
+## its own height. Measured over `rings` rings, the same way the clay measures itself.
+static func width_scale(tower: Dictionary, clay_amount: float, rings: int) -> float:
+	var mean_sq := 0.0
+	for i in rings:
+		var w := width_at(tower.shape, float(i) / (rings - 1))
+		mean_sq += w * w
+	mean_sq /= rings
+	return sqrt(clay_amount / (PI * mean_sq * tower.height))
+# Brief 03 — 3D models for "Kiln & Keep" (Blender Python scripts → GLB)
+
+Read first: art/concept/key-art.png (APPROVED style reference), art/concept/palette.md,
+art/concept/style-notes.md.
+
+Blender is at /Applications/Blender.app/Contents/MacOS/Blender. For each model write a
+script in art/blender/ and run it headless:
+  /Applications/Blender.app/Contents/MacOS/Blender -b --python art/blender/<name>.py
+Each script builds the model from scratch (clear the scene first) and exports
+art/models/<name>.glb (glTF binary, +Y up, apply modifiers).
+
+## Rules (the game applies its own toon shader and outline)
+- LOW POLY, chunky, rounded, storybook — match key-art.png. Keep each model under
+  ~3,000 triangles (the whole scene runs in a phone browser).
+- NO textures. One material per colour, named exactly after the palette colour
+  (e.g. material "Cream Plaster"), with the palette hex as base colour. The game reads the
+  base colour.
+- Smooth shading only where it is a rounded pottery surface; flat elsewhere.
+- Real-world scale in metres is NOT needed; use these sizes: the potter's wheel head has
+  radius 0.95 and sits at y = 0. A finished tower is 0.9–2.4 tall and up to 1.2 wide.
+- Origin at the base centre of each model. Front faces −Z... use Blender's default
+  forward (−Y in Blender, which becomes +Z/−Z correctly with the glTF exporter defaults).
+
+## Models
+1. `wheel.glb` — potter's wheel: stone head (radius 0.95, height 0.14, top at y=0),
+   wooden body and a round wooden splash tray, like the key art.
+2. `courtyard.glb` — the backdrop seen behind the wheel from a camera at (0, 2, 4) looking
+   slightly down: cobbled courtyard floor (~12 x 12), the arched kiln on the left, a
+   workbench with bowls and a tool pot on the right, low crenellated castle wall behind.
+   Leave the centre-back open: the growing castle stands there.
+3. `castle_base.glb` — the base the player's towers are placed on: a low cream plaster
+   curtain wall with crenellations and a wooden gate, forming a courtyard ~6 wide x 3 deep,
+   with 7 round empty sockets (flat discs, radius 0.6) where towers will stand. Also add an
+   empty named Empty object at each socket centre called socket_1 … socket_7, arranged
+   pleasingly (tallest-looking spots at the back).
+4. `visitor.glb` — ONE friendly "bean" body (rounded capsule body + round head, simple dot
+   eyes, no arms needed or tiny nubs), ~1.4 tall, material "Body" (the game recolours it),
+   "Skin" for the head. Plus separate small props as separate objects in the same file,
+   hidden-by-name convention prop_<name>: prop_crown, prop_tiara, prop_helmet,
+   prop_wizard_hat, prop_chef_hat, prop_guard_cap, prop_spear.
+5. `dragon.glb` — a small, cute, round dragon (~1.8 tall), sage or rose body, little wings,
+   friendly face, origin at feet.
+6. `kiln_door.glb` — (optional) a separate arched wooden door for the kiln that the game can
+   open for the reveal.
+
+When done, write art/models/README.md listing each file, its triangle count and
+object names.
+
+codex
+The visitors will arrive in the required tower order, from the squat keep to the pointed spire. I’m giving each a distinct voice and ending with a sleepy dragon who wants a broad roost. I’ll also check every dialogue length and the itch.io description’s exact word count.
+apply patch
+patch: completed
+/Users/juslangit/Desktop/project/game/royal-potter/art/writing/customers.json
+/Users/juslangit/Desktop/project/game/royal-potter/art/writing/itch-page.md
+diff --git a/art/writing/customers.json b/art/writing/customers.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ff697d4d81ec839fc1462bc4e0b16142a2c08b6
+--- /dev/null
++++ b/art/writing/customers.json
+@@ -0,0 +1,131 @@
++{
++  "intro": "A little clay. A whole castle. Everyone welcome.",
++  "day_start": "Morning light, soft clay. Open the courtyard gate!",
++  "customers": [
++    {
++      "id": "king",
++      "name": "King Bertram",
++      "role": "The King",
++      "tower": "round_keep",
++      "glaze_hint": "cream_crown",
++      "look": "Round bean body in Royal Rose (#B2675D), chunky gold crown, one tiny teacup.",
++      "arrive": "Good morning! Is this the royal queue?",
++      "wish": "A short, wide keep in cream, please. Room for tea!",
++      "react": [
++        "A humble start. Every castle has one.",
++        "A cosy little addition to the kingdom.",
++        "Splendid! I shall put the kettle on.",
++        "A keep fit for tea with everyone!"
++      ],
++      "sploosh": "Oh! The keep has taken a royal nap."
++    },
++    {
++      "id": "knight",
++      "name": "Sir Pip",
++      "role": "The Knight",
++      "tower": "watchtower",
++      "glaze_hint": "sage_keep",
++      "look": "Upright bean body in Storybook Sky (#7BA2DA), open cream helmet, one small round shield.",
++      "arrive": "Sir Pip, reporting for pottery duty!",
++      "wish": "A tall, slim watchtower in sage green. I watch for picnics.",
++      "react": [
++        "I'll keep watch beside it. No bother.",
++        "A fine post for a short watch.",
++        "I can spot the picnic blanket!",
++        "Hooray! No sandwich shall go unseen!"
++      ],
++      "sploosh": "At ease, clay. Very much at ease."
++    },
++    {
++      "id": "queen",
++      "name": "Queen Marigold",
++      "role": "The Queen",
++      "tower": "turret",
++      "glaze_hint": "rose_turret",
++      "look": "Pear-shaped body in Courtyard Sage (#959B68), small gold tiara, one cream watering can.",
++      "arrive": "I've brought a drink for your daisies.",
++      "wish": "A rose pink turret, flaring wide at the top for my flowers.",
++      "react": [
++        "We'll find a flower that suits it.",
++        "A sweet spot for a seedling.",
++        "My daisies will love that rim.",
++        "Oh, a whole garden above the gate!"
++      ],
++      "sploosh": "A flower bed! The clay has ideas."
++    },
++    {
++      "id": "guard",
++      "name": "Nell",
++      "role": "The Gatekeeper",
++      "tower": "gatehouse",
++      "glaze_hint": "terracotta_throne",
++      "look": "Square-rounded body in Warm Oak (#9F683B), soft sage guard cap, one oversized cream key.",
++      "arrive": "Afternoon! Everyone's through. Even the ducks.",
++      "wish": "A clay red gatehouse: wide base and top, pinched middle, please.",
++      "react": [
++        "There's a place for it by the gate.",
++        "That'll make the entrance cheerful.",
++        "A fine welcome for our visitors.",
++        "Perfect! I'll hold the gate for you."
++      ],
++      "sploosh": "It's slipped under the gate!"
++    },
++    {
++      "id": "baker",
++      "name": "Bunty",
++      "role": "The Baker",
++      "tower": "onion_dome",
++      "glaze_hint": "honey_hall",
++      "look": "Plump bean body in Cream Plaster (#F0D6AE), puffy cream chef hat, one round golden bun.",
++      "arrive": "One warm bun for the busy potter!",
++      "wish": "A honey gold dome: swell like an onion, then pinch to a point.",
++      "react": [
++        "Handmade has its own lovely shape.",
++        "A little bun of a tower!",
++        "Golden and plump. Nicely done!",
++        "The finest dome in the bread basket!"
++      ],
++      "sploosh": "Ah, a pancake day. I like those too."
++    },
++    {
++      "id": "wizard",
++      "name": "Mallow",
++      "role": "The Wizard",
++      "tower": "spire",
++      "glaze_hint": "sky_spire",
++      "look": "Tall bean body in Storybook Sky (#7BA2DA), floppy rose pointed hat, one short oak star wand.",
++      "arrive": "Evening! Has anyone seen the first star?",
++      "wish": "A sky blue spire: broad base, taper to a point to greet the stars.",
++      "react": [
++        "The stars welcome every sort of tower.",
++        "A little nearer the sky. Lovely.",
++        "Just the spot for stargazing.",
++        "Wonderful! The first star has company!"
++      ],
++      "sploosh": "A very small falling star. Make a wish!"
++    }
++  ],
++  "dragon": {
++    "name": "Ember",
++    "role": "The Dragon",
++    "look": "Round Courtyard Sage (#959B68) body, tiny wings, soft cream horns, drooping rose nightcap, one cream cushion.",
++    "arrive": "Room for one more? I've brought my own pillow.",
++    "wish": "A warm gold roost: wide foot, slim stem, broad top for my nap.",
++    "react": [
++      "A place for me? That's what matters.",
++      "A cosy perch for a little rest.",
++      "My pillow fits. My tail nearly does.",
++      "My very own roost! Goodnight, friends."
++    ],
++    "sploosh": "A floor pillow! You thought of my tail.",
++    "tower": "dragon_roost",
++    "tower_shape": [0.9, 0.85, 0.7, 0.55, 0.5, 0.5, 0.6, 0.8, 1.0, 1.0],
++    "tower_height": 2.1,
++    "glaze_hint": "honey_hall"
++  },
++  "ending": [
++    "Seven towers catch the last of the sun.",
++    "The dragon snores. The kettle sings.",
++    "A little clay made room for everyone."
++  ]
++}
+diff --git a/art/writing/itch-page.md b/art/writing/itch-page.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..8de770c6cd9e12d6fe62a0ba6c5a0a28ce00cdc6
+--- /dev/null
++++ b/art/writing/itch-page.md
+@@ -0,0 +1,19 @@
++---
++updated: 2026-09-28
++---
++
++# Kiln & Keep
++
++## Tagline
++
++Shape a little clay into a castle where everyone belongs.
++
++## Description
++
++Welcome to Kiln & Keep, a gentle pottery game about building a castle one visitor at a time. You are the royal potter, opening your courtyard workshop for a single day of muddy hands and warm company.
++
++Use your thumb to shape clay on the spinning wheel. Follow each visitor's wish, choose a glaze, then fire your creation in the kiln. Every finished tower joins the growing castle, from a cosy round keep to a slender spire.
++
++Clay collapsed? Sploosh! Your customers laugh kindly, and there is no game over. Take your time and try again.
++
++Made for the Castles theme, this little kingdom is built from pottery and hospitality. Stay until evening: the final customer needs somewhere to tuck a dragon's tail.
+
+hook: PostToolUse
+hook: PostToolUse Completed
+diff --git a/art/writing/customers.json b/art/writing/customers.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ff697d4d81ec839fc1462bc4e0b16142a2c08b6
+--- /dev/null
++++ b/art/writing/customers.json
+@@ -0,0 +1,131 @@
++{
++  "intro": "A little clay. A whole castle. Everyone welcome.",
++  "day_start": "Morning light, soft clay. Open the courtyard gate!",
++  "customers": [
++    {
++      "id": "king",
++      "name": "King Bertram",
++      "role": "The King",
++      "tower": "round_keep",
++      "glaze_hint": "cream_crown",
++      "look": "Round bean body in Royal Rose (#B2675D), chunky gold crown, one tiny teacup.",
++      "arrive": "Good morning! Is this the royal queue?",
++      "wish": "A short, wide keep in cream, please. Room for tea!",
++      "react": [
++        "A humble start. Every castle has one.",
++        "A cosy little addition to the kingdom.",
++        "Splendid! I shall put the kettle on.",
++        "A keep fit for tea with everyone!"
++      ],
++      "sploosh": "Oh! The keep has taken a royal nap."
++    },
++    {
++      "id": "knight",
++      "name": "Sir Pip",
++      "role": "The Knight",
++      "tower": "watchtower",
++      "glaze_hint": "sage_keep",
++      "look": "Upright bean body in Storybook Sky (#7BA2DA), open cream helmet, one small round shield.",
++      "arrive": "Sir Pip, reporting for pottery duty!",
++      "wish": "A tall, slim watchtower in sage green. I watch for picnics.",
++      "react": [
++        "I'll keep watch beside it. No bother.",
++        "A fine post for a short watch.",
++        "I can spot the picnic blanket!",
++        "Hooray! No sandwich shall go unseen!"
++      ],
++      "sploosh": "At ease, clay. Very much at ease."
++    },
++    {
++      "id": "queen",
++      "name": "Queen Marigold",
++      "role": "The Queen",
++      "tower": "turret",
++      "glaze_hint": "rose_turret",
++      "look": "Pear-shaped body in Courtyard Sage (#959B68), small gold tiara, one cream watering can.",
++      "arrive": "I've brought a drink for your daisies.",
++      "wish": "A rose pink turret, flaring wide at the top for my flowers.",
++      "react": [
++        "We'll find a flower that suits it.",
++        "A sweet spot for a seedling.",
++        "My daisies will love that rim.",
++        "Oh, a whole garden above the gate!"
++      ],
++      "sploosh": "A flower bed! The clay has ideas."
++    },
++    {
++      "id": "guard",
++      "name": "Nell",
++      "role": "The Gatekeeper",
++      "tower": "gatehouse",
++      "glaze_hint": "terracotta_throne",
++      "look": "Square-rounded body in Warm Oak (#9F683B), soft sage guard cap, one oversized cream key.",
++      "arrive": "Afternoon! Everyone's through. Even the ducks.",
++      "wish": "A clay red gatehouse: wide base and top, pinched middle, please.",
++      "react": [
++        "There's a place for it by the gate.",
++        "That'll make the entrance cheerful.",
++        "A fine welcome for our visitors.",
++        "Perfect! I'll hold the gate for you."
++      ],
++      "sploosh": "It's slipped under the gate!"
++    },
++    {
++      "id": "baker",
++      "name": "Bunty",
++      "role": "The Baker",
++      "tower": "onion_dome",
++      "glaze_hint": "honey_hall",
++      "look": "Plump bean body in Cream Plaster (#F0D6AE), puffy cream chef hat, one round golden bun.",
++      "arrive": "One warm bun for the busy potter!",
++      "wish": "A honey gold dome: swell like an onion, then pinch to a point.",
++      "react": [
++        "Handmade has its own lovely shape.",
++        "A little bun of a tower!",
++        "Golden and plump. Nicely done!",
++        "The finest dome in the bread basket!"
++      ],
++      "sploosh": "Ah, a pancake day. I like those too."
++    },
++    {
++      "id": "wizard",
++      "name": "Mallow",
++      "role": "The Wizard",
++      "tower": "spire",
++      "glaze_hint": "sky_spire",
++      "look": "Tall bean body in Storybook Sky (#7BA2DA), floppy rose pointed hat, one short oak star wand.",
++      "arrive": "Evening! Has anyone seen the first star?",
++      "wish": "A sky blue spire: broad base, taper to a point to greet the stars.",
++      "react": [
++        "The stars welcome every sort of tower.",
++        "A little nearer the sky. Lovely.",
++        "Just the spot for stargazing.",
++        "Wonderful! The first star has company!"
++      ],
++      "sploosh": "A very small falling star. Make a wish!"
++    }
++  ],
++  "dragon": {
++    "name": "Ember",
++    "role": "The Dragon",
++    "look": "Round Courtyard Sage (#959B68) body, tiny wings, soft cream horns, drooping rose nightcap, one cream cushion.",
++    "arrive": "Room for one more? I've brought my own pillow.",
++    "wish": "A warm gold roost: wide foot, slim stem, broad top for my nap.",
++    "react": [
++      "A place for me? That's what matters.",
++      "A cosy perch for a little rest.",
++      "My pillow fits. My tail nearly does.",
++      "My very own roost! Goodnight, friends."
++    ],
++    "sploosh": "A floor pillow! You thought of my tail.",
++    "tower": "dragon_roost",
++    "tower_shape": [0.9, 0.85, 0.7, 0.55, 0.5, 0.5, 0.6, 0.8, 1.0, 1.0],
++    "tower_height": 2.1,
++    "glaze_hint": "honey_hall"
++  },
++  "ending": [
++    "Seven towers catch the last of the sun.",
++    "The dragon snores. The kettle sings.",
++    "A little clay made room for everyone."
++  ]
++}
+diff --git a/art/writing/itch-page.md b/art/writing/itch-page.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..8de770c6cd9e12d6fe62a0ba6c5a0a28ce00cdc6
+--- /dev/null
++++ b/art/writing/itch-page.md
+@@ -0,0 +1,19 @@
++---
++updated: 2026-09-28
++---
++
++# Kiln & Keep
++
++## Tagline
++
++Shape a little clay into a castle where everyone belongs.
++
++## Description
++
++Welcome to Kiln & Keep, a gentle pottery game about building a castle one visitor at a time. You are the royal potter, opening your courtyard workshop for a single day of muddy hands and warm company.
++
++Use your thumb to shape clay on the spinning wheel. Follow each visitor's wish, choose a glaze, then fire your creation in the kiln. Every finished tower joins the growing castle, from a cosy round keep to a slender spire.
++
++Clay collapsed? Sploosh! Your customers laugh kindly, and there is no game over. Take your time and try again.
++
++Made for the Castles theme, this little kingdom is built from pottery and hospitality. Stay until evening: the final customer needs somewhere to tuck a dragon's tail.
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+import json, re
+from pathlib import Path
+p = Path('art/writing/customers.json')
+d = json.loads(p.read_text())
+assert set(d) == {'intro','day_start','customers','dragon','ending'}
+assert len(d['intro']) <= 60 and len(d['day_start']) <= 60
+cs=d['customers']
+assert len(cs)==6
+assert len({c['id'] for c in cs})==6
+assert {'king','queen','knight','wizard'} <= {c['id'] for c in cs}
+assert [c['tower'] for c in cs]==['round_keep','watchtower','turret','gatehouse','onion_dome','spire']
+base={'name','role','look','arrive','wish','react','sploosh','tower','glaze_hint'}
+palette=set(re.findall(r'#[0-9A-F]{6}', Path('art/concept/palette.md').read_text()))
+glazes={'cream_crown','sage_keep','sky_spire','honey_hall','rose_turret','terracotta_throne'}
+for c in cs+[d['dragon']]:
+    expected=base|({'id'} if c in cs else {'tower_shape','tower_height'})
+    assert set(c)==expected, c['name']
+    for field,limit in [('arrive',50),('wish',70),('sploosh',40)]:
+        assert isinstance(c[field],str) and 0<len(c[field])<=limit,(c['name'],field,len(c[field]))
+    assert len(c['react'])==4
+    assert all(isinstance(s,str) and 0<len(s)<=40 for s in c['react']),c['name']
+    assert c['glaze_hint'] in glazes
+    colours=re.findall(r'#[0-9A-F]{6}',c['look'])
+    assert colours and set(colours)<=palette
+    print(c['name']+': dialogue lengths, reaction count, palette and fields OK')
+dr=d['dragon']
+assert dr['tower'] not in {c['tower'] for c in cs}
+assert len(dr['tower_shape'])==10 and all(isinstance(w,(float,int)) and .1<=w<=1 for w in dr['tower_shape'])
+assert 1.6<=dr['tower_height']<=2.6
+assert len(d['ending'])==3 and all(0<len(s)<=60 for s in d['ending'])
+assert p.read_text().isascii(), 'Only English ASCII text expected; no emoji'
+text=Path('art/writing/itch-page.md').read_text()
+description=text.split('## Description\\n\\n')[1].strip()
+count=len(description.split())
+print('Description words:',count)
+assert count==120,count
+print('PASS: JSON schema, all brief constraints, and 120-word description')
+PY" in /Users/juslangit/Desktop/project/game/royal-potter
+ exited 1 in 0ms:
+King Bertram: dialogue lengths, reaction count, palette and fields OK
+Sir Pip: dialogue lengths, reaction count, palette and fields OK
+Queen Marigold: dialogue lengths, reaction count, palette and fields OK
+Nell: dialogue lengths, reaction count, palette and fields OK
+Bunty: dialogue lengths, reaction count, palette and fields OK
+Mallow: dialogue lengths, reaction count, palette and fields OK
+Ember: dialogue lengths, reaction count, palette and fields OK
+Description words: 123
+Traceback (most recent call last):
+  File "<stdin>", line 36, in <module>
+AssertionError: 123
+
+exec
+/bin/zsh -lc 'python3 -m json.tool art/writing/customers.json > /dev/null' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+diff --git a/art/writing/customers.json b/art/writing/customers.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ff697d4d81ec839fc1462bc4e0b16142a2c08b6
+--- /dev/null
++++ b/art/writing/customers.json
+@@ -0,0 +1,131 @@
++{
++  "intro": "A little clay. A whole castle. Everyone welcome.",
++  "day_start": "Morning light, soft clay. Open the courtyard gate!",
++  "customers": [
++    {
++      "id": "king",
++      "name": "King Bertram",
++      "role": "The King",
++      "tower": "round_keep",
++      "glaze_hint": "cream_crown",
++      "look": "Round bean body in Royal Rose (#B2675D), chunky gold crown, one tiny teacup.",
++      "arrive": "Good morning! Is this the royal queue?",
++      "wish": "A short, wide keep in cream, please. Room for tea!",
++      "react": [
++        "A humble start. Every castle has one.",
++        "A cosy little addition to the kingdom.",
++        "Splendid! I shall put the kettle on.",
++        "A keep fit for tea with everyone!"
++      ],
++      "sploosh": "Oh! The keep has taken a royal nap."
++    },
++    {
++      "id": "knight",
++      "name": "Sir Pip",
++      "role": "The Knight",
++      "tower": "watchtower",
++      "glaze_hint": "sage_keep",
++      "look": "Upright bean body in Storybook Sky (#7BA2DA), open cream helmet, one small round shield.",
++      "arrive": "Sir Pip, reporting for pottery duty!",
++      "wish": "A tall, slim watchtower in sage green. I watch for picnics.",
++      "react": [
++        "I'll keep watch beside it. No bother.",
++        "A fine post for a short watch.",
++        "I can spot the picnic blanket!",
++        "Hooray! No sandwich shall go unseen!"
++      ],
++      "sploosh": "At ease, clay. Very much at ease."
++    },
++    {
++      "id": "queen",
++      "name": "Queen Marigold",
++      "role": "The Queen",
++      "tower": "turret",
++      "glaze_hint": "rose_turret",
++      "look": "Pear-shaped body in Courtyard Sage (#959B68), small gold tiara, one cream watering can.",
++      "arrive": "I've brought a drink for your daisies.",
++      "wish": "A rose pink turret, flaring wide at the top for my flowers.",
++      "react": [
++        "We'll find a flower that suits it.",
++        "A sweet spot for a seedling.",
++        "My daisies will love that rim.",
++        "Oh, a whole garden above the gate!"
++      ],
++      "sploosh": "A flower bed! The clay has ideas."
++    },
++    {
++      "id": "guard",
++      "name": "Nell",
++      "role": "The Gatekeeper",
++      "tower": "gatehouse",
++      "glaze_hint": "terracotta_throne",
++      "look": "Square-rounded body in Warm Oak (#9F683B), soft sage guard cap, one oversized cream key.",
++      "arrive": "Afternoon! Everyone's through. Even the ducks.",
++      "wish": "A clay red gatehouse: wide base and top, pinched middle, please.",
++      "react": [
++        "There's a place for it by the gate.",
++        "That'll make the entrance cheerful.",
++        "A fine welcome for our visitors.",
++        "Perfect! I'll hold the gate for you."
++      ],
++      "sploosh": "It's slipped under the gate!"
++    },
++    {
++      "id": "baker",
++      "name": "Bunty",
++      "role": "The Baker",
++      "tower": "onion_dome",
++      "glaze_hint": "honey_hall",
++      "look": "Plump bean body in Cream Plaster (#F0D6AE), puffy cream chef hat, one round golden bun.",
++      "arrive": "One warm bun for the busy potter!",
++      "wish": "A honey gold dome: swell like an onion, then pinch to a point.",
++      "react": [
++        "Handmade has its own lovely shape.",
++        "A little bun of a tower!",
++        "Golden and plump. Nicely done!",
++        "The finest dome in the bread basket!"
++      ],
++      "sploosh": "Ah, a pancake day. I like those too."
++    },
++    {
++      "id": "wizard",
++      "name": "Mallow",
++      "role": "The Wizard",
++      "tower": "spire",
++      "glaze_hint": "sky_spire",
++      "look": "Tall bean body in Storybook Sky (#7BA2DA), floppy rose pointed hat, one short oak star wand.",
++      "arrive": "Evening! Has anyone seen the first star?",
++      "wish": "A sky blue spire: broad base, taper to a point to greet the stars.",
++      "react": [
++        "The stars welcome every sort of tower.",
++        "A little nearer the sky. Lovely.",
++        "Just the spot for stargazing.",
++        "Wonderful! The first star has company!"
++      ],
++      "sploosh": "A very small falling star. Make a wish!"
++    }
++  ],
++  "dragon": {
++    "name": "Ember",
++    "role": "The Dragon",
++    "look": "Round Courtyard Sage (#959B68) body, tiny wings, soft cream horns, drooping rose nightcap, one cream cushion.",
++    "arrive": "Room for one more? I've brought my own pillow.",
++    "wish": "A warm gold roost: wide foot, slim stem, broad top for my nap.",
++    "react": [
++      "A place for me? That's what matters.",
++      "A cosy perch for a little rest.",
++      "My pillow fits. My tail nearly does.",
++      "My very own roost! Goodnight, friends."
++    ],
++    "sploosh": "A floor pillow! You thought of my tail.",
++    "tower": "dragon_roost",
++    "tower_shape": [0.9, 0.85, 0.7, 0.55, 0.5, 0.5, 0.6, 0.8, 1.0, 1.0],
++    "tower_height": 2.1,
++    "glaze_hint": "honey_hall"
++  },
++  "ending": [
++    "Seven towers catch the last of the sun.",
++    "The dragon snores. The kettle sings.",
++    "A little clay made room for everyone."
++  ]
++}
+diff --git a/art/writing/itch-page.md b/art/writing/itch-page.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..8de770c6cd9e12d6fe62a0ba6c5a0a28ce00cdc6
+--- /dev/null
++++ b/art/writing/itch-page.md
+@@ -0,0 +1,19 @@
++---
++updated: 2026-09-28
++---
++
++# Kiln & Keep
++
++## Tagline
++
++Shape a little clay into a castle where everyone belongs.
++
++## Description
++
++Welcome to Kiln & Keep, a gentle pottery game about building a castle one visitor at a time. You are the royal potter, opening your courtyard workshop for a single day of muddy hands and warm company.
++
++Use your thumb to shape clay on the spinning wheel. Follow each visitor's wish, choose a glaze, then fire your creation in the kiln. Every finished tower joins the growing castle, from a cosy round keep to a slender spire.
++
++Clay collapsed? Sploosh! Your customers laugh kindly, and there is no game over. Take your time and try again.
++
++Made for the Castles theme, this little kingdom is built from pottery and hospitality. Stay until evening: the final customer needs somewhere to tuck a dragon's tail.
+
+apply patch
+patch: completed
+/Users/juslangit/Desktop/project/game/royal-potter/art/writing/itch-page.md
+diff --git a/art/writing/customers.json b/art/writing/customers.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ff697d4d81ec839fc1462bc4e0b16142a2c08b6
+--- /dev/null
++++ b/art/writing/customers.json
+@@ -0,0 +1,131 @@
++{
++  "intro": "A little clay. A whole castle. Everyone welcome.",
++  "day_start": "Morning light, soft clay. Open the courtyard gate!",
++  "customers": [
++    {
++      "id": "king",
++      "name": "King Bertram",
++      "role": "The King",
++      "tower": "round_keep",
++      "glaze_hint": "cream_crown",
++      "look": "Round bean body in Royal Rose (#B2675D), chunky gold crown, one tiny teacup.",
++      "arrive": "Good morning! Is this the royal queue?",
++      "wish": "A short, wide keep in cream, please. Room for tea!",
++      "react": [
++        "A humble start. Every castle has one.",
++        "A cosy little addition to the kingdom.",
++        "Splendid! I shall put the kettle on.",
++        "A keep fit for tea with everyone!"
++      ],
++      "sploosh": "Oh! The keep has taken a royal nap."
++    },
++    {
++      "id": "knight",
++      "name": "Sir Pip",
++      "role": "The Knight",
++      "tower": "watchtower",
++      "glaze_hint": "sage_keep",
++      "look": "Upright bean body in Storybook Sky (#7BA2DA), open cream helmet, one small round shield.",
++      "arrive": "Sir Pip, reporting for pottery duty!",
++      "wish": "A tall, slim watchtower in sage green. I watch for picnics.",
++      "react": [
++        "I'll keep watch beside it. No bother.",
++        "A fine post for a short watch.",
++        "I can spot the picnic blanket!",
++        "Hooray! No sandwich shall go unseen!"
++      ],
++      "sploosh": "At ease, clay. Very much at ease."
++    },
++    {
++      "id": "queen",
++      "name": "Queen Marigold",
++      "role": "The Queen",
++      "tower": "turret",
++      "glaze_hint": "rose_turret",
++      "look": "Pear-shaped body in Courtyard Sage (#959B68), small gold tiara, one cream watering can.",
++      "arrive": "I've brought a drink for your daisies.",
++      "wish": "A rose pink turret, flaring wide at the top for my flowers.",
++      "react": [
++        "We'll find a flower that suits it.",
++        "A sweet spot for a seedling.",
++        "My daisies will love that rim.",
++        "Oh, a whole garden above the gate!"
++      ],
++      "sploosh": "A flower bed! The clay has ideas."
++    },
++    {
++      "id": "guard",
++      "name": "Nell",
++      "role": "The Gatekeeper",
++      "tower": "gatehouse",
++      "glaze_hint": "terracotta_throne",
++      "look": "Square-rounded body in Warm Oak (#9F683B), soft sage guard cap, one oversized cream key.",
++      "arrive": "Afternoon! Everyone's through. Even the ducks.",
++      "wish": "A clay red gatehouse: wide base and top, pinched middle, please.",
++      "react": [
++        "There's a place for it by the gate.",
++        "That'll make the entrance cheerful.",
++        "A fine welcome for our visitors.",
++        "Perfect! I'll hold the gate for you."
++      ],
++      "sploosh": "It's slipped under the gate!"
++    },
++    {
++      "id": "baker",
++      "name": "Bunty",
++      "role": "The Baker",
++      "tower": "onion_dome",
++      "glaze_hint": "honey_hall",
++      "look": "Plump bean body in Cream Plaster (#F0D6AE), puffy cream chef hat, one round golden bun.",
++      "arrive": "One warm bun for the busy potter!",
++      "wish": "A honey gold dome: swell like an onion, then pinch to a point.",
++      "react": [
++        "Handmade has its own lovely shape.",
++        "A little bun of a tower!",
++        "Golden and plump. Nicely done!",
++        "The finest dome in the bread basket!"
++      ],
++      "sploosh": "Ah, a pancake day. I like those too."
++    },
++    {
++      "id": "wizard",
++      "name": "Mallow",
++      "role": "The Wizard",
++      "tower": "spire",
++      "glaze_hint": "sky_spire",
++      "look": "Tall bean body in Storybook Sky (#7BA2DA), floppy rose pointed hat, one short oak star wand.",
++      "arrive": "Evening! Has anyone seen the first star?",
++      "wish": "A sky blue spire: broad base, taper to a point to greet the stars.",
++      "react": [
++        "The stars welcome every sort of tower.",
++        "A little nearer the sky. Lovely.",
++        "Just the spot for stargazing.",
++        "Wonderful! The first star has company!"
++      ],
++      "sploosh": "A very small falling star. Make a wish!"
++    }
++  ],
++  "dragon": {
++    "name": "Ember",
++    "role": "The Dragon",
++    "look": "Round Courtyard Sage (#959B68) body, tiny wings, soft cream horns, drooping rose nightcap, one cream cushion.",
++    "arrive": "Room for one more? I've brought my own pillow.",
++    "wish": "A warm gold roost: wide foot, slim stem, broad top for my nap.",
++    "react": [
++      "A place for me? That's what matters.",
++      "A cosy perch for a little rest.",
++      "My pillow fits. My tail nearly does.",
++      "My very own roost! Goodnight, friends."
++    ],
++    "sploosh": "A floor pillow! You thought of my tail.",
++    "tower": "dragon_roost",
++    "tower_shape": [0.9, 0.85, 0.7, 0.55, 0.5, 0.5, 0.6, 0.8, 1.0, 1.0],
++    "tower_height": 2.1,
++    "glaze_hint": "honey_hall"
++  },
++  "ending": [
++    "Seven towers catch the last of the sun.",
++    "The dragon snores. The kettle sings.",
++    "A little clay made room for everyone."
++  ]
++}
+diff --git a/art/writing/itch-page.md b/art/writing/itch-page.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..76276edba0b4fc5288c2277844d76c0ee5dfd9b4
+--- /dev/null
++++ b/art/writing/itch-page.md
+@@ -0,0 +1,19 @@
++---
++updated: 2026-09-28
++---
++
++# Kiln & Keep
++
++## Tagline
++
++Shape a little clay into a castle where everyone belongs.
++
++## Description
++
++Welcome to Kiln & Keep, a pottery game about building a castle one visitor at a time. You are the royal potter, opening your courtyard workshop for a day of muddy hands and warm company.
++
++Use your thumb to shape clay on the spinning wheel. Follow each visitor's wish, choose a glaze, then fire your creation in the kiln. Every finished tower joins the growing castle, from a cosy round keep to a slender spire.
++
++Clay collapsed? Sploosh! Your customers laugh kindly, and there is no game over. Take your time and try again.
++
++Made for the Castles theme, this kingdom is built from pottery and hospitality. Stay until evening: the final customer needs somewhere to tuck a dragon's tail.
+
+hook: PostToolUse
+hook: PostToolUse Completed
+exec
+/bin/zsh -lc "python3 -m json.tool art/writing/customers.json > /dev/null
+python3 - <<'PY'
+from pathlib import Path
+text=Path('art/writing/itch-page.md').read_text()
+description=text.split('## Description\\n\\n')[1].strip()
+tagline=text.split('## Tagline\\n\\n')[1].split('\\n\\n')[0]
+assert len(description.split())==120
+assert len(tagline.splitlines())==1
+print('PASS: customers.json parses; description is exactly 120 words; tagline is one line.')
+PY
+python3 tools/docs/build_docs.py --publish" in /Users/juslangit/Desktop/project/game/royal-potter
+ exited 2 in 0ms:
+PASS: customers.json parses; description is exactly 120 words; tagline is one line.
+/Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/Users/juslangit/Desktop/project/game/royal-potter/tools/docs/build_docs.py': [Errno 2] No such file or directory
+
+diff --git a/art/writing/customers.json b/art/writing/customers.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ff697d4d81ec839fc1462bc4e0b16142a2c08b6
+--- /dev/null
++++ b/art/writing/customers.json
+@@ -0,0 +1,131 @@
++{
++  "intro": "A little clay. A whole castle. Everyone welcome.",
++  "day_start": "Morning light, soft clay. Open the courtyard gate!",
++  "customers": [
++    {
++      "id": "king",
++      "name": "King Bertram",
++      "role": "The King",
++      "tower": "round_keep",
++      "glaze_hint": "cream_crown",
++      "look": "Round bean body in Royal Rose (#B2675D), chunky gold crown, one tiny teacup.",
++      "arrive": "Good morning! Is this the royal queue?",
++      "wish": "A short, wide keep in cream, please. Room for tea!",
++      "react": [
++        "A humble start. Every castle has one.",
++        "A cosy little addition to the kingdom.",
++        "Splendid! I shall put the kettle on.",
++        "A keep fit for tea with everyone!"
++      ],
++      "sploosh": "Oh! The keep has taken a royal nap."
++    },
++    {
++      "id": "knight",
++      "name": "Sir Pip",
++      "role": "The Knight",
++      "tower": "watchtower",
++      "glaze_hint": "sage_keep",
++      "look": "Upright bean body in Storybook Sky (#7BA2DA), open cream helmet, one small round shield.",
++      "arrive": "Sir Pip, reporting for pottery duty!",
++      "wish": "A tall, slim watchtower in sage green. I watch for picnics.",
++      "react": [
++        "I'll keep watch beside it. No bother.",
++        "A fine post for a short watch.",
++        "I can spot the picnic blanket!",
++        "Hooray! No sandwich shall go unseen!"
++      ],
++      "sploosh": "At ease, clay. Very much at ease."
++    },
++    {
++      "id": "queen",
++      "name": "Queen Marigold",
++      "role": "The Queen",
++      "tower": "turret",
++      "glaze_hint": "rose_turret",
++      "look": "Pear-shaped body in Courtyard Sage (#959B68), small gold tiara, one cream watering can.",
++      "arrive": "I've brought a drink for your daisies.",
++      "wish": "A rose pink turret, flaring wide at the top for my flowers.",
++      "react": [
++        "We'll find a flower that suits it.",
++        "A sweet spot for a seedling.",
++        "My daisies will love that rim.",
++        "Oh, a whole garden above the gate!"
++      ],
++      "sploosh": "A flower bed! The clay has ideas."
++    },
++    {
++      "id": "guard",
++      "name": "Nell",
++      "role": "The Gatekeeper",
++      "tower": "gatehouse",
++      "glaze_hint": "terracotta_throne",
++      "look": "Square-rounded body in Warm Oak (#9F683B), soft sage guard cap, one oversized cream key.",
++      "arrive": "Afternoon! Everyone's through. Even the ducks.",
++      "wish": "A clay red gatehouse: wide base and top, pinched middle, please.",
++      "react": [
++        "There's a place for it by the gate.",
++        "That'll make the entrance cheerful.",
++        "A fine welcome for our visitors.",
++        "Perfect! I'll hold the gate for you."
++      ],
++      "sploosh": "It's slipped under the gate!"
++    },
++    {
++      "id": "baker",
++      "name": "Bunty",
++      "role": "The Baker",
++      "tower": "onion_dome",
++      "glaze_hint": "honey_hall",
++      "look": "Plump bean body in Cream Plaster (#F0D6AE), puffy cream chef hat, one round golden bun.",
++      "arrive": "One warm bun for the busy potter!",
++      "wish": "A honey gold dome: swell like an onion, then pinch to a point.",
++      "react": [
++        "Handmade has its own lovely shape.",
++        "A little bun of a tower!",
++        "Golden and plump. Nicely done!",
++        "The finest dome in the bread basket!"
++      ],
++      "sploosh": "Ah, a pancake day. I like those too."
++    },
++    {
++      "id": "wizard",
++      "name": "Mallow",
++      "role": "The Wizard",
++      "tower": "spire",
++      "glaze_hint": "sky_spire",
++      "look": "Tall bean body in Storybook Sky (#7BA2DA), floppy rose pointed hat, one short oak star wand.",
++      "arrive": "Evening! Has anyone seen the first star?",
++      "wish": "A sky blue spire: broad base, taper to a point to greet the stars.",
++      "react": [
++        "The stars welcome every sort of tower.",
++        "A little nearer the sky. Lovely.",
++        "Just the spot for stargazing.",
++        "Wonderful! The first star has company!"
++      ],
++      "sploosh": "A very small falling star. Make a wish!"
++    }
++  ],
++  "dragon": {
++    "name": "Ember",
++    "role": "The Dragon",
++    "look": "Round Courtyard Sage (#959B68) body, tiny wings, soft cream horns, drooping rose nightcap, one cream cushion.",
++    "arrive": "Room for one more? I've brought my own pillow.",
++    "wish": "A warm gold roost: wide foot, slim stem, broad top for my nap.",
++    "react": [
++      "A place for me? That's what matters.",
++      "A cosy perch for a little rest.",
++      "My pillow fits. My tail nearly does.",
++      "My very own roost! Goodnight, friends."
++    ],
++    "sploosh": "A floor pillow! You thought of my tail.",
++    "tower": "dragon_roost",
++    "tower_shape": [0.9, 0.85, 0.7, 0.55, 0.5, 0.5, 0.6, 0.8, 1.0, 1.0],
++    "tower_height": 2.1,
++    "glaze_hint": "honey_hall"
++  },
++  "ending": [
++    "Seven towers catch the last of the sun.",
++    "The dragon snores. The kettle sings.",
++    "A little clay made room for everyone."
++  ]
++}
+diff --git a/art/writing/itch-page.md b/art/writing/itch-page.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..76276edba0b4fc5288c2277844d76c0ee5dfd9b4
+--- /dev/null
++++ b/art/writing/itch-page.md
+@@ -0,0 +1,19 @@
++---
++updated: 2026-09-28
++---
++
++# Kiln & Keep
++
++## Tagline
++
++Shape a little clay into a castle where everyone belongs.
++
++## Description
++
++Welcome to Kiln & Keep, a pottery game about building a castle one visitor at a time. You are the royal potter, opening your courtyard workshop for a day of muddy hands and warm company.
++
++Use your thumb to shape clay on the spinning wheel. Follow each visitor's wish, choose a glaze, then fire your creation in the kiln. Every finished tower joins the growing castle, from a cosy round keep to a slender spire.
++
++Clay collapsed? Sploosh! Your customers laugh kindly, and there is no game over. Take your time and try again.
++
++Made for the Castles theme, this kingdom is built from pottery and hospitality. Stay until evening: the final customer needs somewhere to tuck a dragon's tail.
+
+codex
+Created both deliverables:
+
+- [customers.json](/Users/juslangit/Desktop/project/game/royal-potter/art/writing/customers.json)
+- [itch-page.md](/Users/juslangit/Desktop/project/game/royal-potter/art/writing/itch-page.md)
+
+Validated JSON parsing, required fields, tower order, dialogue limits, and dragon dimensions. The itch.io description is exactly 120 words, plus a tagline.
+
+Record rebuild blocked by the missing docs builder. Shared notes and portfolio updates are outside this session’s writable workspace.
+diff --git a/art/writing/customers.json b/art/writing/customers.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..5ff697d4d81ec839fc1462bc4e0b16142a2c08b6
+--- /dev/null
++++ b/art/writing/customers.json
+@@ -0,0 +1,131 @@
++{
++  "intro": "A little clay. A whole castle. Everyone welcome.",
++  "day_start": "Morning light, soft clay. Open the courtyard gate!",
++  "customers": [
++    {
++      "id": "king",
++      "name": "King Bertram",
++      "role": "The King",
++      "tower": "round_keep",
++      "glaze_hint": "cream_crown",
++      "look": "Round bean body in Royal Rose (#B2675D), chunky gold crown, one tiny teacup.",
++      "arrive": "Good morning! Is this the royal queue?",
++      "wish": "A short, wide keep in cream, please. Room for tea!",
++      "react": [
++        "A humble start. Every castle has one.",
++        "A cosy little addition to the kingdom.",
++        "Splendid! I shall put the kettle on.",
++        "A keep fit for tea with everyone!"
++      ],
++      "sploosh": "Oh! The keep has taken a royal nap."
++    },
++    {
++      "id": "knight",
++      "name": "Sir Pip",
++      "role": "The Knight",
++      "tower": "watchtower",
++      "glaze_hint": "sage_keep",
++      "look": "Upright bean body in Storybook Sky (#7BA2DA), open cream helmet, one small round shield.",
++      "arrive": "Sir Pip, reporting for pottery duty!",
++      "wish": "A tall, slim watchtower in sage green. I watch for picnics.",
++      "react": [
++        "I'll keep watch beside it. No bother.",
++        "A fine post for a short watch.",
++        "I can spot the picnic blanket!",
++        "Hooray! No sandwich shall go unseen!"
++      ],
++      "sploosh": "At ease, clay. Very much at ease."
++    },
++    {
++      "id": "queen",
++      "name": "Queen Marigold",
++      "role": "The Queen",
++      "tower": "turret",
++      "glaze_hint": "rose_turret",
++      "look": "Pear-shaped body in Courtyard Sage (#959B68), small gold tiara, one cream watering can.",
++      "arrive": "I've brought a drink for your daisies.",
++      "wish": "A rose pink turret, flaring wide at the top for my flowers.",
++      "react": [
++        "We'll find a flower that suits it.",
++        "A sweet spot for a seedling.",
++        "My daisies will love that rim.",
++        "Oh, a whole garden above the gate!"
++      ],
++      "sploosh": "A flower bed! The clay has ideas."
++    },
++    {
++      "id": "guard",
++      "name": "Nell",
++      "role": "The Gatekeeper",
++      "tower": "gatehouse",
++      "glaze_hint": "terracotta_throne",
++      "look": "Square-rounded body in Warm Oak (#9F683B), soft sage guard cap, one oversized cream key.",
++      "arrive": "Afternoon! Everyone's through. Even the ducks.",
++      "wish": "A clay red gatehouse: wide base and top, pinched middle, please.",
++      "react": [
++        "There's a place for it by the gate.",
++        "That'll make the entrance cheerful.",
++        "A fine welcome for our visitors.",
++        "Perfect! I'll hold the gate for you."
++      ],
++      "sploosh": "It's slipped under the gate!"
++    },
++    {
++      "id": "baker",
++      "name": "Bunty",
++      "role": "The Baker",
++      "tower": "onion_dome",
++      "glaze_hint": "honey_hall",
++      "look": "Plump bean body in Cream Plaster (#F0D6AE), puffy cream chef hat, one round golden bun.",
++      "arrive": "One warm bun for the busy potter!",
++      "wish": "A honey gold dome: swell like an onion, then pinch to a point.",
++      "react": [
++        "Handmade has its own lovely shape.",
++        "A little bun of a tower!",
++        "Golden and plump. Nicely done!",
++        "The finest dome in the bread basket!"
++      ],
++      "sploosh": "Ah, a pancake day. I like those too."
++    },
++    {
++      "id": "wizard",
++      "name": "Mallow",
++      "role": "The Wizard",
++      "tower": "spire",
++      "glaze_hint": "sky_spire",
++      "look": "Tall bean body in Storybook Sky (#7BA2DA), floppy rose pointed hat, one short oak star wand.",
++      "arrive": "Evening! Has anyone seen the first star?",
++      "wish": "A sky blue spire: broad base, taper to a point to greet the stars.",
++      "react": [
++        "The stars welcome every sort of tower.",
++        "A little nearer the sky. Lovely.",
++        "Just the spot for stargazing.",
++        "Wonderful! The first star has company!"
++      ],
++      "sploosh": "A very small falling star. Make a wish!"
++    }
++  ],
++  "dragon": {
++    "name": "Ember",
++    "role": "The Dragon",
++    "look": "Round Courtyard Sage (#959B68) body, tiny wings, soft cream horns, drooping rose nightcap, one cream cushion.",
++    "arrive": "Room for one more? I've brought my own pillow.",
++    "wish": "A warm gold roost: wide foot, slim stem, broad top for my nap.",
++    "react": [
++      "A place for me? That's what matters.",
++      "A cosy perch for a little rest.",
++      "My pillow fits. My tail nearly does.",
++      "My very own roost! Goodnight, friends."
++    ],
++    "sploosh": "A floor pillow! You thought of my tail.",
++    "tower": "dragon_roost",
++    "tower_shape": [0.9, 0.85, 0.7, 0.55, 0.5, 0.5, 0.6, 0.8, 1.0, 1.0],
++    "tower_height": 2.1,
++    "glaze_hint": "honey_hall"
++  },
++  "ending": [
++    "Seven towers catch the last of the sun.",
++    "The dragon snores. The kettle sings.",
++    "A little clay made room for everyone."
++  ]
++}
+diff --git a/art/writing/itch-page.md b/art/writing/itch-page.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..76276edba0b4fc5288c2277844d76c0ee5dfd9b4
+--- /dev/null
++++ b/art/writing/itch-page.md
+@@ -0,0 +1,19 @@
++---
++updated: 2026-09-28
++---
++
++# Kiln & Keep
++
++## Tagline
++
++Shape a little clay into a castle where everyone belongs.
++
++## Description
++
++Welcome to Kiln & Keep, a pottery game about building a castle one visitor at a time. You are the royal potter, opening your courtyard workshop for a day of muddy hands and warm company.
++
++Use your thumb to shape clay on the spinning wheel. Follow each visitor's wish, choose a glaze, then fire your creation in the kiln. Every finished tower joins the growing castle, from a cosy round keep to a slender spire.
++
++Clay collapsed? Sploosh! Your customers laugh kindly, and there is no game over. Take your time and try again.
++
++Made for the Castles theme, this kingdom is built from pottery and hospitality. Stay until evening: the final customer needs somewhere to tuck a dragon's tail.
+
+tokens used
+51,278
+Created both deliverables:
+
+- [customers.json](/Users/juslangit/Desktop/project/game/royal-potter/art/writing/customers.json)
+- [itch-page.md](/Users/juslangit/Desktop/project/game/royal-potter/art/writing/itch-page.md)
+
+Validated JSON parsing, required fields, tower order, dialogue limits, and dragon dimensions. The itch.io description is exactly 120 words, plus a tagline.
+
+Record rebuild blocked by the missing docs builder. Shared notes and portfolio updates are outside this session’s writable workspace.

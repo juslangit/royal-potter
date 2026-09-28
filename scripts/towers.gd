@@ -7,12 +7,12 @@ class_name Towers
 ## Adding a tower is one line.
 
 const LIST := [
-	{"name": "Watchtower", "height": 2.3,  "shape": [0.62, 0.58, 0.55, 0.53, 0.52, 0.52, 0.53, 0.56, 0.62, 0.66]},
-	{"name": "Round keep", "height": 0.9,  "shape": [1.0, 0.98, 0.96, 0.95, 0.95, 0.96, 0.98, 1.0]},
-	{"name": "Turret", "height": 1.7,      "shape": [0.55, 0.62, 0.66, 0.66, 0.66, 0.68, 0.8, 0.9, 0.9]},
-	{"name": "Onion dome", "height": 1.8,  "shape": [0.5, 0.5, 0.55, 0.72, 0.86, 0.9, 0.82, 0.6, 0.38, 0.22]},
-	{"name": "Spire", "height": 2.4,       "shape": [0.95, 0.86, 0.74, 0.62, 0.5, 0.4, 0.3, 0.22, 0.16]},
-	{"name": "Gatehouse", "height": 1.2,   "shape": [0.9, 0.9, 0.7, 0.66, 0.66, 0.7, 0.9, 0.95]},
+	{"id": "watchtower", "name": "Watchtower", "height": 2.3,  "shape": [0.62, 0.58, 0.55, 0.53, 0.52, 0.52, 0.53, 0.56, 0.62, 0.66]},
+	{"id": "round_keep", "name": "Round keep", "height": 0.9,  "shape": [1.0, 0.98, 0.96, 0.95, 0.95, 0.96, 0.98, 1.0]},
+	{"id": "turret", "name": "Turret", "height": 1.7,      "shape": [0.55, 0.62, 0.66, 0.66, 0.66, 0.68, 0.8, 0.9, 0.9]},
+	{"id": "onion_dome", "name": "Onion dome", "height": 1.8,  "shape": [0.5, 0.5, 0.55, 0.72, 0.86, 0.9, 0.82, 0.6, 0.38, 0.22]},
+	{"id": "spire", "name": "Spire", "height": 2.4,       "shape": [0.95, 0.86, 0.74, 0.62, 0.5, 0.4, 0.3, 0.22, 0.16]},
+	{"id": "gatehouse", "name": "Gatehouse", "height": 1.2,   "shape": [0.9, 0.9, 0.7, 0.66, 0.66, 0.7, 0.9, 0.95]},
 ]
 
 

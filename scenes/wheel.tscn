@@ -80,7 +80,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.39, 0)
 mesh = SubResource("wheel_body")
 
 [node name="Clay" type="MeshInstance3D" parent="."]
-material_override = SubResource("clay_mat")
+
 script = ExtResource("2")
 
 [node name="Ghost" type="MeshInstance3D" parent="."]

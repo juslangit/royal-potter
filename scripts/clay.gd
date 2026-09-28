@@ -36,6 +36,7 @@ var touching := false
 var thumb_t := 0.5             ## where on the pot the thumb is, 0 = base, 1 = rim
 var thumb_r := 0.5             ## the width the thumb asks for
 var alive := true
+var frozen := false          ## true once the player taps Done: it only spins
 
 var _spin := 0.0
 var _time := 0.0
@@ -53,6 +54,8 @@ func reset() -> void:
 		radii[i] = START_RADIUS * (1.0 - 0.35 * pow(t, 3.0))
 	wobble = 0.0
 	alive = true
+	frozen = false
+	rotation = Vector3.ZERO
 	scale = Vector3.ONE
 	_update_height()
 	_rebuild()
@@ -62,6 +65,9 @@ func _process(delta: float) -> void:
 	_time += delta
 	_spin = fmod(_spin + SPIN_SPEED * delta, TAU)
 	if not alive:
+		return
+	if frozen:
+		rotation.y = _spin
 		return
 	if touching:
 		_shape(delta)

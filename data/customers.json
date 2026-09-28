@@ -1,0 +1,131 @@
+{
+  "intro": "A little clay. A whole castle. Everyone welcome.",
+  "day_start": "Morning light, soft clay. Open the courtyard gate!",
+  "customers": [
+    {
+      "id": "king",
+      "name": "King Bertram",
+      "role": "The King",
+      "tower": "round_keep",
+      "glaze_hint": "cream_crown",
+      "look": "Round bean body in Royal Rose (#B2675D), chunky gold crown, one tiny teacup.",
+      "arrive": "Good morning! Is this the royal queue?",
+      "wish": "A short, wide keep in cream, please. Room for tea!",
+      "react": [
+        "A humble start. Every castle has one.",
+        "A cosy little addition to the kingdom.",
+        "Splendid! I shall put the kettle on.",
+        "A keep fit for tea with everyone!"
+      ],
+      "sploosh": "Oh! The keep has taken a royal nap."
+    },
+    {
+      "id": "knight",
+      "name": "Sir Pip",
+      "role": "The Knight",
+      "tower": "watchtower",
+      "glaze_hint": "sage_keep",
+      "look": "Upright bean body in Storybook Sky (#7BA2DA), open cream helmet, one small round shield.",
+      "arrive": "Sir Pip, reporting for pottery duty!",
+      "wish": "A tall, slim watchtower in sage green. I watch for picnics.",
+      "react": [
+        "I'll keep watch beside it. No bother.",
+        "A fine post for a short watch.",
+        "I can spot the picnic blanket!",
+        "Hooray! No sandwich shall go unseen!"
+      ],
+      "sploosh": "At ease, clay. Very much at ease."
+    },
+    {
+      "id": "queen",
+      "name": "Queen Marigold",
+      "role": "The Queen",
+      "tower": "turret",
+      "glaze_hint": "rose_turret",
+      "look": "Pear-shaped body in Courtyard Sage (#959B68), small gold tiara, one cream watering can.",
+      "arrive": "I've brought a drink for your daisies.",
+      "wish": "A rose pink turret, flaring wide at the top for my flowers.",
+      "react": [
+        "We'll find a flower that suits it.",
+        "A sweet spot for a seedling.",
+        "My daisies will love that rim.",
+        "Oh, a whole garden above the gate!"
+      ],
+      "sploosh": "A flower bed! The clay has ideas."
+    },
+    {
+      "id": "guard",
+      "name": "Nell",
+      "role": "The Gatekeeper",
+      "tower": "gatehouse",
+      "glaze_hint": "terracotta_throne",
+      "look": "Square-rounded body in Warm Oak (#9F683B), soft sage guard cap, one oversized cream key.",
+      "arrive": "Afternoon! Everyone's through. Even the ducks.",
+      "wish": "A clay red gatehouse: wide base and top, pinched middle, please.",
+      "react": [
+        "There's a place for it by the gate.",
+        "That'll make the entrance cheerful.",
+        "A fine welcome for our visitors.",
+        "Perfect! I'll hold the gate for you."
+      ],
+      "sploosh": "It's slipped under the gate!"
+    },
+    {
+      "id": "baker",
+      "name": "Bunty",
+      "role": "The Baker",
+      "tower": "onion_dome",
+      "glaze_hint": "honey_hall",
+      "look": "Plump bean body in Cream Plaster (#F0D6AE), puffy cream chef hat, one round golden bun.",
+      "arrive": "One warm bun for the busy potter!",
+      "wish": "A honey gold dome: swell like an onion, then pinch to a point.",
+      "react": [
+        "Handmade has its own lovely shape.",
+        "A little bun of a tower!",
+        "Golden and plump. Nicely done!",
+        "The finest dome in the bread basket!"
+      ],
+      "sploosh": "Ah, a pancake day. I like those too."
+    },
+    {
+      "id": "wizard",
+      "name": "Mallow",
+      "role": "The Wizard",
+      "tower": "spire",
+      "glaze_hint": "sky_spire",
+      "look": "Tall bean body in Storybook Sky (#7BA2DA), floppy rose pointed hat, one short oak star wand.",
+      "arrive": "Evening! Has anyone seen the first star?",
+      "wish": "A sky blue spire: broad base, taper to a point to greet the stars.",
+      "react": [
+        "The stars welcome every sort of tower.",
+        "A little nearer the sky. Lovely.",
+        "Just the spot for stargazing.",
+        "Wonderful! The first star has company!"
+      ],
+      "sploosh": "A very small falling star. Make a wish!"
+    }
+  ],
+  "dragon": {
+    "name": "Ember",
+    "role": "The Dragon",
+    "look": "Round Courtyard Sage (#959B68) body, tiny wings, soft cream horns, drooping rose nightcap, one cream cushion.",
+    "arrive": "Room for one more? I've brought my own pillow.",
+    "wish": "A warm gold roost: wide foot, slim stem, broad top for my nap.",
+    "react": [
+      "A place for me? That's what matters.",
+      "A cosy perch for a little rest.",
+      "My pillow fits. My tail nearly does.",
+      "My very own roost! Goodnight, friends."
+    ],
+    "sploosh": "A floor pillow! You thought of my tail.",
+    "tower": "dragon_roost",
+    "tower_shape": [0.9, 0.85, 0.7, 0.55, 0.5, 0.5, 0.6, 0.8, 1.0, 1.0],
+    "tower_height": 2.1,
+    "glaze_hint": "honey_hall"
+  },
+  "ending": [
+    "Seven towers catch the last of the sun.",
+    "The dragon snores. The kettle sings.",
+    "A little clay made room for everyone."
+  ]
+}

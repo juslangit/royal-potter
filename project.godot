@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Royal Potter"
+config/name="Kiln & Keep"
 config/description="Throw the castle's towers on your potter's wheel. Slapjam 2026 entry, theme: Castles."
 run/main_scene="res://scenes/wheel.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
