@@ -1,0 +1,1957 @@
+Reading additional input from stdin...
+OpenAI Codex v0.158.0
+--------
+workdir: /Users/juslangit/Desktop/project/game/royal-potter
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0e88b-7a39-7892-af93-787c109bfcad
+--------
+user
+Read art/concept/BRIEF-01-style.md and complete every deliverable in it. Use your image generation tool for key-art.png and copy the generated file into art/concept/key-art.png. When finished, list the files you created.
+2026-09-28T15:04:11.820165Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when AuthRequired(AuthRequiredError { www_authenticate_header: "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.cloudflare.com/.well-known/oauth-protected-resource/mcp\", scope=\"user:read account:read\"" })
+hook: SessionStart
+hook: SessionStart Completed
+codex
+I’ll read the brief and project notes, then create each deliverable, including the generated key art.
+
+exec
+/bin/zsh -lc 'cat /Users/juslangit/.codex/skills/.system/imagegen/SKILL.md' in /Users/juslangit/Desktop/project/game/royal-potter
+exec
+/bin/zsh -lc 'cat ~/.claude/knowledge/_index/projects.md ~/.claude/knowledge/global/conventions.md ~/.claude/knowledge/global/stack.md' in /Users/juslangit/Desktop/project/game/royal-potter
+exec
+/bin/zsh -lc 'cat art/concept/BRIEF-01-style.md; ' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+# Brief 01 — Style sheet (key image + palette)
+
+You are the art and writing lead for a mobile game jam entry. Claude Code builds the
+mechanics in Godot; you make the creative work. The human director (Luqman) approves.
+
+## The game
+Working title: "Royal Potter". Jam theme: **Castles**.
+A calm, cosy, funny pottery game for phones (portrait). You are the royal potter.
+Castle folk (the king, the queen, a knight, a wizard, etc.) each order a **castle tower**
+— a round watchtower, a squat keep, a turret, an onion dome, a spire — which you throw on
+a spinning potter's wheel with one thumb, glaze, and fire in a kiln. Every finished tower is
+placed onto the castle, so the castle grows out of your pottery over one day (morning to
+evening). The last customer is a dragon. Clay can collapse ("sploosh") for laughs; there is
+no game over.
+
+## The look (locked)
+- **Toon low-poly 3D**: flat colours, light in 2–3 hard bands, thick dark outlines
+  (#2a2420), soft warm sunlight, nothing over-saturated.
+- Warm, cosy, storybook. Terracotta clay, cream plaster, warm wood, sage green, sky blue,
+  kiln-gold, rose.
+- Castles made of glazed pottery: towers are visibly thrown on a wheel (ring marks,
+  glossy glaze, a rim at the top), with little flags.
+- Portrait composition, 9:16.
+
+## Deliverables (save into this folder, art/concept/)
+1. `key-art.png` — ONE key image, 1080x1920 portrait: the potter's workshop on a castle
+   courtyard; potter's wheel in the lower third with a half-thrown tower of wet clay; behind
+   it, a small castle built from glazed pottery towers. No text in the image.
+2. `palette.md` — 8 named colours with hex codes, drawn from the key art, and 6 glaze
+   colours for the player to pick from.
+3. `style-notes.md` — 10 short bullet rules another artist (or a Blender script) must
+   follow so every later asset matches the key art (shapes, outline, lighting, proportions,
+   level of detail).
+4. `names.md` — 10 candidate game names (English, short, fun, castle + pottery), with one
+   line each. Mark your top 3.
+
+All text in English. Do not write any game code.
+
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, ask built-in `image_gen` for a transparent background and preserve the generated alpha channel.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Ask built-in `image_gen` for a genuinely transparent background and preserve its alpha.
+
+## Prompt augmentation
+
+Reformat user prompts into a structured, production-oriented spec. Make the user's goal clearer and more actionable, but do not blindly add detail.
+
+Treat this as prompt-shaping guidance, not a closed schema. Use only the lines that help, and add a short extra labeled line when it materially improves clarity.
+
+### Specificity policy
+
+Use the user's prompt specificity to decide how much augmentation is appropriate:
+
+- If the prompt is already specific and detailed, preserve that specificity and only normalize/structure it.
+- If the prompt is generic, you may add tasteful augmentation when it will materially improve the result.
+
+Allowed augmentations:
+- composition or framing hints
+- polish level or intended-use hints
+- practical layout guidance
+- reasonable scene concreteness that supports the stated request
+
+Not allowed augmentations:
+- extra characters or objects that are not implied by the request
+- brand names, slogans, palettes, or narrative beats that are not implied
+- arbitrary side-specific placement unless the surrounding layout supports it
+
+## Use-case taxonomy (exact slugs)
+
+Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+
+Generate:
+- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup — product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram — diagrams/infographics with structured layout and text.
+- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
+- logo-brand — logo/mark exploration, vector-friendly.
+- illustration-story — comics, children’s book art, narrative scenes.
+- stylized-concept — style-driven concept art, 3D/stylized renders.
+- historical-scene — period-accurate/world-knowledge scenes.
+
+Edit:
+- text-localization — translate/replace in-image text, preserve layout.
+- identity-preserve — try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit — remove/replace a specific element (including interior swaps).
+- lighting-weather — time-of-day/season/atmosphere changes only.
+- background-extraction — transparent background / clean cutout. Ask built-in `image_gen` for actual transparency.
+- style-transfer — apply reference style while changing subject/scene.
+- compositing — multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render — drawing/line art to photoreal render.
+
+## Shared prompt schema
+
+Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+
+```text
+Use case: <taxonomy slug>
+Asset type: <where the asset will be used>
+Primary request: <user's main prompt>
+Input images: <Image 1: role; Image 2: role> (optional)
+Scene/backdrop: <environment>
+Subject: <main subject>
+Style/medium: <photo/illustration/3D/etc>
+Composition/framing: <wide/close/top-down; placement>
+Lighting/mood: <lighting + mood>
+Color palette: <palette notes>
+Materials/textures: <surface details>
+Text (verbatim): "<exact text>"
+Constraints: <must keep/must avoid>
+Avoid: <negative constraints>
+```
+
+Notes:
+- `Asset type` and `Input images` are prompt scaffolding, not dedicated CLI flags.
+- `Scene/backdrop` refers to the visual setting. It is not the same as the fallback CLI `background` parameter, which controls output transparency behavior.
+- Fallback-only execution notes such as `Quality:`, `Input fidelity:`, masks, output format, and output paths belong in the CLI path only. Do not treat them as built-in `image_gen` tool arguments.
+
+Augmentation rules:
+- Keep it short.
+- Add only the details needed to improve the prompt materially.
+- For edits, explicitly list invariants (`change only X; keep Y unchanged`).
+- If any critical detail is missing and blocks success, ask a question; otherwise proceed.
+
+## Examples
+
+### Generation example (hero image)
+```text
+Use case: product-mockup
+Asset type: landing page hero
+Primary request: a minimal hero image of a ceramic coffee mug
+Style/medium: clean product photography
+Composition/framing: wide composition with usable negative space for page copy if needed
+Lighting/mood: soft studio lighting
+Constraints: no logos, no text, no watermark
+```
+
+### Edit example (invariants)
+```text
+Use case: precise-object-edit
+Asset type: product photo background replacement
+Primary request: replace only the background with a warm sunset gradient
+Constraints: change only the background; keep the product and its edges unchanged; no text; no watermark
+```
+
+## Prompting best practices
+- Structure prompt as scene/backdrop -> subject -> details -> constraints.
+- Include intended use (ad, UI mock, infographic) to set the mode and polish level.
+- Use camera/composition language for photorealism.
+- Only use SVG/vector stand-ins when the user explicitly asked for vector output or a non-image placeholder.
+- Quote exact text and specify typography + placement.
+- For tricky words, spell them letter-by-letter and require verbatim rendering.
+- For multi-image inputs, reference images by index and describe how they should be used.
+- For edits, repeat invariants every iteration to reduce drift.
+- Iterate with single-change follow-ups.
+- If the prompt is generic, add only the extra detail that will materially help.
+- If the prompt is already detailed, normalize it instead of expanding it.
+- For CLI fallback only, see `references/cli.md` and `references/image-api.md` for model, `quality`, `input_fidelity`, masks, output format, and output-path guidance.
+- For transparent images, ask built-in `image_gen` for actual transparency and preserve its alpha.
+
+More principles shared by both modes: `references/prompting.md`.
+Copy/paste specs shared by both modes: `references/sample-prompts.md`.
+
+## Guidance by asset type
+Asset-type templates (website assets, game assets, wireframes, logo) are consolidated in `references/sample-prompts.md`.
+
+## gpt-image-2 guidance for CLI fallback
+
+The fallback CLI defaults to `gpt-image-2`.
+
+- Use `gpt-image-2` for new CLI/API workflows unless the user confirms a different model.
+- CLI `gpt-image-2` does not support `background=transparent`; ask before using `gpt-image-1.5` unless the user explicitly requested that model.
+- `gpt-image-2` always uses high fidelity for image inputs; do not set `input_fidelity` with this model.
+- `gpt-image-2` supports `quality` values `low`, `medium`, `high`, and `auto`.
+- Use `quality low` for fast drafts, thumbnails, and quick iterations. Use `medium`, `high`, or `auto` for final assets, dense text, diagrams, identity-sensitive edits, or high-resolution outputs.
+- Square images are typically fastest to generate. Use `1024x1024` for fast square drafts.
+- If the user asks for 4K-style output, use `3840x2160` for landscape or `2160x3840` for portrait.
+- `gpt-image-2` size may be `auto` or `WIDTHxHEIGHT` if all constraints hold: max edge `<= 3840px`, both edges multiples of `16px`, long-to-short ratio `<= 3:1`, total pixels between `655,360` and `8,294,400`.
+
+Popular `gpt-image-2` sizes:
+- `1024x1024` square
+- `1536x1024` landscape
+- `1024x1536` portrait
+- `2048x2048` 2K square
+- `2048x1152` 2K landscape
+- `3840x2160` 4K landscape
+- `2160x3840` 4K portrait
+- `auto`
+
+## Fallback CLI mode only
+
+### Temp and output conventions
+These conventions apply only to the CLI fallback. They do not describe built-in `image_gen` output behavior.
+- Use `tmp/imagegen/` for intermediate files (for example JSONL batches); delete them when done.
+- Write final artifacts under `output/imagegen/`.
+- Use `--out` or `--out-dir` to control output paths; keep filenames stable and descriptive.
+
+### Dependencies
+Prefer `uv` for dependency management in this repo.
+
+Required Python package:
+```bash
+uv pip install openai
+```
+
+Optional for image inspection and downscaling:
+```bash
+uv pip install pillow
+```
+
+Portability note:
+- If you are using the installed skill outside this repo, install dependencies into that environment with its package manager.
+- In uv-managed environments, `uv pip install ...` remains the preferred path.
+
+### Environment
+- `OPENAI_API_KEY` must be set for live API calls.
+- Do not ask the user for `OPENAI_API_KEY` when using the built-in `image_gen` tool.
+- Never ask the user to paste the full key in chat. Ask them to set it locally and confirm when ready.
+
+If the key is missing, give the user these steps:
+1. Create an API key in the OpenAI platform UI: https://platform.openai.com/api-keys
+2. Set `OPENAI_API_KEY` as an environment variable in their system.
+3. Offer to guide them through setting the environment variable for their OS/shell if needed.
+
+If installation is not possible in this environment, tell the user which dependency is missing and how to install it into their active environment.
+
+### Script-mode notes
+- CLI commands + examples: `references/cli.md`
+- API parameter quick reference: `references/image-api.md`
+- Network approvals / sandbox settings for CLI mode: `references/codex-network.md`
+
+## Reference map
+- `references/prompting.md`: shared prompting principles for both modes.
+- `references/sample-prompts.md`: shared copy/paste prompt recipes for both modes.
+- `references/cli.md`: fallback-only CLI usage via `scripts/image_gen.py`.
+- `references/image-api.md`: fallback-only API/CLI parameter reference.
+- `references/codex-network.md`: fallback-only network/sandbox troubleshooting for CLI mode.
+- `scripts/image_gen.py`: fallback-only CLI implementation. Use only when the user explicitly chooses or confirms CLI mode.
+
+ succeeded in 0ms:
+# Index of All Projects
+
+> Update this every time a new project is opened or a status changes.
+> This is the entry point — Claude reads this file first to see what exists.
+
+| Project | Status | Phase | Started | Updated | Folder |
+|---|---|---|---|---|---|
+| [pipeline](../projects/pipeline/00-overview.md) | live | free release | 2026-09-05 | 2026-09-05 | `projects/pipeline/` |
+| [retopology](../projects/retopology/00-overview.md) | testing | v1.0.0, pre-launch | 2026-09-05 | 2026-09-05 | `projects/retopology/` |
+| [siti](../projects/siti/00-overview.md) | paused | paused 2026-09-13 — no paid API key; planned as main agent with 3D maker jobs on the Todak Academy PC | 2026-09-06 | 2026-09-13 | `projects/siti/` |
+| [kedai-runtuh](../projects/kedai-runtuh/00-overview.md) | building | art pass 2 now committed on `feat/mamak-art-pass` (fc2f2f6) — waiting for Luqman to play it before merging; store feature graphic built, dev checks repaired; M8 still needs a phone plugged in; portfolio card to update after merge | 2026-09-07 | 2026-09-16 | `projects/game/kedai-runtuh/` |
+| [referee-for-fun](../projects/referee-for-fun/00-overview.md) | testing | **everything is on `main`**. 2026-09-18: gamepad support and rebindable keys (M-040), clearer team colours for colour-blind players (M-041), a wider pool of light on court (M-042), the libero in a real shirt (M-039), and a proper opening sequence (M-038). Sepak takraw played and okay 2026-09-18 (M-043). Both platforms ship as one file (M-045); umpire's chair fixed (M-044). Six action posters redrawn (M-046); umpire character closed as not worth further spending (D-076). First-run pass done (M-047). Four more checks ended in a verdict (M-048); one lighting rig, not two (M-049). 2026-09-20: every net is a real see-through mesh instead of a white slab, drawn as a tiled cord texture at regulation spacing, four gauges for six sports (M-050, D-077); line judges put their arms down again after an OUT (M-051); the crowd got a real 80-triangle arena seat, taking 19-37% off the hall and putting every venue at ~142 fps (M-052, D-078); tennis and table tennis came off the flat rig onto the shared truss lighting, the last sports-wide inconsistency (M-053); the crowd sits in its chairs and stands up only to react (M-054). 2026-09-21: the game credits its authors, on a screen in the game (M-055, D-079), and **v0.2.0 is published** for macOS and Windows with the website and pitch deck pointing at it (M-056); a two-minute trailer recorded out of the running game, nothing staged (M-057); the open list worked through, including a real bug the trailer caught and a false finding corrected (M-058); the crowd and its seats both turned round to face the court (M-059); **v0.2.1 published** with the trailer re-cut against the fixed hall (M-060). Open: of 106 checks, 63 print numbers without a verdict, 3 do not finish, and _contact fails at random about half the time. **Published 2026-09-20**: v0.1.0 builds on GitHub Releases (`.dmg` + `.exe`) and the website now carries a platform download section, hosted on GitHub Pages at https://juslangit.github.io/referee-for-fun/ | 2026-09-07 | 2026-09-21 | `projects/referee-for-fun/` |
+| [portfolio](../projects/portfolio/00-overview.md) | live | **2026-09-23: moved to Cloudflare at https://luqmanhakeem.pages.dev — records behind a login; every GitHub repo made private, old github.io links redirect.** v1 complete — 39 cards in 4 categories. **2026-09-21: every project card links its own documentation record, 34 verified live.** Six projects that had a record but no card got one (bluff-show, codebot, gudang, out-loud, posture, retopology), and the twelve older Behance-only pieces got archive records built by `tools/build_archive.py`. Two silent `docs-site` defects fixed: record folders are slugified (The Forsaken published at a `%20` URL and failed its notes lookup) and shorts-factory is excluded rather than collected on every publish | 2026-09-08 | 2026-09-23 | `projects/portfolio/` |
+| [tuition-lms](../projects/tuition-lms/00-overview.md) | building | phase 0, client demo published | 2026-09-10 | 2026-09-10 | `projects/tuition-lms/` |
+| [print-quote](../projects/print-quote/00-overview.md) | testing | v1 published, needs real STL checks | 2026-09-10 | 2026-09-10 | `projects/print-quote/` |
+| [claude-chat](../projects/claude-chat/00-overview.md) | testing | #8–#27 on Mac and PC; since #27 other people can install it on a Mac or Windows PC straight from GitHub (repo public since 2026-09-11); iPhone notifications to try | 2026-09-10 | 2026-09-11 | `projects/claude-chat/` |
+| [auxetic-chess](../projects/auxetic-chess/00-overview.md) | testing | **Phaser rebuild played by Luqman and merged 2026-09-18** (`c06fe49`, "the chess is good") — live at https://juslangit.github.io/auxetic-chess/ on Phaser 4.2.1 with WebGL, CC0 sound, particles and camera shake. The test server was swapped for one that does not drop connections (the Phaser build's eleven files tripped the stock one); 212/213 checks, the odd one out a headless fps check at 49 against 50. The shared leaderboard is shipped but **not connected**: waits on Luqman creating the Supabase project, then `tools/deploy_online.sh` | 2026-09-12 | 2026-09-18 | `projects/game/auxetic-chess/` |
+| [scribble-relay](../projects/scribble-relay/00-overview.md) | testing | v1 live on GitHub Pages **with a Phaser effects layer, merged and published 2026-09-18** (`12c62e2`) — confetti, hand-over stars, time's-up flash, real CC0 sounds, drawn over the page so drawing and typing stay HTML (D-004). 120 game + 58×2 effects checks. Still needs a real party | 2026-09-13 | 2026-09-18 | `projects/scribble-relay/` |
+| [bluff-show](../projects/bluff-show/00-overview.md) | testing | v1 built 2026-09-14 — bluffing trivia, pass-the-device + TV room mode; **Phaser effects layer merged 2026-09-18** (`e8cfbb1`) — TRUTH/LIE stamp effects, score rings, winner confetti, drum roll and sax stings (D-005). 33 rules + 582 browser + 59×2 effects checks. Public repo since 2026-09-18, no `main` yet; room mode waits for a Supabase project | 2026-09-14 | 2026-09-18 | `projects/bluff-show/` |
+| [posture](../projects/posture/00-overview.md) | planning | M0 — PLAN.md draft v0.1; Retool two-portal build to apply for FCI Cyber junior Retool dev role | 2026-09-15 | 2026-09-15 | `projects/posture/` |
+| [direct-hit](../projects/direct-hit/00-overview.md) | testing | **the sea and the fleet, 2026-09-18** — she now looks under way: a wake astern of all five ships (a mesh strip riding the same Gerstner waves as the sea, after the particle version cost five minutes a frame), burning wrecks as eight-hundred-metre columns instead of smudges, and her two forward turrets cut out of the bought hull so they train on the square you called. The smudges were particle turbulence, which advects rather than jitters — three attempts had blamed the velocities. 5 suites green including 60 new fleet checks; battle at 50 fps. **Never played by hand** — still the next thing. No Windows export, no `.dmg` | 2026-09-17 | 2026-09-18 | `projects/direct-hit/` |
+| [codebot](../projects/codebot/00-overview.md) | building | M1–M6 done: interpreter, 8 rooms, robot, panel, the tap-to-build palette, the workshop shell, and saved progress with server-checked solves. 339 headless checks. Record at https://luqman-docs.netlify.app/codebot/. **Never played yet** — Luqman has not pressed Play, and the palette has not been on a phone | 2026-09-17 | 2026-09-17 | `projects/game/codebot/` |
+| [out-loud](../projects/out-loud/00-overview.md) | testing | v1 built 2026-09-17 in one session — a Japanese class that speaks to you and makes you speak back, in the browser, with no API key and no cost. macOS voices for the teacher, Chrome speech recognition for the ears, five lessons of drill-then-scene, 47 passing checks on the marking. **Never spoken to by a human** — that is M6 and the only thing that matters next. Private repo at github.com/juslangit/out-loud since 2026-09-18, not published | 2026-09-17 | 2026-09-17 | `projects/out-loud/` |
+| [peta-lot-tanah](../projects/peta-lot-tanah/00-overview.md) | live | v1 in use — 64,770 cadastral lots within 5 km of a point in Klang drawn offline from a baked 6.5 MB payload; notes written 2026-09-17 from the repo itself, the only project that had none. Open: the three Python scripts still hardcode the pre-move path | 2026-09-04 | 2026-09-17 | `projects/peta-lot-tanah/` |
+| [gudang](../projects/gudang/00-overview.md) | building | **M1 done 2026-09-17 — the inspector works.** Reads any model in headless Blender and reports triangles, real scale, topology, UVs, textures and rig as JSON; 75/75 real files read in 73s. Two measurements were wrong on the first run and were corrected (open borders are not defects; inside-out faces are unknowable on an open mesh). Found that 16 of 32 Sketchfab downloads are at the wrong scale while 0 of 33 Meshy files are. kilang folded in as M7. Next is M2, where the verdicts get measured against Luqman grading 20 assets by hand | 2026-09-17 | 2026-09-17 | `projects/gudang/` |
+| [shorts-factory](../projects/shorts-factory/00-overview.md) | testing | v1 built 2026-09-17 in one session — one command turns a sourced fact into a narrated, word-captioned 1080x1920 YouTube Short with its title, description and tags. System Python + PIL + ffmpeg + macOS `say`; nothing to install, nothing to pay for. 10 videos built. **None published, and no YouTube channel confirmed to exist** — that is M5 and the only thing that matters next. API upload is written but cannot publish publicly until a YouTube compliance audit passes (D-003). **Local Mac tool — no git repo and deliberately not on the portfolio (D-006)**; never run `docs-build --publish` in it | 2026-09-17 | 2026-09-17 | `projects/shorts-factory/` |
+| [snapshot](../projects/snapshot/00-overview.md) | testing | **first played 2026-09-18** (M10): the camera works, every shot is easy. Same day, two rounds of changes, neither played yet: (1) review advice in dials and keys, a 4 m/s walk with a `C` crouch, a Poly Haven sky; (2) "a proper game" — desktop Mac/Windows, polished (D-014): main menu over the yard, job board with best scores, a photo album saved as real PNGs, a six-page illustrated guide, settings, a pause menu, and a Tekken-style control legend bottom right (D-015). 192 checks. Known, left per "ignore bugs for now": the shutter is silent (`shutter.wav` not PCM) and the washing does not block the judge's line of sight. Public repo at github.com/juslangit/snapshot since 2026-09-18, the new work on `feat/proper-game`; no export | 2026-09-17 | 2026-09-18 | `projects/game/snapshot/` |
+| [gdevelop-tetris](../projects/gdevelop-tetris/00-overview.md) | idea | — | 2026-09-18 | 2026-09-18 | `projects/gdevelop-tetris/` |
+| [red-card](../projects/red-card/00-overview.md) | building | first playable build 2026-09-18: first-person football referee, 11 v 11 AI, the Laws as truth, career across four grounds, 9 drills + 8 challenges, VAR at the top, macOS and Windows builds. **Published 2026-09-20**: v0.1.0 on GitHub Releases and a website at https://juslangit.github.io/red-card/. **2026-09-23: every running animation is the one Luqman keyed by hand in gerak** — he re-did the legs and feet of the footballer's run in bengkel and it ships exactly as he saved it, with no amplification anywhere (D-041, D-042); stride re-measured, `CLIP_SPEED` run 3.04 → 2.82 and sprint 3.98 → 2.82. Still waiting for Luqman to play it; all 64 commits of real work are on `main` | 2026-09-18 | 2026-09-23 | `projects/red-card/` |
+| [boneka](../projects/boneka/00-overview.md) | testing | **2026-09-22: joined bengkel.** It prints a ready line at startup so bengkel can find its port, and an "Animate it in gerak" button appears when it is running inside bengkel — exports a .glb and opens it next door. Both changes sit behind a check for bengkel, so boneka alone is unchanged; its 801 checks still pass. v1 built 2026-09-20 and then **rebuilt five times the same day on Luqman's verdicts**: reference-led proportions and a sculpt pass; lofted cross-sections after a silhouette render showed the torso was a box; modular characters assembled body → face → clothing → armour → gear; palettes (ten moods plus any Lospec palette, snapped in Oklab); and **surfaces from Texturelabs**, multiplied over each part's colour by what it is made of, with UVs and a licence note beside every textured export. A `texturelabs` CLI joined `polyhaven` and `sfx` on the PATH. The app fetches reference photographs beside the viewport and names the pass it is on as it builds. 19 moves across four body types, 34 props, `.fbx` retargeting, export to `.glb`/`.fbx`/`.blend`. System Python plus the installed Blender. 779 checks green. Meshy behind a button that always asks first, **untried**. **Never used by a person** — the only thing that matters next | 2026-09-20 | 2026-09-20 | `projects/3d/bengkel/boneka/` |
+| [the-forsaken](../projects/the-forsaken/00-overview.md) | testing | **Act I complete as a system, 2026-09-20** — an original isometric ARPG, six roles, Emberhollow and the Gloamwood, three ward embers and the Bellkeeper. Built by Codex and Claude working the same repository at once: equipment, a smith, masteries, caches and waypoint travel from one; 33 original synthesised sounds with a proper voice pool, and skill slots 3–13 filled with 36 earned abilities, from the other. 284 checks across seven suites. Folder keeps the game's title with its space (D-012), so it carries its own docs builder (D-013). **Published 2026-09-20**: public repo at github.com/juslangit/the-forsaken, v0.1.0 on Releases with **both a macOS and a Windows build**, and a website at https://juslangit.github.io/the-forsaken/ with the six roles as painted portraits. The Windows `.exe` was added the same day and has not been run on Windows hardware. **Never played by a person** — that is M9 and the only thing that matters next | 2026-09-19 | 2026-09-20 | `projects/game/The Forsaken/` |
+| [killzone](../projects/killzone/00-overview.md) | building | **phase 1 complete 2026-09-21, first session** — a top-down shooter with a Diablo bird view: a man with a rifle on a 60 m square of grass, mouse aim independent of movement, and forward/backward/strafe/jump/crouch/fire all animated. Nine animation clips built from the seven the Sketchfab model shipped — backpedal plays the legs in reverse against a forward torso, strafe yaws the hips 68°, the jump comes from pushing a stand-to-squat blend past both ends (`tools/build_character.py`). Three animation faults were caught only by rendering contact sheets and looking; none raised an error. Hitscan firing at ~9 rounds/sec with pooled tracers and a muzzle flash on the rifle bone; the recoil plays on the upper body only so he keeps running while firing. Verified by a self-driving screenshot harness (`tools/capture.tscn`). **Shipped facing backward and was fixed the same day** — the build script's 180° yaw had always been a no-op because Blender's glTF importer leaves objects in quaternion rotation mode, where `rotation_euler` is silently ignored while `scale` on the next line works. It passed review because the check was numeric (facing · aim = 1.0) and measured the CharacterBody3D, which was right; the model inside it was turned around. There are now visual checks, `capture.tscn -- facing` and `-- clips`. **2026-09-22: the recoil rebuilt** — it was keyed neutral→kick→settle→neutral over 0.30 s while the rifle fires every 0.11 s and each shot seeks back to frame zero, so it only ever played its first third and snapped through neutral on every shot; it now opens on the kick and decays, with the rotation moved to the chest so the grip survives and the neck counter-pitched so the head does not whip. Two defects found then and **left unfixed as out of scope**: shots are aimed at a plane 1.0 m up while the muzzle is at 1.92 m, so aiming 8 m out buries the round at 16.2 m; and the model imports **2.73 m tall** against a 1.8 m collider. **Nothing to shoot at, no sound, no objective** — all deliberate; the next conversation is what the game *is*, not what to build next. Private repo at github.com/juslangit/killzone since 2026-09-23 | 2026-09-21 | 2026-09-21 | `projects/game/killzone/` |
+| [gerak](../projects/gerak/00-overview.md) | in use | **2026-09-23, fifth session: a clip cut to 20 frames stayed 45.** Both exporters only ever extended a track to reach the end of the clip, never shortened one — so limiting an animation's length changed what gerak played and nothing about what it wrote, and reopening showed a 20-frame timeline whose keys still ran to 45 (D-030). The key at the new end is sampled, not copied from the last key before it, and nothing is deleted: the row says `25 after the end` and lengthening brings them back. **Fourth session: the push that wrote nothing.** He edited keyframes, pressed Save, pressed Update the game, and the game did not change — the log said `pushed nothing`. Save cleared the very flag the push reads, so the two buttons fought (D-026); saved edits were never read back when a character was reopened, so work sitting safely in the clips folder looked lost (D-027); and restoring a reference picture on every animation switch marked the clip edited, which is why a few edits saved fourteen clips (D-028). Four of his edits — fb_fall, fb_idle, fb_keeper_catch, fb_keeper_dive — come back on open and are queued for the game. **Third session: used or unused, and deleting.** Each animation now says beside its keys whether the game actually asks for it, from one search of the game's own files for the name in quotes — on red-card's footballer that is 36 of 53 used and 17 not, the tennis and volleyball moves that came with the shared rig (D-024). Delete on one or more ticked animations shows the exact lines that name them before it goes ahead (D-025). Two bugs found in the same day's code: a 40-hit cap that made later names read as unused, and openAnim clearing the undo stack so deleting the open animation could not be undone. **Second session: a character's whole set of animations.** Opening a model used to prompt for one of the animations in the file and put the rest out of reach — Red Card's footballer has 53 and referee-for-fun's athletes have 12, so all but one were unreachable. Now the Animations tab lists them all, any one is editable, edits survive switching, and undo covers the lot (D-018). **Merge two…** keeps whichever motion is chosen and deletes the other name, after searching the game's own scripts for it and showing every line that says it — seven in `scripts/footballer.gd` the first time it ran (D-020). **Update the game** writes the edited animations straight back into the game's `.glb` by editing its glTF JSON in place, not through Blender: only what was edited is rewritten, the mesh, skin, materials and untouched animations come out byte for byte, orphans are collected so the file never grows, keys are thinned (1,509 → 314 on one athlete), and a copy goes to `~/Documents/gerak/backups` first (D-019, D-021 — the one exception to D-008). 66 new checks; 309 total. **2026-09-23: used for real work at last (M7)** — Luqman re-keyed the run of Red Card's footballer by hand inside bengkel, and every running animation in that game is now his clip; the first work gerak has done that left the tool. **2026-09-22: reference pictures.** A search panel over Wikimedia Commons with Muybridge's frame-by-frame motion studies first — pin one over the viewport, fade it, and Follow steps it with the timeline proportionally (frame 24 of 48 lands on reference frame 6 of 12); Flip plays it on its own. Saved with the clip, picture copied to disk, served by gerak's own server so the page never talks to Commons. 205 checks. **2026-09-22: joined bengkel.** Its library now has a row of chips saying where each model came from, boneka pinned first (213 rigged models one click away); it can send an animated model back to boneka; and it answers bengkel's menu bar. All behind a check for bengkel, so gerak alone is unchanged. built 2026-09-21 — pose by hand, FK/IK with pinning, template rigging through Blender, exports to .glb/.fbx/.blend/.mp4. Wrapped the same day as a real Mac app in /Applications: own window, menu bar, drag and drop, opens from Finder, starts and stops its own server. Six engine suites plus 32 app checks, all green. **Used by hand for real work on 2026-09-23** (M7 done) | 2026-09-21 | 2026-09-23 | `projects/3d/bengkel/gerak/` |
+| [notula](../projects/notula/00-overview.md) | testing | v1 built 2026-09-21 — records room + call, local Whisper, Claude writes the notes; not yet used on a real meeting | 2026-09-21 | 2026-09-21 | `projects/ai/notula/` |
+| [siti-sihat](../projects/siti-sihat/00-overview.md) | testing | v1 built 2026-09-21 in one session — a six-feature healthy-lifestyle web app for the phone: water reminder, cut-sugar tracker, three guided routines (jawline, inner thigh, core) sharing one player with spoken cues and countdown beeps, and a menstrual tracker that predicts from the user's own logged history rather than a fixed 28 days. Plain HTML, CSS and ES modules — no framework, no build step, no dependencies — installable as a PWA and working offline. Everything stays in `localStorage` on the device (D-002), and each routine states plainly what it cannot do: no thigh gap from adductor work, no spot reduction from crunches (D-003). 23 checks green through a self-driving headless-Chrome harness, which caught nothing that three screenshots did not — the back arrow on the home screen, icons reading as a padlock and two drinking glasses, and a chart rendering as seven empty boxes. **Published 2026-09-22**: public repo at github.com/juslangit/siti-sihat, live at **https://siti-sihat.pages.dev** (Cloudflare Pages, primary — Netlify refused every deploy with "Account credit usage exceeded") and mirrored at https://juslangit.github.io/siti-sihat/ — moved off the LAN route because the Mac's address changed overnight and plain HTTP is not a secure context, so iOS would not have registered the service worker. Verified live: secure context, worker registered at the right scope, manifest and icons served, no console errors. **Never opened on a real phone** — that is M8 and the only thing that matters next | 2026-09-21 | 2026-09-22 | `projects/siti-sihat/` |
+| [bengkel](../projects/bengkel/00-overview.md) | testing | **2026-09-23: an assistant in every tool (M15).** A floating panel, injected into every page bengkel hosts, that asks the `claude` command already on the Mac — no API key, nothing billed per question. It may only call actions each tool declares (26 to start: gerak 10, jaring 4, hantar 4, boneka 3, pasar 2, kulit 2, periksa 1), which is what makes every change undoable: it photographs the tool first, twenty deep, and gerak lends its own history rather than keeping a second. Anything reaching outside a tool — updating a game, shipping, building, remeshing — always asks first and is deliberately left off the undo stack. First real turn: "move the playhead to frame 12", done and undone. 59 checks added. **2026-09-23: used for real work (M6)** — Luqman re-keyed Red Card's run in gerak on the rail and it went into the game the same day; one tool of the seven, not the rail, so M7 and M14 stay open. built 2026-09-22 and turned into a **full 3D asset pipeline** the same day. One macOS window with a rail in the order the work happens — **find it, make it, clean it up, dress it, check it, move it, ship it** — holding seven tools: **pasar** (Sketchfab, Poly Haven and Texturelabs in one search, licence on every card before the download), **boneka**, **jaring** (new remesher: one slider asking how wide a quad should be in centimetres, then weld, Quadriflow, UVs, a baked normal map and LODs through headless Blender — a paladin went 12,332 → 2,632 triangles in 3s, same size and still recognisably a paladin), **kulit** (a colour and a material per part, with detail, normal and roughness maps derived from one photograph), **periksa** (size, origin, weight and UVs read straight out of the .glb in milliseconds, judged against what the model is for), **gerak**, and **hantar** (into one of the 12 game projects, under that project's own naming, standing on the floor, .glb for Godot or .fbx at 100 units/m for Unreal). Verified as a loop, not just tool by tool: periksa flagged a model's origin, hantar fixed it, periksa passed it. Everything the tools share lives in `common/`, so an eighth is a page and ~100 lines. ~145 checks green, boneka's 801 and gerak's suites unbroken. **First real work done on 2026-09-23** (M6 done; M7 and M14 open — one tool, not the rail) | 2026-09-22 | 2026-09-23 | `projects/3d/bengkel/` |
+| [kasih-alza](../projects/kasih-alza/00-overview.md) | live | **live 2026-09-23** at **https://kasih-alza.pages.dev** — two-house homestay site for Bachang, Melaka: bilingual EN/BM, both video tours, 20 room photos cut out of the WhatsApp posters, a live availability calendar on Supabase and an owner page to block dates and edit prices. **2026-09-23: the owner signs in on the site itself** — a quiet **Admin** button in the header opens a sign-in box over the page, and a signed-in owner taps the customer's own calendar to mark dates occupied or free (D-011, M13). A new `tools/check.mjs` drives headless Chrome through the whole route against the real Supabase project, 36 checks, proving the database refuses the write rather than the page hiding a button; it deletes its own test booking even when a check fails. Sign-in is by **username** rather than email since the same day (D-012), and the write policies were found granting everything to the whole `authenticated` role — with the anon key published and signup open, a stranger could have signed themselves up and read every guest note; they now name the two admin user ids (D-013, M14). 38 checks. Netlify is credit-blocked; after a few hours on a public GitHub Pages mirror it moved to Cloudflare Pages by direct upload, so the source repo stays private with no public copy (D-008, D-010). Open: the exact map pin, and photos at camera resolution rather than ~315px poster crops | 2026-09-22 | 2026-09-23 | `projects/web/kasih-alza/` |
+| [gravebound](../projects/gravebound/00-overview.md) | testing | Local macOS ranger prototype: painted sprites, click movement, single/five-arrow attacks, five dummies; 29 checks pass. Awaiting Luqman playtest | 2026-09-23 | 2026-09-23 | `projects/game/gravebound/` |
+| [earth-globe](../projects/earth-globe/00-overview.md) | building | — | 2026-09-26 | 2026-09-26 | `projects/earth-globe/` |
+| [invoice-flow](../projects/invoice-flow/00-overview.md) | building | M0 done 2026-09-27: fake Finance data (1,596 invoices). Next M1 Power BI on the Windows PC. Demo for the Aisling BI Developer / AI agents job | 2026-09-27 | 2026-09-27 | `projects/invoice-flow/` |
+| [orderdesk](../projects/orderdesk/00-overview.md) | building | M4 done 2026-09-28 — orders, products & stock on local Postgres; CV + cover note drafted; go-live waits on a new Supabase token. Demo for the ETD Digital Global Full Stack Developer application (apply by 2026-10-11) | 2026-09-27 | 2026-09-27 | `projects/web/orderdesk/` |
+| [royal-potter](../projects/royal-potter/00-overview.md) | idea | — | 2026-09-28 | 2026-09-28 | `projects/royal-potter/` |
+<!-- NEW-PROJECT-ROW-GOES-HERE: don't delete this line, new-project.sh depends on it -->
+
+## Statuses in use
+- `idea` — just thought of it, not committed yet
+- `planning` — working out scope & stack
+- `building` — under construction
+- `testing` — built, being tested
+- `live` — actually in use
+- `paused` — deliberately on hold
+- `archived` — finished / abandoned
+
+## Archived projects
+| Project | Ended | Reason | Lesson |
+|---|---|---|---|
+| claude-terminal | 2026-09-14 | Dropped two days after it started. Built and working — a real terminal on the phone over tmux + Tailscale, 38 server and 12 phone checks — but never once opened on the actual iPhone, and claude-chat already covers the same need well enough. | Three of its four worst bugs were invisible in the code and only appeared when the thing was exercised: a localhost server with no auth could be driven by any website the user visited; a server restart stranded every running session; a launchd job's bare PATH broke the installer. Also: two projects aimed at the same need is one too many — the second was built before the first had been shown to fall short. Code kept private at github.com/juslangit/claude-terminal. |
+| kilang | 2026-09-17 | Folded into [gudang](../projects/gudang/00-overview.md) as its generation phase (M7). Opened 2026-09-13, reached planning only — no code was written and its code folder was never created. Gudang covers the same ground from the other end: kilang makes assets, gudang judges and prepares them, and both target Godot and Unreal through the same add-ons. | Two projects aimed at the same need is one too many — the same lesson as claude-terminal, applied this time before either was built rather than after. Notes kept at `projects/kilang/`. |
+---
+doc: global-conventions
+updated: 2026-09-17
+---
+
+# Conventions Across All Projects
+
+> Rules that apply to EVERY project. If one project differs, record the exception
+> in that project's `04-methods.md`.
+
+## Language
+- Conversation with Claude: English
+- Code, variable names, commit messages: English
+- Internal documentation (knowledge base): English
+
+## Git
+- Branch: `<type>/<short-description>` — e.g. `feat/user-login`, `fix/cart-total`
+- Commit: imperative mood, lowercase — e.g. `add user login endpoint`
+- Never commit straight to `main`
+- Commit identity: `Luqman Hakeem <luqmanh1891@gmail.com>` (set globally on 2026-09-15).
+  This is the email linked to the GitHub account `juslangit`, so commits count on the
+  contribution graph. Never commit as `academy@todak.com` — it is not linked, and
+  commits made with it do not count. Don't set a per-repo email that overrides it.
+- On 2026-09-15 every older commit in every repo on GitHub (all branches, plus the local-only
+  bluff-show) was re-authored to that identity with `git filter-repo --mailmap` and
+  force-pushed, at Luqman's request, so all of his history counts under `juslangit`. The
+  old emails were `academy@todak.com`, `luqmanhakeem@todak.com` and
+  `juslangit@Luqmans-MacBook-Air.local`. Every commit hash from before that date changed;
+  the hashes quoted in the knowledge base were replaced with the new ones. Mirror backups of
+  the old history are in `~/Documents/dev/backups/git-rewrite-2026-09-15/`.
+
+## Where things live
+- **`~/Desktop/` holds one thing: the `project` folder.** Nothing else goes on the
+  Desktop — no scratch files, no downloads, no new folders.
+- **`~/Desktop/project/<subject>/<name>/` holds actual projects only,** filed by
+  subject: `game/`, `3d/`, `ai/`, `web/` (arranged 2026-09-13). A new subject folder
+  is fine when a project fits none of them. Subject folders hold only project
+  folders. Tools, dependencies and experiments do not belong there, even when they
+  are code and even when they are git repositories.
+- **A project may hold other projects** when it is the app they live inside.
+  Set 2026-09-22, when `boneka` and `gerak` moved into `3d/bengkel/`, the app
+  that holds them both. The nested projects keep their own git repositories,
+  their own notes in `~/.claude/knowledge/projects/<name>/`, and their own
+  entry in the index; the holder's `.gitignore` excludes them so the two
+  histories stay separate. `docs-build` and `docs-site` look two levels deep
+  for this reason — before that change both nested records vanished from the
+  records site without a word.
+- **New projects:** pick the subject from what the project is, tell Luqman which
+  folder it's going in, and let him overrule. Pass it as
+  `new-project.sh <name> <subject>`.
+- claude-chat's phone project list reads the subject folders and shows projects as
+  `game/referee-for-fun`. Its LaunchAgent points at `~/Desktop/project/ai/claude-chat`,
+  so update the plist if it moves again.
+- **Everything else goes in `~/Documents/`.** Development tools live in
+  `~/Documents/dev/tools/`, throwaway experiments in `~/Documents/dev/scratch/`.
+- Notes for each project stay in `~/.claude/knowledge/projects/<name>/`.
+- Before moving a tool, grep `~/.claude.json`, `~/.claude/settings.json` and the
+  knowledge base for its absolute path — MCP servers are referenced by full path
+  and a move breaks them silently.
+
+## Documentation is a website
+Set by Luqman on 2026-09-17: *"make every documentation a website, not an artifact
+from claude."*
+
+- Every project's record is generated into `docs/index.html` in its own repo by
+  `tools/docs/build_docs.py`, which reads these notes — the notes stay the source
+  of truth.
+- The shareable copy is a **website**, never a Claude artifact link:
+  **https://luqman-docs.netlify.app/** lists every record and serves each one at
+  `/<project>/`. One Netlify site (`luqman-docs`), so a private repo is no obstacle.
+- `docs-site` (in `~/.local/bin`) is the publisher. `docs-site list` shows what is
+  there and how old each record is, `docs-site publish` rebuilds the index and
+  deploys, `docs-site publish --dry-run` builds into `/tmp/docs-site-preview` first.
+  It finds any `~/Desktop/project/<subject>/<project>/docs/index.html`, so a new
+  project joins the site as soon as its builder writes that file.
+- **Every project has a record**, not only the games (all 17, as of 2026-09-17).
+  A game has its own hand-tuned `tools/docs/build_docs.py`; every other project is
+  built by `docs-build`, which takes the notes, the git history and any pictures in
+  the repo and renders them with the same engine, so both kinds look identical.
+  `docs-build` in a project folder, `docs-build --all` for every project that has no
+  builder of its own, `--publish` to deploy afterwards.
+- In a project repo with its own builder the shortcut is
+  `python3 tools/docs/build_docs.py --publish`, which rebuilds that record and then
+  runs `docs-site publish`.
+- The shared engine is `~/Documents/dev/tools/docs-engine/engine.py` — the markdown
+  converter, the JPEG embedding and the page template, lifted from a game builder.
+  A project that outgrows `docs-build` should get its own copy of a game builder.
+- A project with no notes gets no record: write `00-overview.md` first. `docs-build`
+  never invents prose, it only arranges what is already written.
+- The five old `claude.ai/artifact/...` record links are frozen, not deleted. They
+  show the state of 2026-09-17 and are not updated again.
+- New Netlify sites are created behind a login wall. Turn it off with
+  `PUT /api/v1/sites/<id> {"sso_login": false}` — a `PATCH` is silently ignored.
+
+## Secrets
+- All keys/tokens live in `~/.claude/.env` (chmod 600)
+- In documents, write only the **name** of the env var — never its value
+- Every project must have a `.gitignore` that covers `.env`
+
+## Document structure
+- Every file has `updated: YYYY-MM-DD` frontmatter
+- Dates are always absolute, never "last week"
+- Important decisions go to `06-decisions.md`, don't leave them only in the log
+
+## When to update the knowledge base
+| What happened | File to update |
+|---|---|
+| New idea | `01-idea.md` |
+| Scope changed | `02-planning.md` |
+| Milestone done/changed | `03-milestones.md` + `_index/projects.md` |
+| Found a new method/pattern | `04-methods.md` |
+| Added a service/dependency | `05-relations.md` |
+| Chose A over B | `06-decisions.md` |
+| Finished a work session | `log/YYYY-MM-DD.md` |
+| Anything worth showing a stranger | the portfolio, `~/Desktop/project/web/portfolio/index.html` |
+---
+doc: global-stack
+updated: 2026-09-18
+---
+
+# Preferred Stack
+
+> Your defaults. Having defaults means not rethinking this for every new project —
+> and when you deviate, the reason becomes obvious and worth recording.
+
+| Layer | Default | Reason | Alternatives considered |
+|---|---|---|---|
+| Language | | | |
+| Frontend | | | |
+| Backend | | | |
+| Database | | | |
+| Hosting | | | |
+| Auth | | | |
+| Payments | | | |
+| Email | | | |
+| Analytics | | | |
+| CI/CD | | | |
+
+## Machines
+
+### Windows PC — DESKTOP-K2M7L30 (Todak Academy)
+Spec read from the machine itself on 2026-09-17, over Tailscale through its claude-chat.
+It runs WSL with Blender 4.2 and Claude Code (signed in as academy@todak.com, Max 20x),
+and is the machine Siti's maker jobs were meant to run on. Likely off outside work hours.
+
+| Part | What it is |
+|---|---|
+| Build | Self-built; no OEM model, so Windows reports the board name |
+| Motherboard | Gigabyte B660M DS3H AX DDR4 (micro-ATX, LGA1700, built-in Wi-Fi) |
+| CPU | Intel Core i5-12400F (12th gen), 6 cores / 12 threads, 2.5 GHz base. The **F** means no integrated GPU |
+| RAM | 16 GB DDR4 — 2 x 8 GB Antec at 2667 MT/s; 15.85 GB usable |
+| GPU | NVIDIA GeForce RTX 3060, **12 GB VRAM**, driver 32.0.16.1656 |
+| Storage | One drive: AX3600 512GB NVMe SSD (476.9 GiB) |
+| OS | Windows 11 Pro, 10.0.26200 build 26200 (25H2) |
+
+Two traps when reading this spec again:
+
+- `Win32_VideoController.AdapterRAM` is a 32-bit field, so it reported ~4 GB for a
+  12 GB card. Use `nvidia-smi --query-gpu=memory.total` for the real VRAM.
+- This WSL instance has **Windows PATH interop disabled**, so `powershell.exe` is not
+  found by bare name. Call it at
+  `/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe`. (Turning it on
+  would be `appendWindowsPath` in `/etc/wsl.conf` — not changed.)
+
+What it means in practice: 12 GB of VRAM is comfortable for Blender Cycles GPU
+rendering and for local models up to roughly a 13B at 4-bit, but 16 GB of system RAM
+is the tighter limit for heavy scenes and for WSL running alongside Windows.
+
+## Subscribed services
+| Service | Plan | Cost/month | Used for |
+|---|---|---|---|
+| Sketchfab | free (basic) | — | 3D asset library, via the `sketchfab` CLI |
+| Meshy AI | — | — | Text/image to 3D model generation. Key in `MESHY_API_KEY` |
+| Aseprite | owned (Steam) | — | 2D pixel art. Scriptable headless via its Lua API — see below |
+| Freesound | free | — | 700k+ Creative Commons sound library, via the `sfx` CLI |
+| ElevenLabs | **none — not subscribed** | — | Luqman said on 2026-09-10 he has no subscription and cannot pay for one, and the key is absent from `.env` (confirmed 2026-09-17, API returns 401). Do not propose ElevenLabs audio or `sfx make`; use Freesound, Kenney packs or macOS `say`. |
+| Kenney | free, no account | — | CC0 sound packs, via `sfx packs` / `sfx pack` |
+| Texturelabs | free, no account | — | 2,035 surface textures in 18 categories, via the `texturelabs` CLI. Free for commercial use, no credit required, but **not redistributable and not to be shipped inside a 3D model file** — see `projects/boneka/06-decisions.md` D-019/D-020 |
+| Lospec | free, no account | — | Thousands of hand-made colour palettes, fetched by name. Used by boneka |
+| Roblox Studio | free | — | Game engine, `/Applications/RobloxStudio.app` (v0.738.0). Ships an official MCP server — see below |
+| Phaser | free account, **0 credits** | — | HTML5 2D game framework. The engine itself is free npm. The *Game Agent* MCP is credit-billed and currently has no access — see below |
+
+## API access available
+Keys live in `~/.claude/.env` (chmod 600). Names only here — never values.
+
+| Service | Env var | Notes |
+|---|---|---|
+| Meshy AI | `MESHY_API_KEY` | `https://api.meshy.ai/openapi/v1/...`, Bearer auth. Balance checked 2026-09-08: 1300 credits |
+| Sketchfab | `SKETCHFAB_API_TOKEN` | Used by the `sketchfab` CLI |
+| Freesound | `FREESOUND_API_KEY`, `FREESOUND_CLIENT_ID` | Both from one application at `freesound.org/apiv2/apply`. The API key doubles as the OAuth client secret. Token auth gives search plus 128k mp3 previews; original WAVs need the one-time `sfx auth` login, which caches a refresh token in `~/.claude/.freesound-token.json` |
+| ElevenLabs | `ELEVENLABS_API_KEY` | **The key is not in `~/.claude/.env`** — checked 2026-09-17, the API returns 401 `needs_authorization`. Anything planning to use it must add the key first or fall back. `POST https://api.elevenlabs.io/v1/sound-generation`, `xi-api-key` header. The free tier grants no commercial rights, so a paid plan is required for anything we might sell |
+
+## Known gaps in local tools
+
+- **Godot will not import a 24-bit WAV.** Freesound originals are often 24-bit, and the
+  `sfx` tool saves them as downloaded, so the import fails with "Format not supported for
+  WAVE file (not PCM)" and the game loads nothing. Convert each one and load the
+  conversion: `ffmpeg -y -i original.wav -acodec pcm_s16le -ar 44100 shutter.wav`. Keep the
+  originals for provenance and drop a `.gdignore` in their folder so Godot stops trying.
+  Found in `snapshot`, 2026-09-17.
+- **Godot's `class_name` globals need `--import` after editing scripts from outside the
+  editor.** The list lives in `.godot/global_script_class_cache.cfg`, and until it is
+  rebuilt every `class_name` fails with "Could not find type X in the current scope" -
+  which reads like a syntax error and is not one. Run
+  `Godot --headless --path . --import` once after creating script files with anything
+  other than the editor. Found in `snapshot`, 2026-09-17.
+- **ffmpeg has no `drawtext` and no `subtitles` filter.** The Homebrew build (9.0.1) was compiled
+  without libfreetype and libass, so text cannot be burned in by a filter at all. Check with
+  `ffmpeg -filters | grep drawtext` before planning on it. The way round it is to draw frames with
+  PIL and pipe raw RGB24 into ffmpeg, which only encodes — see `projects/shorts-factory/04-methods.md`.
+
+## Tried & abandoned
+| Tool | When | Why we stopped |
+|---|---|---|
+| Pixabay audio | 2026-09-09 | Their API exposes images and video endpoints only. The 130k sound effects on the website are not reachable programmatically, so it cannot be automated |
+| Jamendo | 2026-09-09 | Free downloads are licensed for personal use only, which is unsafe for a game that might be sold |
+
+## Local tools Claude can drive
+
+| Tool | How | Notes |
+|---|---|---|
+| `sfx` | `sfx search "whistle" --max-sec 2` · `sfx get <id>` · `sfx make "wooden bat hit" -d 1.5 --wav` · `sfx packs` · `sfx pack ui-audio` | At `~/.local/bin/sfx`. One tool over Freesound, ElevenLabs and Kenney. Defaults to CC0 only; `--any-license` widens it to CC-BY. Saves into `<project>/assets/audio/` when run inside a Godot project, and appends every file to a `SOURCES.md` so provenance and licence are always traceable. |
+| `rojo` | `rojo init` · `rojo build -o game.rbxlx` · `rojo serve` | v7.7.0. Keeps a Roblox game as Luau files on disk so it lives in git, and live-syncs into Studio through the Rojo Studio plugin. `rojo build` produces a place file with Studio closed. |
+| `lune` | `lune run script.luau` | v0.10.5. Standalone Luau runtime — lets Claude execute and test Luau logic without opening Studio. |
+| `stylua` / `selene` | `stylua src/` · `selene src/` | v2.5.2 / v0.31.0. Luau formatter and linter. |
+| `wally` | `wally install` | v0.3.2. Roblox package manager. |
+| macOS `say` | `say -v Samantha -r 172 --data-format=LEI16@22050 -o line.wav "text"` | Free offline text-to-speech, no key and no quota. `say -v '?'` lists installed voices; only the basic ones are here, and **Premium** voices are a large free quality gain via System Settings → Accessibility → Spoken Content → Manage Voices. It reports no word timings, so render each line to its own file and measure it with `ffprobe` (the pattern used in `shorts-factory`). The format must match the extension — `LEI16` needs `.wav`, not `.aiff`. |
+| `texturelabs` | `texturelabs categories` · `texturelabs search wood` · `texturelabs pick metal -n 3` · `texturelabs get metal_167` · `texturelabs sync` | At `~/.local/bin/texturelabs`. Surface textures from texturelabs.org — no key, no account. Downloads land in `<project>/assets/texturelabs/` inside a project, and every file is recorded in a `SOURCES.md` beside it with the licence line. Only the "S" size is served publicly, and it is 1920 px despite the site calling it small. **Never commit the files** |
+| Phaser API reference | `grep -n 'setVelocity' ~/Documents/dev/tools/phaser-api/node_modules/phaser/types/phaser.d.ts` | Phaser 4.2.1 installed as a plain npm package purely so the full typed API is readable offline. It is a reference copy, not a project — a real Phaser game gets its own `npm install phaser` in its own folder. |
+| Codex CLI | `codex` in a project folder · `codex exec "task"` for one-shot, non-interactive runs | OpenAI's terminal coding agent, v0.155.0 (checked 2026-09-18; the latest release then). A standalone build at `~/.local/bin/codex` (symlink into `~/.codex/packages/standalone/`), not via npm or Homebrew. Signed in with Luqman's ChatGPT account, so usage counts against that plan rather than an API key. `codex login status` checks the sign-in. **Set up like Claude Code on 2026-09-19:** runs with no prompts and no sandbox (`approval_policy = "never"`, `sandbox_mode = "danger-full-access"` in `~/.codex/config.toml`), with Claude's deny list (sudo, rm -rf, git reset --hard, git clean, force-push) blocked in `~/.codex/rules/default.rules`. `~/.codex/.env` is a symlink to `~/.claude/.env`, so there is one key file. `~/.codex/AGENTS.md` is generated by `codex-sync` from `~/.claude/CLAUDE.md` plus the Claude memory files, and refreshed on every Codex start. `~/.codex/hooks.json` runs the Sky AI Brain recall on start and the portfolio-sync reminder after edits. The same MCP servers (godot, phaser-game-agent — Phaser's token is `PHASER_MCP_TOKEN` in the .env) and the docx/pdf/pptx/xlsx skills. Old config backed up in `~/Documents/dev/backups/codex-2026-09-19/`. |
+| Aseprite | `"$HOME/Library/Application Support/Steam/steamapps/common/Aseprite/Aseprite.app/Contents/MacOS/aseprite" -b --script x.lua` | v1.3.18.3-arm64, installed via Steam (not `/Applications`). Full Lua API: sprites, layers, frames, tags, palettes. Export sheets with `--sheet` + `--data --format json-array`; preview with `--scale 8`. Claude reads the exported PNG back to check its own work. |
+
+## Game engines and their MCP servers
+
+| Engine | MCP server | What Claude can do | Limit |
+|---|---|---|---|
+| Godot | `godot-mcp` at `~/Documents/dev/tools/godot-mcp`, configured in `~/.claude.json` and `~/.codex/config.toml` | Create scenes, add nodes, save, run the project, read debug output | Cannot see the game |
+| Roblox Studio | Official, built into Studio — Assistant Settings → MCP Servers → *Enable Studio as MCP server* | Create objects, set properties, write script sources, execute Luau, read the data model | Studio must stay open; cannot see the game |
+| Phaser | `phaser-game-agent`, remote HTTP at `https://mcp.phaser.io/agent/mcp`, configured in `~/.claude.json` and `~/.codex/config.toml` (installed 2026-09-17) | Opens a sandbox project and builds a playable HTML5 game, including generated art and audio | **Costs money.** ~500 credits for a typical game build, billed per-minute of sandbox time plus generation. Account balance is 0, so `status` reports `access: NO` until credits are bought at <https://phaser.io/credits> |
+
+The structural difference is that a Godot project is text on disk (`.tscn`, `.gd`),
+so it can be built with the editor closed and committed to git as-is. A Roblox
+project is a live Studio session or a binary `.rbxl`. Rojo closes that gap by
+keeping the Luau on disk and syncing it in.
+
+In both cases Claude is blind to how the game looks and feels. Luqman plays it and
+reports back — that is the loop.
+
+exec
+/bin/zsh -lc "pwd && rg --files -g 'AGENTS.md' -g '"'!node_modules'"' -g '"'!vendor'"' -g '"'!'"\\.git' | head -40" in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+/Users/juslangit/Desktop/project/game/royal-potter
+
+exec
+/bin/zsh -lc 'cat /Users/juslangit/.codex/skills/.system/imagegen/SKILL.md' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, ask built-in `image_gen` for a transparent background and preserve the generated alpha channel.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Ask built-in `image_gen` for a genuinely transparent background and preserve its alpha.
+
+## Prompt augmentation
+
+Reformat user prompts into a structured, production-oriented spec. Make the user's goal clearer and more actionable, but do not blindly add detail.
+
+Treat this as prompt-shaping guidance, not a closed schema. Use only the lines that help, and add a short extra labeled line when it materially improves clarity.
+
+### Specificity policy
+
+Use the user's prompt specificity to decide how much augmentation is appropriate:
+
+- If the prompt is already specific and detailed, preserve that specificity and only normalize/structure it.
+- If the prompt is generic, you may add tasteful augmentation when it will materially improve the result.
+
+Allowed augmentations:
+- composition or framing hints
+- polish level or intended-use hints
+- practical layout guidance
+- reasonable scene concreteness that supports the stated request
+
+Not allowed augmentations:
+- extra characters or objects that are not implied by the request
+- brand names, slogans, palettes, or narrative beats that are not implied
+- arbitrary side-specific placement unless the surrounding layout supports it
+
+## Use-case taxonomy (exact slugs)
+
+Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+
+Generate:
+- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup — product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram — diagrams/infographics with structured layout and text.
+- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
+- logo-brand — logo/mark exploration, vector-friendly.
+- illustration-story — comics, children’s book art, narrative scenes.
+- stylized-concept — style-driven concept art, 3D/stylized renders.
+- historical-scene — period-accurate/world-knowledge scenes.
+
+Edit:
+- text-localization — translate/replace in-image text, preserve layout.
+- identity-preserve — try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit — remove/replace a specific element (including interior swaps).
+- lighting-weather — time-of-day/season/atmosphere changes only.
+- background-extraction — transparent background / clean cutout. Ask built-in `image_gen` for actual transparency.
+- style-transfer — apply reference style while changing subject/scene.
+- compositing — multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render — drawing/line art to photoreal render.
+
+## Shared prompt schema
+
+Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+
+```text
+Use case: <taxonomy slug>
+Asset type: <where the asset will be used>
+Primary request: <user's main prompt>
+Input images: <Image 1: role; Image 2: role> (optional)
+Scene/backdrop: <environment>
+Subject: <main subject>
+Style/medium: <photo/illustration/3D/etc>
+Composition/framing: <wide/close/top-down; placement>
+Lighting/mood: <lighting + mood>
+Color palette: <palette notes>
+Materials/textures: <surface details>
+Text (verbatim): "<exact text>"
+Constraints: <must keep/must avoid>
+Avoid: <negative constraints>
+```
+
+Notes:
+- `Asset type` and `Input images` are prompt scaffolding, not dedicated CLI flags.
+- `Scene/backdrop` refers to the visual setting. It is not the same as the fallback CLI `background` parameter, which controls output transparency behavior.
+- Fallback-only execution notes such as `Quality:`, `Input fidelity:`, masks, output format, and output paths belong in the CLI path only. Do not treat them as built-in `image_gen` tool arguments.
+
+Augmentation rules:
+- Keep it short.
+- Add only the details needed to improve the prompt materially.
+- For edits, explicitly list invariants (`change only X; keep Y unchanged`).
+- If any critical detail is missing and blocks success, ask a question; otherwise proceed.
+
+## Examples
+
+### Generation example (hero image)
+```text
+Use case: product-mockup
+Asset type: landing page hero
+Primary request: a minimal hero image of a ceramic coffee mug
+Style/medium: clean product photography
+Composition/framing: wide composition with usable negative space for page copy if needed
+Lighting/mood: soft studio lighting
+Constraints: no logos, no text, no watermark
+```
+
+### Edit example (invariants)
+```text
+Use case: precise-object-edit
+Asset type: product photo background replacement
+Primary request: replace only the background with a warm sunset gradient
+Constraints: change only the background; keep the product and its edges unchanged; no text; no watermark
+```
+
+## Prompting best practices
+- Structure prompt as scene/backdrop -> subject -> details -> constraints.
+- Include intended use (ad, UI mock, infographic) to set the mode and polish level.
+- Use camera/composition language for photorealism.
+- Only use SVG/vector stand-ins when the user explicitly asked for vector output or a non-image placeholder.
+- Quote exact text and specify typography + placement.
+- For tricky words, spell them letter-by-letter and require verbatim rendering.
+- For multi-image inputs, reference images by index and describe how they should be used.
+- For edits, repeat invariants every iteration to reduce drift.
+- Iterate with single-change follow-ups.
+- If the prompt is generic, add only the extra detail that will materially help.
+- If the prompt is already detailed, normalize it instead of expanding it.
+- For CLI fallback only, see `references/cli.md` and `references/image-api.md` for model, `quality`, `input_fidelity`, masks, output format, and output-path guidance.
+- For transparent images, ask built-in `image_gen` for actual transparency and preserve its alpha.
+
+More principles shared by both modes: `references/prompting.md`.
+Copy/paste specs shared by both modes: `references/sample-prompts.md`.
+
+## Guidance by asset type
+Asset-type templates (website assets, game assets, wireframes, logo) are consolidated in `references/sample-prompts.md`.
+
+## gpt-image-2 guidance for CLI fallback
+
+The fallback CLI defaults to `gpt-image-2`.
+
+- Use `gpt-image-2` for new CLI/API workflows unless the user confirms a different model.
+- CLI `gpt-image-2` does not support `background=transparent`; ask before using `gpt-image-1.5` unless the user explicitly requested that model.
+- `gpt-image-2` always uses high fidelity for image inputs; do not set `input_fidelity` with this model.
+- `gpt-image-2` supports `quality` values `low`, `medium`, `high`, and `auto`.
+- Use `quality low` for fast drafts, thumbnails, and quick iterations. Use `medium`, `high`, or `auto` for final assets, dense text, diagrams, identity-sensitive edits, or high-resolution outputs.
+- Square images are typically fastest to generate. Use `1024x1024` for fast square drafts.
+- If the user asks for 4K-style output, use `3840x2160` for landscape or `2160x3840` for portrait.
+- `gpt-image-2` size may be `auto` or `WIDTHxHEIGHT` if all constraints hold: max edge `<= 3840px`, both edges multiples of `16px`, long-to-short ratio `<= 3:1`, total pixels between `655,360` and `8,294,400`.
+
+Popular `gpt-image-2` sizes:
+- `1024x1024` square
+- `1536x1024` landscape
+- `1024x1536` portrait
+- `2048x2048` 2K square
+- `2048x1152` 2K landscape
+- `3840x2160` 4K landscape
+- `2160x3840` 4K portrait
+- `auto`
+
+## Fallback CLI mode only
+
+### Temp and output conventions
+These conventions apply only to the CLI fallback. They do not describe built-in `image_gen` output behavior.
+- Use `tmp/imagegen/` for intermediate files (for example JSONL batches); delete them when done.
+- Write final artifacts under `output/imagegen/`.
+- Use `--out` or `--out-dir` to control output paths; keep filenames stable and descriptive.
+
+### Dependencies
+Prefer `uv` for dependency management in this repo.
+
+Required Python package:
+```bash
+uv pip install openai
+```
+
+Optional for image inspection and downscaling:
+```bash
+uv pip install pillow
+```
+
+Portability note:
+- If you are using the installed skill outside this repo, install dependencies into that environment with its package manager.
+- In uv-managed environments, `uv pip install ...` remains the preferred path.
+
+### Environment
+- `OPENAI_API_KEY` must be set for live API calls.
+- Do not ask the user for `OPENAI_API_KEY` when using the built-in `image_gen` tool.
+- Never ask the user to paste the full key in chat. Ask them to set it locally and confirm when ready.
+
+If the key is missing, give the user these steps:
+1. Create an API key in the OpenAI platform UI: https://platform.openai.com/api-keys
+2. Set `OPENAI_API_KEY` as an environment variable in their system.
+3. Offer to guide them through setting the environment variable for their OS/shell if needed.
+
+If installation is not possible in this environment, tell the user which dependency is missing and how to install it into their active environment.
+
+### Script-mode notes
+- CLI commands + examples: `references/cli.md`
+- API parameter quick reference: `references/image-api.md`
+- Network approvals / sandbox settings for CLI mode: `references/codex-network.md`
+
+## Reference map
+- `references/prompting.md`: shared prompting principles for both modes.
+- `references/sample-prompts.md`: shared copy/paste prompt recipes for both modes.
+- `references/cli.md`: fallback-only CLI usage via `scripts/image_gen.py`.
+- `references/image-api.md`: fallback-only API/CLI parameter reference.
+- `references/codex-network.md`: fallback-only network/sandbox troubleshooting for CLI mode.
+- `scripts/image_gen.py`: fallback-only CLI implementation. Use only when the user explicitly chooses or confirms CLI mode.
+
+exec
+/bin/zsh -lc 'cat ~/.claude/knowledge/projects/royal-potter/00-overview.md && rg --files ~/.claude/knowledge/projects/royal-potter && rg --files art tools . | head -100' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+---
+project: royal-potter
+status: idea | planning | building | testing | live | paused | archived
+owner: luqmanhakeem@todak.com
+started: 2026-09-28
+updated: 2026-09-28
+tags: []
+---
+
+# royal-potter — Overview
+
+> One paragraph: what this project is, who it's for, and why it exists.
+
+## Quick summary
+
+| Item | Value |
+|---|---|
+| Status | |
+| Current phase | |
+| Deadline / target | |
+| Repo | |
+| URL / deployment | |
+| Main stack | |
+
+## Why this project exists
+<!-- The real problem being solved. Not the solution — the problem. -->
+
+## What counts as "done"
+<!-- Definition of done at the project level. If you can't write it, the scope isn't clear yet. -->
+
+## What is NOT in scope
+<!-- Just as important. This is what holds off scope creep. -->
+
+## Map of files in this folder
+- `01-idea.md` — the original idea, alternatives considered
+- `02-planning.md` — scope, phases, requirements, stack
+- `03-milestones.md` — milestones & progress
+- `04-methods.md` — how to work on this, patterns, commands
+- `05-relations.md` — relationships between components/people/systems
+- `06-decisions.md` — decision log (why A over B)
+- `07-references.md` — links, documentation, references
+- `log/` — daily / per-session notes
+/Users/juslangit/.claude/knowledge/projects/royal-potter/02-planning.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/06-decisions.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/log/_TEMPLATE.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/04-methods.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/01-idea.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/03-milestones.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/07-references.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/05-relations.md
+/Users/juslangit/.claude/knowledge/projects/royal-potter/00-overview.md
+rg: tools: No such file or directory (os error 2)
+./art/concept/codex-01.log
+./art/concept/BRIEF-01-style.md
+art/concept/BRIEF-01-style.md
+art/concept/codex-01.log
+
+codex
+I’m using the imagegen skill for the key art. I’ll make the wheel and wet clay tower the foreground focus, with the glazed pottery castle behind them, then draw the palette and style rules from the finished image.
+
+exec
+/bin/zsh -lc 'cat ~/.claude/knowledge/projects/royal-potter/00-overview.md ~/.claude/knowledge/projects/royal-potter/01-idea.md ~/.claude/knowledge/projects/royal-potter/02-planning.md ~/.claude/knowledge/projects/royal-potter/06-decisions.md' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+---
+project: royal-potter
+status: idea | planning | building | testing | live | paused | archived
+owner: luqmanhakeem@todak.com
+started: 2026-09-28
+updated: 2026-09-28
+tags: []
+---
+
+# royal-potter — Overview
+
+> One paragraph: what this project is, who it's for, and why it exists.
+
+## Quick summary
+
+| Item | Value |
+|---|---|
+| Status | |
+| Current phase | |
+| Deadline / target | |
+| Repo | |
+| URL / deployment | |
+| Main stack | |
+
+## Why this project exists
+<!-- The real problem being solved. Not the solution — the problem. -->
+
+## What counts as "done"
+<!-- Definition of done at the project level. If you can't write it, the scope isn't clear yet. -->
+
+## What is NOT in scope
+<!-- Just as important. This is what holds off scope creep. -->
+
+## Map of files in this folder
+- `01-idea.md` — the original idea, alternatives considered
+- `02-planning.md` — scope, phases, requirements, stack
+- `03-milestones.md` — milestones & progress
+- `04-methods.md` — how to work on this, patterns, commands
+- `05-relations.md` — relationships between components/people/systems
+- `06-decisions.md` — decision log (why A over B)
+- `07-references.md` — links, documentation, references
+- `log/` — daily / per-session notes
+---
+doc: idea
+project: royal-potter
+updated: 2026-09-28
+---
+
+# Idea
+
+## Problem
+<!-- Who hurts, how they hurt, and what they do about it today. -->
+
+## Proposed solution
+<!-- The core idea in 3-5 sentences. -->
+
+## Target users
+| Segment | Need | Why they'd pick us |
+|---|---|---|
+| | | |
+
+## Value / advantage
+- 
+
+## Assumptions to validate
+<!-- For each assumption: how to test it, and when. This is usually why projects fail. -->
+| Assumption | How to test | Status |
+|---|---|---|
+| | | untested |
+
+## Alternatives considered
+| Option | Pros | Cons | Verdict |
+|---|---|---|---|
+| | | | rejected / parked |
+
+## Side ideas (parking lot)
+<!-- Good ideas, but not now. Don't throw them away, keep them here. -->
+- 
+---
+doc: planning
+project: royal-potter
+updated: 2026-09-28
+---
+
+# Planning
+
+## Scope
+### Must have (MVP)
+- [ ] 
+
+### Nice to have (v2)
+- [ ] 
+
+### Won't build
+- 
+
+## Phases
+| Phase | Goal | Output | Estimate |
+|---|---|---|---|
+| 1 | | | |
+| 2 | | | |
+
+## Stack & tooling
+| Layer | Choice | Reason |
+|---|---|---|
+| Frontend | | |
+| Backend | | |
+| Database | | |
+| Hosting | | |
+| Auth | | |
+| Other | | |
+
+## Requirements
+### Functional
+- 
+
+### Non-functional
+<!-- Performance, security, scale, uptime, cost. -->
+- 
+
+## Risks
+| Risk | Impact | Likelihood | Mitigation |
+|---|---|---|---|
+| | high/medium/low | | |
+
+## Resources needed
+<!-- People, budget, access, API keys (name only — values live in ~/.claude/.env). -->
+- 
+---
+doc: decisions
+project: royal-potter
+updated: 2026-09-28
+---
+
+# Decision Log
+
+> One decision = one entry. Never delete old entries — mark them `Superseded by D-00X`.
+> The point of this file: six months from now you'll ask "why did I do it this way?" — the answer is here.
+
+---
+
+## D-001 — <decision title>
+- **Date:** 2026-09-28
+- **Status:** active | superseded | reversed
+- **Context:** <what situation forced this decision>
+- **Options considered:**
+  | Option | Pros | Cons |
+  |---|---|---|
+  | A | | |
+  | B | | |
+- **Decision:** <what was chosen>
+- **Reason:** <why, in clear sentences>
+- **Consequences / trade-offs:** <what we gave up>
+- **Reversible?** easily / with difficulty / no
+
+---
+
+exec
+/bin/zsh -lc 'sips -g pixelWidth -g pixelHeight /Users/juslangit/.codex/generated_images/01a0e88b-7a39-7892-af93-787c109bfcad/exec-7a496523-d441-4d34-97e7-a3585fcf01f9.png && ls -la' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 51ms:
+/Users/juslangit/.codex/generated_images/01a0e88b-7a39-7892-af93-787c109bfcad/exec-7a496523-d441-4d34-97e7-a3585fcf01f9.png
+  pixelWidth: 941
+  pixelHeight: 1672
+total 32
+drwxr-xr-x  14 juslangit  staff   448 Sep 28 23:05 .
+drwxr-xr-x  17 juslangit  staff   544 Sep 28 23:03 ..
+-rw-r--r--   1 juslangit  staff   223 Sep 28 23:05 .gitignore
+drwxr-xr-x   3 juslangit  staff    96 Sep 28 23:04 art
+drwxr-xr-x   3 juslangit  staff    96 Sep 28 23:05 assets
+drwxr-xr-x   2 juslangit  staff    64 Sep 28 23:05 build
+drwxr-xr-x   2 juslangit  staff    64 Sep 28 23:05 docs
+-rw-r--r--   1 juslangit  staff   820 Sep 28 23:05 export_presets.cfg
+-rw-r--r--   1 juslangit  staff   258 Sep 28 23:05 icon.svg
+-rw-r--r--   1 juslangit  staff  1048 Sep 28 23:05 project.godot
+drwxr-xr-x   2 juslangit  staff    64 Sep 28 23:05 scenes
+drwxr-xr-x   5 juslangit  staff   160 Sep 28 23:05 scripts
+drwxr-xr-x   2 juslangit  staff    64 Sep 28 23:05 shaders
+drwxr-xr-x   5 juslangit  staff   160 Sep 28 23:05 tools
+
+exec
+/bin/zsh -lc 'cp /Users/juslangit/.codex/generated_images/01a0e88b-7a39-7892-af93-787c109bfcad/exec-7a496523-d441-4d34-97e7-a3585fcf01f9.png art/concept/key-art.png && sips -z 1920 1080 art/concept/key-art.png' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 171ms:
+/Users/juslangit/Desktop/project/game/royal-potter/art/concept/key-art.png
+  /Users/juslangit/Desktop/project/game/royal-potter/art/concept/key-art.png
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image
+from collections import Counter
+im=Image.open('art/concept/key-art.png').convert('RGB')
+points={'terracotta':(.46,.65),'cream':(.56,.285),'wood':(.11,.90),'sage':(.39,.325),'sky':(.50,.035),'gold':(.123,.435),'rose':(.18,.55),'outline':(.488,.895)}
+for name,(u,v) in points.items():
+ x,y=int(u*im.width),int(v*im.height)
+ rgb=Counter(im.crop((x-3,y-3,x+4,y+4)).getdata()).most_common(1)[0][0]
+ print(name,(x,y),'#%02X%02X%02X'%rgb)
+print('dark pixel nearest locked outline',min(Counter(im.getdata()),key=lambda c:sum((a-b)**2 for a,b in zip(c,(42,36,32)))))
+PY" in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 574ms:
+terracotta (496, 1248) #AD5C37
+cream (604, 547) #C0A28F
+wood (118, 1728) #5F381C
+sage (421, 624) #959B68
+sky (540, 67) #7BA2DA
+gold (132, 835) #FBB421
+rose (194, 1056) #F0A07B
+outline (527, 1718) #D38A4E
+dark pixel nearest locked outline (42, 36, 33)
+
+codex
+The key art is generated and saved at 1080×1920. I’m now sampling its colours and writing the matching asset rules and ten name options, with three favourites marked.
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image
+im=Image.open('art/concept/key-art.png').convert('RGB')
+for name,points in {'cream':[(.56,.18),(.57,.20),(.54,.31)],'wood':[(.15,.085),(.22,.91),(.12,.95)],'rose':[(.175,.22),(.93,.22),(.62,.325)],'gold':[(.12,.42),(.11,.44)]}.items():
+ for u,v in points:
+  x,y=round(u*1080),round(v*1920)
+  print(name,(x,y),'#%02X%02X%02X'%im.getpixel((x,y)))
+PY
+" in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+cream (605, 346) #DDB691
+cream (616, 384) #DDB78D
+cream (583, 595) #C8A389
+wood (162, 163) #5B5B2D
+wood (238, 1747) #60381E
+wood (130, 1824) #422617
+rose (189, 422) #F4D7AD
+rose (1004, 422) #DFA48D
+rose (670, 624) #B2675D
+gold (130, 806) #FB8F1D
+gold (119, 845) #FDE052
+
+exec
+/bin/zsh -lc 'rg --files tools docs && cat .gitignore' in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+tools/serve_phone.sh
+tools/build_web.sh
+# Godot 4 — editor cache and imported assets, all regenerated locally
+.godot/
+
+# Web builds — made by tools/build_web.sh, uploaded to itch.io, never committed
+/build/
+
+# Secrets — never commit
+.env
+
+# macOS
+.DS_Store
+
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from PIL import Image
+im=Image.open('art/concept/key-art.png').convert('RGB')
+regions={'Cream Plaster':((.45,.14,.65,.32),(241,214,174)),'Warm Oak':((.04,.85,.30,.96),(160,104,57)),'Kiln Gold':((.07,.39,.19,.47),(240,177,68))}
+for name,(box,target) in regions.items():
+ box=tuple(int(v*(1080 if i%2==0 else 1920)) for i,v in enumerate(box))
+ crop=im.crop(box); colors=crop.getdata(); idx,rgb=min(enumerate(colors),key=lambda p:sum((a-b)**2 for a,b in zip(p[1],target)))
+ print(name,'#%02X%02X%02X'%rgb,(box[0]+idx%crop.width,box[1]+idx//crop.width))
+PY" in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 132ms:
+Cream Plaster #F0D6AE (691, 304)
+Warm Oak #9F683B (200, 1716)
+Kiln Gold #F2B345 (102, 876)
+
+apply patch
+patch: completed
+/Users/juslangit/Desktop/project/game/royal-potter/art/concept/names.md
+/Users/juslangit/Desktop/project/game/royal-potter/art/concept/palette.md
+/Users/juslangit/Desktop/project/game/royal-potter/art/concept/style-notes.md
+diff --git a/art/concept/names.md b/art/concept/names.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b833be055bb48f6dd74ba3458f23d6ef99b95fc0
+--- /dev/null
++++ b/art/concept/names.md
+@@ -0,0 +1,18 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — ten name candidates
++
++Creative candidates for Luqman's choice; Royal Potter remains the working title.
++
++1. **Kiln & Keep — TOP 3, first choice.** A warm little kiln grows a proud little castle; short, rhythmic and tied to both halves of play.
++2. **Royal Potter — TOP 3.** Clearly names your cosy new job: making towers for a very particular royal household.
++3. **Throw a Throne — TOP 3.** A playful pottery pun that gives the royal commissions a cheeky voice.
++4. **Clay Castle.** A simple, friendly promise: everything in your castle begins as a lump of clay.
++5. **Glaze the Keep.** An inviting command that puts colourful pottery at the heart of castle building.
++6. **Crown & Clay.** Pairs royal grandeur with the humble, messy material in your hands.
++7. **Pottery Kingdom.** Suggests a whole tiny realm growing from the pots you make.
++8. **The Royal Kiln.** Makes the workshop feel like the warmest, busiest corner of the castle.
++9. **Turret Thrower.** Turns a castle tower into a pottery joke, with a little mock-heroic swagger.
++10. **Sploosh Castle.** Celebrates wobbly clay and funny collapses in a kingdom with no game over.
+diff --git a/art/concept/palette.md b/art/concept/palette.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..230310ce2d1acea5d2a96de5c74921b74a948dce
+--- /dev/null
++++ b/art/concept/palette.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — palette
++
++Eight colours drawn from [key-art.png](key-art.png). Samples refer to the final
++1080×1920 image, with coordinates measured from its top-left corner. Use these as
++base colours; lighting supplies the two or three shade bands.
++
++| Colour | Hex | Use in the artwork | Sample (x, y) |
++|---|---|---|---|
++| Potter's Ink | `#2A2420` | Warm dark outlines and deep creases | Locked brief colour; nearest image pixel is `#2A2421` |
++| Wet Terracotta | `#AD5C37` | Unfired tower and clay slip | 496, 1248 |
++| Cream Plaster | `#F0D6AE` | Ceramic walls, tower lips and pale glaze | 691, 304 |
++| Warm Oak | `#9F683B` | Wheel surround and workshop timber | 200, 1716 |
++| Courtyard Sage | `#959B68` | Green glazed watchtower | 421, 624 |
++| Storybook Sky | `#7BA2DA` | Open blue sky above the castle | 540, 67 |
++| Kiln Gold | `#F2B345` | Warm glow inside the kiln | 102, 876 |
++| Royal Rose | `#B2675D` | Castle's dusty rose banner | 670, 624 |
++
++## Six player glaze colours
++
++These reuse the scene palette so any combination belongs in the same castle.
++Their names are the proposed English labels for the glaze picker.
++
++| Glaze | Hex | Character |
++|---|---|---|
++| Cream Crown | `#F0D6AE` | Warm ivory, like the castle walls |
++| Sage Keep | `#959B68` | Gentle green, like the round watchtower |
++| Sky Spire | `#7BA2DA` | Clear blue, echoing the sky and blue dome |
++| Honey Hall | `#F2B345` | Golden yellow, used sparingly for warmth |
++| Rose Turret | `#B2675D` | Muted rose, echoing the royal banners |
++| Terracotta Throne | `#AD5C37` | Earthy red-brown with a fired gloss |
++
++Wet clay always starts as Wet Terracotta. Even when the player chooses Terracotta
++Throne, firing changes its broad wet sheen into small, crisp glaze highlights.
++Keep highlights cream-tinted and preserve visible throwing rings beneath every glaze.
+diff --git a/art/concept/style-notes.md b/art/concept/style-notes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..286a33f101c5206a42c1e2aa87ff4ad93cb8cfe1
+--- /dev/null
++++ b/art/concept/style-notes.md
+@@ -0,0 +1,29 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — asset style rules
++
++Match [key-art.png](key-art.png) and use the base colours in [palette.md](palette.md).
++This is the proposed art reference for Luqman's review.
++
++- **Shape:** Build chunky, lightly faceted volumes; start round tower bodies with 12–16 radial sides and avoid razor-sharp edges.
++- **Silhouette:** Distinguish watchtower, squat keep, turret, onion dome and spire by their outer shape before adding decoration.
++- **Proportion:** Keep most tower bodies 1–2.5 times their diameter in height; exaggerate rims, battlements and roof overhangs for phone readability.
++- **Pottery:** Give every tower 3–6 broad horizontal throwing rings, a thick lip and slight handmade asymmetry; reserve masonry blocks for courtyard and kiln.
++- **Outline:** Use warm dark `#2A2420` contours, about 4–6 pixels on foreground silhouettes at 1080-pixel width, with lighter internal detail.
++- **Shading:** Use flat base colours and only 2–3 hard light bands per material; let polygon facets show without noisy surface textures.
++- **Lighting:** Place one warm sun above the upper left, with gentle warm fill and readable contact shadows beneath props and rims.
++- **Materials:** Give wet clay broad broken streaks of sheen, fired glaze small cream highlight patches, and wood or plaster a matte finish.
++- **Detail:** Limit each tower to a few deep arched windows and one small flag; simplify leaves, tools and wood grain into broad shapes.
++- **Composition:** Work in 9:16 portrait with the wheel in the lower third, the wet tower above it and a clearly separated pottery castle behind.
++
++## Generation record
++
++Created on 2026-09-28 with the built-in image generation tool. The generated PNG
++was copied into this folder and resized from 941×1672 to the brief's exact
++1080×1920 delivery size using macOS `sips`; the composition was preserved.
++The original generated file remains in the tool's generated-images folder.
++
++### Final generation prompt
++
+
+hook: PostToolUse
+hook: PostToolUse Completed
+exec
+/bin/zsh -lc 'python3 tools/docs/build_docs.py --publish' in /Users/juslangit/Desktop/project/game/royal-potter
+ exited 2 in 0ms:
+/Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/Users/juslangit/Desktop/project/game/royal-potter/tools/docs/build_docs.py': [Errno 2] No such file or directory
+
+diff --git a/art/concept/names.md b/art/concept/names.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b833be055bb48f6dd74ba3458f23d6ef99b95fc0
+--- /dev/null
++++ b/art/concept/names.md
+@@ -0,0 +1,18 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — ten name candidates
++
++Creative candidates for Luqman's choice; Royal Potter remains the working title.
++
++1. **Kiln & Keep — TOP 3, first choice.** A warm little kiln grows a proud little castle; short, rhythmic and tied to both halves of play.
++2. **Royal Potter — TOP 3.** Clearly names your cosy new job: making towers for a very particular royal household.
++3. **Throw a Throne — TOP 3.** A playful pottery pun that gives the royal commissions a cheeky voice.
++4. **Clay Castle.** A simple, friendly promise: everything in your castle begins as a lump of clay.
++5. **Glaze the Keep.** An inviting command that puts colourful pottery at the heart of castle building.
++6. **Crown & Clay.** Pairs royal grandeur with the humble, messy material in your hands.
++7. **Pottery Kingdom.** Suggests a whole tiny realm growing from the pots you make.
++8. **The Royal Kiln.** Makes the workshop feel like the warmest, busiest corner of the castle.
++9. **Turret Thrower.** Turns a castle tower into a pottery joke, with a little mock-heroic swagger.
++10. **Sploosh Castle.** Celebrates wobbly clay and funny collapses in a kingdom with no game over.
+diff --git a/art/concept/palette.md b/art/concept/palette.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..230310ce2d1acea5d2a96de5c74921b74a948dce
+--- /dev/null
++++ b/art/concept/palette.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — palette
++
++Eight colours drawn from [key-art.png](key-art.png). Samples refer to the final
++1080×1920 image, with coordinates measured from its top-left corner. Use these as
++base colours; lighting supplies the two or three shade bands.
++
++| Colour | Hex | Use in the artwork | Sample (x, y) |
++|---|---|---|---|
++| Potter's Ink | `#2A2420` | Warm dark outlines and deep creases | Locked brief colour; nearest image pixel is `#2A2421` |
++| Wet Terracotta | `#AD5C37` | Unfired tower and clay slip | 496, 1248 |
++| Cream Plaster | `#F0D6AE` | Ceramic walls, tower lips and pale glaze | 691, 304 |
++| Warm Oak | `#9F683B` | Wheel surround and workshop timber | 200, 1716 |
++| Courtyard Sage | `#959B68` | Green glazed watchtower | 421, 624 |
++| Storybook Sky | `#7BA2DA` | Open blue sky above the castle | 540, 67 |
++| Kiln Gold | `#F2B345` | Warm glow inside the kiln | 102, 876 |
++| Royal Rose | `#B2675D` | Castle's dusty rose banner | 670, 624 |
++
++## Six player glaze colours
++
++These reuse the scene palette so any combination belongs in the same castle.
++Their names are the proposed English labels for the glaze picker.
++
++| Glaze | Hex | Character |
++|---|---|---|
++| Cream Crown | `#F0D6AE` | Warm ivory, like the castle walls |
++| Sage Keep | `#959B68` | Gentle green, like the round watchtower |
++| Sky Spire | `#7BA2DA` | Clear blue, echoing the sky and blue dome |
++| Honey Hall | `#F2B345` | Golden yellow, used sparingly for warmth |
++| Rose Turret | `#B2675D` | Muted rose, echoing the royal banners |
++| Terracotta Throne | `#AD5C37` | Earthy red-brown with a fired gloss |
++
++Wet clay always starts as Wet Terracotta. Even when the player chooses Terracotta
++Throne, firing changes its broad wet sheen into small, crisp glaze highlights.
++Keep highlights cream-tinted and preserve visible throwing rings beneath every glaze.
+diff --git a/art/concept/style-notes.md b/art/concept/style-notes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..286a33f101c5206a42c1e2aa87ff4ad93cb8cfe1
+--- /dev/null
++++ b/art/concept/style-notes.md
+@@ -0,0 +1,29 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — asset style rules
++
++Match [key-art.png](key-art.png) and use the base colours in [palette.md](palette.md).
++This is the proposed art reference for Luqman's review.
++
++- **Shape:** Build chunky, lightly faceted volumes; start round tower bodies with 12–16 radial sides and avoid razor-sharp edges.
++- **Silhouette:** Distinguish watchtower, squat keep, turret, onion dome and spire by their outer shape before adding decoration.
++- **Proportion:** Keep most tower bodies 1–2.5 times their diameter in height; exaggerate rims, battlements and roof overhangs for phone readability.
++- **Pottery:** Give every tower 3–6 broad horizontal throwing rings, a thick lip and slight handmade asymmetry; reserve masonry blocks for courtyard and kiln.
++- **Outline:** Use warm dark `#2A2420` contours, about 4–6 pixels on foreground silhouettes at 1080-pixel width, with lighter internal detail.
++- **Shading:** Use flat base colours and only 2–3 hard light bands per material; let polygon facets show without noisy surface textures.
++- **Lighting:** Place one warm sun above the upper left, with gentle warm fill and readable contact shadows beneath props and rims.
++- **Materials:** Give wet clay broad broken streaks of sheen, fired glaze small cream highlight patches, and wood or plaster a matte finish.
++- **Detail:** Limit each tower to a few deep arched windows and one small flag; simplify leaves, tools and wood grain into broad shapes.
++- **Composition:** Work in 9:16 portrait with the wheel in the lower third, the wet tower above it and a clearly separated pottery castle behind.
++
++## Generation record
++
++Created on 2026-09-28 with the built-in image generation tool. The generated PNG
++was copied into this folder and resized from 941×1672 to the brief's exact
++1080×1920 delivery size using macOS `sips`; the composition was preserved.
++The original generated file remains in the tool's generated-images folder.
++
++### Final generation prompt
++
+
+apply patch
+patch: completed
+/Users/juslangit/Desktop/project/game/royal-potter/art/concept/style-notes.md
+diff --git a/art/concept/names.md b/art/concept/names.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b833be055bb48f6dd74ba3458f23d6ef99b95fc0
+--- /dev/null
++++ b/art/concept/names.md
+@@ -0,0 +1,18 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — ten name candidates
++
++Creative candidates for Luqman's choice; Royal Potter remains the working title.
++
++1. **Kiln & Keep — TOP 3, first choice.** A warm little kiln grows a proud little castle; short, rhythmic and tied to both halves of play.
++2. **Royal Potter — TOP 3.** Clearly names your cosy new job: making towers for a very particular royal household.
++3. **Throw a Throne — TOP 3.** A playful pottery pun that gives the royal commissions a cheeky voice.
++4. **Clay Castle.** A simple, friendly promise: everything in your castle begins as a lump of clay.
++5. **Glaze the Keep.** An inviting command that puts colourful pottery at the heart of castle building.
++6. **Crown & Clay.** Pairs royal grandeur with the humble, messy material in your hands.
++7. **Pottery Kingdom.** Suggests a whole tiny realm growing from the pots you make.
++8. **The Royal Kiln.** Makes the workshop feel like the warmest, busiest corner of the castle.
++9. **Turret Thrower.** Turns a castle tower into a pottery joke, with a little mock-heroic swagger.
++10. **Sploosh Castle.** Celebrates wobbly clay and funny collapses in a kingdom with no game over.
+diff --git a/art/concept/palette.md b/art/concept/palette.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..230310ce2d1acea5d2a96de5c74921b74a948dce
+--- /dev/null
++++ b/art/concept/palette.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — palette
++
++Eight colours drawn from [key-art.png](key-art.png). Samples refer to the final
++1080×1920 image, with coordinates measured from its top-left corner. Use these as
++base colours; lighting supplies the two or three shade bands.
++
++| Colour | Hex | Use in the artwork | Sample (x, y) |
++|---|---|---|---|
++| Potter's Ink | `#2A2420` | Warm dark outlines and deep creases | Locked brief colour; nearest image pixel is `#2A2421` |
++| Wet Terracotta | `#AD5C37` | Unfired tower and clay slip | 496, 1248 |
++| Cream Plaster | `#F0D6AE` | Ceramic walls, tower lips and pale glaze | 691, 304 |
++| Warm Oak | `#9F683B` | Wheel surround and workshop timber | 200, 1716 |
++| Courtyard Sage | `#959B68` | Green glazed watchtower | 421, 624 |
++| Storybook Sky | `#7BA2DA` | Open blue sky above the castle | 540, 67 |
++| Kiln Gold | `#F2B345` | Warm glow inside the kiln | 102, 876 |
++| Royal Rose | `#B2675D` | Castle's dusty rose banner | 670, 624 |
++
++## Six player glaze colours
++
++These reuse the scene palette so any combination belongs in the same castle.
++Their names are the proposed English labels for the glaze picker.
++
++| Glaze | Hex | Character |
++|---|---|---|
++| Cream Crown | `#F0D6AE` | Warm ivory, like the castle walls |
++| Sage Keep | `#959B68` | Gentle green, like the round watchtower |
++| Sky Spire | `#7BA2DA` | Clear blue, echoing the sky and blue dome |
++| Honey Hall | `#F2B345` | Golden yellow, used sparingly for warmth |
++| Rose Turret | `#B2675D` | Muted rose, echoing the royal banners |
++| Terracotta Throne | `#AD5C37` | Earthy red-brown with a fired gloss |
++
++Wet clay always starts as Wet Terracotta. Even when the player chooses Terracotta
++Throne, firing changes its broad wet sheen into small, crisp glaze highlights.
++Keep highlights cream-tinted and preserve visible throwing rings beneath every glaze.
+diff --git a/art/concept/style-notes.md b/art/concept/style-notes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2a9ef099dc1249434ebc3030a53cb05747aaa2af
+--- /dev/null
++++ b/art/concept/style-notes.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — asset style rules
++
++Match [key-art.png](key-art.png) and use the base colours in [palette.md](palette.md).
++This is the proposed art reference for Luqman's review.
++
++- **Shape:** Build chunky, lightly faceted volumes; start round tower bodies with 12–16 radial sides and avoid razor-sharp edges.
++- **Silhouette:** Distinguish watchtower, squat keep, turret, onion dome and spire by their outer shape before adding decoration.
++- **Proportion:** Keep most tower bodies 1–2.5 times their diameter in height; exaggerate rims, battlements and roof overhangs for phone readability.
++- **Pottery:** Give every tower 3–6 broad horizontal throwing rings, a thick lip and slight handmade asymmetry; reserve masonry blocks for courtyard and kiln.
++- **Outline:** Use warm dark `#2A2420` contours, about 4–6 pixels on foreground silhouettes at 1080-pixel width, with lighter internal detail.
++- **Shading:** Use flat base colours and only 2–3 hard light bands per material; let polygon facets show without noisy surface textures.
++- **Lighting:** Place one warm sun above the upper left, with gentle warm fill and readable contact shadows beneath props and rims.
++- **Materials:** Give wet clay broad broken streaks of sheen, fired glaze small cream highlight patches, and wood or plaster a matte finish.
++- **Detail:** Limit each tower to a few deep arched windows and one small flag; simplify leaves, tools and wood grain into broad shapes.
++- **Composition:** Work in 9:16 portrait with the wheel in the lower third, the wet tower above it and a clearly separated pottery castle behind.
++
++## Generation record
++
++Created on 2026-09-28 with the built-in image generation tool. The generated PNG
++was copied into this folder and resized from 941×1672 to the brief's exact
++1080×1920 delivery size using macOS `sips`; the composition was preserved.
++The original generated file remains in the tool's generated-images folder.
++
++### Final generation prompt
++
++```text
++Use case: stylized-concept.
++Asset type: ONE mobile game key art / art-direction reference, 1080x1920 pixels, portrait 9:16.
++Primary request: The royal potter's open-air workshop in a castle courtyard, a calm cosy funny storybook pottery game.
++Composition: A large potter's wheel occupies the lower third, with a half-thrown hollow round watchtower of wet terracotta clay centered on its spinning wheelhead. Its unfinished thick open rim, slight wobble, horizontal throwing rings and wet highlights make it unmistakably hand-thrown pottery. Behind it in the middle distance stands a small whimsical castle assembled from glazed pottery towers: a round watchtower, squat keep, turret, onion dome and slender spire, joined by low cream ceramic walls. Every tower has clear horizontal wheel-thrown rings, a pronounced pottery lip/rim, glossy glaze and small cloth pennant. Keep the castle clearly readable and separated from the foreground clay tower. A few simple glaze bowls and pottery tools on warm wooden surfaces frame the wheel; a small warm kiln is tucked to one side of the courtyard. Sky and a few simple cloud shapes above, understated sage plants at the edges. All major subjects within frame.
++Style/medium: Toon LOW-POLY 3D game render, clearly faceted polygonal volumes, flat colour areas, precisely 2–3 hard cel-shading bands, thick warm dark outlines (#2a2420). Broad simple silhouettes and chunky rounded forms. Soft warm sunlight in mood but stepped hard-band shading, no painterly texture.
++Palette: muted terracotta clay, cream plaster, warm wood, sage green, sky blue, kiln-gold and dusty rose, with dark brown outline #2a2420. Glazed castle towers alternate these gentle ceramic colours. Glaze has sparse graphic cream highlight shapes, clay is visibly wet and unglazed. Welcoming, playful and tactile.
++Constraints: No text, no lettering, no logo, no watermark, no UI, no border, no collage. No photorealism, no noisy texture, no oversaturation, no realistic stone fortress; the castle is visibly made of pottery. Produce one complete portrait image.
++```
+
+hook: PostToolUse
+hook: PostToolUse Completed
+exec
+/bin/zsh -lc "python3 - <<'PY'
+from pathlib import Path
+from PIL import Image
+import re
+root=Path('art/concept')
+im=Image.open(root/'key-art.png')
+assert im.format=='PNG' and im.size==(1080,1920)
+im.verify()
+palette=(root/'palette.md').read_text()
+a,b=palette.split('## Six player glaze colours')
+assert len(re.findall(r'"'^'"\\| ["'^'"\\n]+"'`#[0-9A-F]{6}`'"',a,re.M))==8
+assert len(re.findall(r'"'^'"\\| ["'^'"\\n]+"'`#[0-9A-F]{6}`'"',b,re.M))==6
+assert len(re.findall(r'"'^- '"\\*\\*',(root/'style-notes.md').read_text(),re.M))==10
+names=(root/'names.md').read_text()
+assert len(re.findall(r'"'^'"\\d+\\.',names,re.M))==10
+assert names.count('TOP 3')==3
+for name in ['key-art.png','palette.md','style-notes.md','names.md']:
+ p=root/name
+ print(f'{p}: {p.stat().st_size:,} bytes')
+print('Verified PNG dimensions, 8 palette colours, 6 glazes, 10 style rules, 10 names and 3 favourites.')
+PY" in /Users/juslangit/Desktop/project/game/royal-potter
+ succeeded in 0ms:
+art/concept/key-art.png: 2,784,296 bytes
+art/concept/palette.md: 1,858 bytes
+art/concept/style-notes.md: 4,069 bytes
+art/concept/names.md: 1,184 bytes
+Verified PNG dimensions, 8 palette colours, 6 glazes, 10 style rules, 10 names and 3 favourites.
+
+diff --git a/art/concept/names.md b/art/concept/names.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b833be055bb48f6dd74ba3458f23d6ef99b95fc0
+--- /dev/null
++++ b/art/concept/names.md
+@@ -0,0 +1,18 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — ten name candidates
++
++Creative candidates for Luqman's choice; Royal Potter remains the working title.
++
++1. **Kiln & Keep — TOP 3, first choice.** A warm little kiln grows a proud little castle; short, rhythmic and tied to both halves of play.
++2. **Royal Potter — TOP 3.** Clearly names your cosy new job: making towers for a very particular royal household.
++3. **Throw a Throne — TOP 3.** A playful pottery pun that gives the royal commissions a cheeky voice.
++4. **Clay Castle.** A simple, friendly promise: everything in your castle begins as a lump of clay.
++5. **Glaze the Keep.** An inviting command that puts colourful pottery at the heart of castle building.
++6. **Crown & Clay.** Pairs royal grandeur with the humble, messy material in your hands.
++7. **Pottery Kingdom.** Suggests a whole tiny realm growing from the pots you make.
++8. **The Royal Kiln.** Makes the workshop feel like the warmest, busiest corner of the castle.
++9. **Turret Thrower.** Turns a castle tower into a pottery joke, with a little mock-heroic swagger.
++10. **Sploosh Castle.** Celebrates wobbly clay and funny collapses in a kingdom with no game over.
+diff --git a/art/concept/palette.md b/art/concept/palette.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..230310ce2d1acea5d2a96de5c74921b74a948dce
+--- /dev/null
++++ b/art/concept/palette.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — palette
++
++Eight colours drawn from [key-art.png](key-art.png). Samples refer to the final
++1080×1920 image, with coordinates measured from its top-left corner. Use these as
++base colours; lighting supplies the two or three shade bands.
++
++| Colour | Hex | Use in the artwork | Sample (x, y) |
++|---|---|---|---|
++| Potter's Ink | `#2A2420` | Warm dark outlines and deep creases | Locked brief colour; nearest image pixel is `#2A2421` |
++| Wet Terracotta | `#AD5C37` | Unfired tower and clay slip | 496, 1248 |
++| Cream Plaster | `#F0D6AE` | Ceramic walls, tower lips and pale glaze | 691, 304 |
++| Warm Oak | `#9F683B` | Wheel surround and workshop timber | 200, 1716 |
++| Courtyard Sage | `#959B68` | Green glazed watchtower | 421, 624 |
++| Storybook Sky | `#7BA2DA` | Open blue sky above the castle | 540, 67 |
++| Kiln Gold | `#F2B345` | Warm glow inside the kiln | 102, 876 |
++| Royal Rose | `#B2675D` | Castle's dusty rose banner | 670, 624 |
++
++## Six player glaze colours
++
++These reuse the scene palette so any combination belongs in the same castle.
++Their names are the proposed English labels for the glaze picker.
++
++| Glaze | Hex | Character |
++|---|---|---|
++| Cream Crown | `#F0D6AE` | Warm ivory, like the castle walls |
++| Sage Keep | `#959B68` | Gentle green, like the round watchtower |
++| Sky Spire | `#7BA2DA` | Clear blue, echoing the sky and blue dome |
++| Honey Hall | `#F2B345` | Golden yellow, used sparingly for warmth |
++| Rose Turret | `#B2675D` | Muted rose, echoing the royal banners |
++| Terracotta Throne | `#AD5C37` | Earthy red-brown with a fired gloss |
++
++Wet clay always starts as Wet Terracotta. Even when the player chooses Terracotta
++Throne, firing changes its broad wet sheen into small, crisp glaze highlights.
++Keep highlights cream-tinted and preserve visible throwing rings beneath every glaze.
+diff --git a/art/concept/style-notes.md b/art/concept/style-notes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2a9ef099dc1249434ebc3030a53cb05747aaa2af
+--- /dev/null
++++ b/art/concept/style-notes.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — asset style rules
++
++Match [key-art.png](key-art.png) and use the base colours in [palette.md](palette.md).
++This is the proposed art reference for Luqman's review.
++
++- **Shape:** Build chunky, lightly faceted volumes; start round tower bodies with 12–16 radial sides and avoid razor-sharp edges.
++- **Silhouette:** Distinguish watchtower, squat keep, turret, onion dome and spire by their outer shape before adding decoration.
++- **Proportion:** Keep most tower bodies 1–2.5 times their diameter in height; exaggerate rims, battlements and roof overhangs for phone readability.
++- **Pottery:** Give every tower 3–6 broad horizontal throwing rings, a thick lip and slight handmade asymmetry; reserve masonry blocks for courtyard and kiln.
++- **Outline:** Use warm dark `#2A2420` contours, about 4–6 pixels on foreground silhouettes at 1080-pixel width, with lighter internal detail.
++- **Shading:** Use flat base colours and only 2–3 hard light bands per material; let polygon facets show without noisy surface textures.
++- **Lighting:** Place one warm sun above the upper left, with gentle warm fill and readable contact shadows beneath props and rims.
++- **Materials:** Give wet clay broad broken streaks of sheen, fired glaze small cream highlight patches, and wood or plaster a matte finish.
++- **Detail:** Limit each tower to a few deep arched windows and one small flag; simplify leaves, tools and wood grain into broad shapes.
++- **Composition:** Work in 9:16 portrait with the wheel in the lower third, the wet tower above it and a clearly separated pottery castle behind.
++
++## Generation record
++
++Created on 2026-09-28 with the built-in image generation tool. The generated PNG
++was copied into this folder and resized from 941×1672 to the brief's exact
++1080×1920 delivery size using macOS `sips`; the composition was preserved.
++The original generated file remains in the tool's generated-images folder.
++
++### Final generation prompt
++
++```text
++Use case: stylized-concept.
++Asset type: ONE mobile game key art / art-direction reference, 1080x1920 pixels, portrait 9:16.
++Primary request: The royal potter's open-air workshop in a castle courtyard, a calm cosy funny storybook pottery game.
++Composition: A large potter's wheel occupies the lower third, with a half-thrown hollow round watchtower of wet terracotta clay centered on its spinning wheelhead. Its unfinished thick open rim, slight wobble, horizontal throwing rings and wet highlights make it unmistakably hand-thrown pottery. Behind it in the middle distance stands a small whimsical castle assembled from glazed pottery towers: a round watchtower, squat keep, turret, onion dome and slender spire, joined by low cream ceramic walls. Every tower has clear horizontal wheel-thrown rings, a pronounced pottery lip/rim, glossy glaze and small cloth pennant. Keep the castle clearly readable and separated from the foreground clay tower. A few simple glaze bowls and pottery tools on warm wooden surfaces frame the wheel; a small warm kiln is tucked to one side of the courtyard. Sky and a few simple cloud shapes above, understated sage plants at the edges. All major subjects within frame.
++Style/medium: Toon LOW-POLY 3D game render, clearly faceted polygonal volumes, flat colour areas, precisely 2–3 hard cel-shading bands, thick warm dark outlines (#2a2420). Broad simple silhouettes and chunky rounded forms. Soft warm sunlight in mood but stepped hard-band shading, no painterly texture.
++Palette: muted terracotta clay, cream plaster, warm wood, sage green, sky blue, kiln-gold and dusty rose, with dark brown outline #2a2420. Glazed castle towers alternate these gentle ceramic colours. Glaze has sparse graphic cream highlight shapes, clay is visibly wet and unglazed. Welcoming, playful and tactile.
++Constraints: No text, no lettering, no logo, no watermark, no UI, no border, no collage. No photorealism, no noisy texture, no oversaturation, no realistic stone fortress; the castle is visibly made of pottery. Produce one complete portrait image.
++```
+
+codex
+Created all four deliverables in `art/concept/`:
+
+- `key-art.png` — generated image, copied and sized to 1080×1920.
+- `palette.md` — 8 colours and 6 player glazes.
+- `style-notes.md` — 10 rules and the generation prompt.
+- `names.md` — 10 names, with the top 3 marked.
+
+All deliverable checks passed. Record rebuilding was blocked by the missing docs builder; knowledge-base and portfolio updates are outside this session’s writable folders.
+diff --git a/art/concept/names.md b/art/concept/names.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..b833be055bb48f6dd74ba3458f23d6ef99b95fc0
+--- /dev/null
++++ b/art/concept/names.md
+@@ -0,0 +1,18 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — ten name candidates
++
++Creative candidates for Luqman's choice; Royal Potter remains the working title.
++
++1. **Kiln & Keep — TOP 3, first choice.** A warm little kiln grows a proud little castle; short, rhythmic and tied to both halves of play.
++2. **Royal Potter — TOP 3.** Clearly names your cosy new job: making towers for a very particular royal household.
++3. **Throw a Throne — TOP 3.** A playful pottery pun that gives the royal commissions a cheeky voice.
++4. **Clay Castle.** A simple, friendly promise: everything in your castle begins as a lump of clay.
++5. **Glaze the Keep.** An inviting command that puts colourful pottery at the heart of castle building.
++6. **Crown & Clay.** Pairs royal grandeur with the humble, messy material in your hands.
++7. **Pottery Kingdom.** Suggests a whole tiny realm growing from the pots you make.
++8. **The Royal Kiln.** Makes the workshop feel like the warmest, busiest corner of the castle.
++9. **Turret Thrower.** Turns a castle tower into a pottery joke, with a little mock-heroic swagger.
++10. **Sploosh Castle.** Celebrates wobbly clay and funny collapses in a kingdom with no game over.
+diff --git a/art/concept/palette.md b/art/concept/palette.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..230310ce2d1acea5d2a96de5c74921b74a948dce
+--- /dev/null
++++ b/art/concept/palette.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — palette
++
++Eight colours drawn from [key-art.png](key-art.png). Samples refer to the final
++1080×1920 image, with coordinates measured from its top-left corner. Use these as
++base colours; lighting supplies the two or three shade bands.
++
++| Colour | Hex | Use in the artwork | Sample (x, y) |
++|---|---|---|---|
++| Potter's Ink | `#2A2420` | Warm dark outlines and deep creases | Locked brief colour; nearest image pixel is `#2A2421` |
++| Wet Terracotta | `#AD5C37` | Unfired tower and clay slip | 496, 1248 |
++| Cream Plaster | `#F0D6AE` | Ceramic walls, tower lips and pale glaze | 691, 304 |
++| Warm Oak | `#9F683B` | Wheel surround and workshop timber | 200, 1716 |
++| Courtyard Sage | `#959B68` | Green glazed watchtower | 421, 624 |
++| Storybook Sky | `#7BA2DA` | Open blue sky above the castle | 540, 67 |
++| Kiln Gold | `#F2B345` | Warm glow inside the kiln | 102, 876 |
++| Royal Rose | `#B2675D` | Castle's dusty rose banner | 670, 624 |
++
++## Six player glaze colours
++
++These reuse the scene palette so any combination belongs in the same castle.
++Their names are the proposed English labels for the glaze picker.
++
++| Glaze | Hex | Character |
++|---|---|---|
++| Cream Crown | `#F0D6AE` | Warm ivory, like the castle walls |
++| Sage Keep | `#959B68` | Gentle green, like the round watchtower |
++| Sky Spire | `#7BA2DA` | Clear blue, echoing the sky and blue dome |
++| Honey Hall | `#F2B345` | Golden yellow, used sparingly for warmth |
++| Rose Turret | `#B2675D` | Muted rose, echoing the royal banners |
++| Terracotta Throne | `#AD5C37` | Earthy red-brown with a fired gloss |
++
++Wet clay always starts as Wet Terracotta. Even when the player chooses Terracotta
++Throne, firing changes its broad wet sheen into small, crisp glaze highlights.
++Keep highlights cream-tinted and preserve visible throwing rings beneath every glaze.
+diff --git a/art/concept/style-notes.md b/art/concept/style-notes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..2a9ef099dc1249434ebc3030a53cb05747aaa2af
+--- /dev/null
++++ b/art/concept/style-notes.md
+@@ -0,0 +1,38 @@
++---
++updated: 2026-09-28
++---
++
++# Royal Potter — asset style rules
++
++Match [key-art.png](key-art.png) and use the base colours in [palette.md](palette.md).
++This is the proposed art reference for Luqman's review.
++
++- **Shape:** Build chunky, lightly faceted volumes; start round tower bodies with 12–16 radial sides and avoid razor-sharp edges.
++- **Silhouette:** Distinguish watchtower, squat keep, turret, onion dome and spire by their outer shape before adding decoration.
++- **Proportion:** Keep most tower bodies 1–2.5 times their diameter in height; exaggerate rims, battlements and roof overhangs for phone readability.
++- **Pottery:** Give every tower 3–6 broad horizontal throwing rings, a thick lip and slight handmade asymmetry; reserve masonry blocks for courtyard and kiln.
++- **Outline:** Use warm dark `#2A2420` contours, about 4–6 pixels on foreground silhouettes at 1080-pixel width, with lighter internal detail.
++- **Shading:** Use flat base colours and only 2–3 hard light bands per material; let polygon facets show without noisy surface textures.
++- **Lighting:** Place one warm sun above the upper left, with gentle warm fill and readable contact shadows beneath props and rims.
++- **Materials:** Give wet clay broad broken streaks of sheen, fired glaze small cream highlight patches, and wood or plaster a matte finish.
++- **Detail:** Limit each tower to a few deep arched windows and one small flag; simplify leaves, tools and wood grain into broad shapes.
++- **Composition:** Work in 9:16 portrait with the wheel in the lower third, the wet tower above it and a clearly separated pottery castle behind.
++
++## Generation record
++
++Created on 2026-09-28 with the built-in image generation tool. The generated PNG
++was copied into this folder and resized from 941×1672 to the brief's exact
++1080×1920 delivery size using macOS `sips`; the composition was preserved.
++The original generated file remains in the tool's generated-images folder.
++
++### Final generation prompt
++
++```text
++Use case: stylized-concept.
++Asset type: ONE mobile game key art / art-direction reference, 1080x1920 pixels, portrait 9:16.
++Primary request: The royal potter's open-air workshop in a castle courtyard, a calm cosy funny storybook pottery game.
++Composition: A large potter's wheel occupies the lower third, with a half-thrown hollow round watchtower of wet terracotta clay centered on its spinning wheelhead. Its unfinished thick open rim, slight wobble, horizontal throwing rings and wet highlights make it unmistakably hand-thrown pottery. Behind it in the middle distance stands a small whimsical castle assembled from glazed pottery towers: a round watchtower, squat keep, turret, onion dome and slender spire, joined by low cream ceramic walls. Every tower has clear horizontal wheel-thrown rings, a pronounced pottery lip/rim, glossy glaze and small cloth pennant. Keep the castle clearly readable and separated from the foreground clay tower. A few simple glaze bowls and pottery tools on warm wooden surfaces frame the wheel; a small warm kiln is tucked to one side of the courtyard. Sky and a few simple cloud shapes above, understated sage plants at the edges. All major subjects within frame.
++Style/medium: Toon LOW-POLY 3D game render, clearly faceted polygonal volumes, flat colour areas, precisely 2–3 hard cel-shading bands, thick warm dark outlines (#2a2420). Broad simple silhouettes and chunky rounded forms. Soft warm sunlight in mood but stepped hard-band shading, no painterly texture.
++Palette: muted terracotta clay, cream plaster, warm wood, sage green, sky blue, kiln-gold and dusty rose, with dark brown outline #2a2420. Glazed castle towers alternate these gentle ceramic colours. Glaze has sparse graphic cream highlight shapes, clay is visibly wet and unglazed. Welcoming, playful and tactile.
++Constraints: No text, no lettering, no logo, no watermark, no UI, no border, no collage. No photorealism, no noisy texture, no oversaturation, no realistic stone fortress; the castle is visibly made of pottery. Produce one complete portrait image.
++```
+
+tokens used
+60,581
+Created all four deliverables in `art/concept/`:
+
+- `key-art.png` — generated image, copied and sized to 1080×1920.
+- `palette.md` — 8 colours and 6 player glazes.
+- `style-notes.md` — 10 rules and the generation prompt.
+- `names.md` — 10 names, with the top 3 marked.
+
+All deliverable checks passed. Record rebuilding was blocked by the missing docs builder; knowledge-base and portfolio updates are outside this session’s writable folders.
