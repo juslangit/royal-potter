@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slapjam Pottery Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf5ec; --panel:#ffffff; --ink:#2a2420; --muted:#6b6058; --line:#eadccb;
+  --clay:#d9824f; --clay-dk:#a85a33; --cream:#f6e7d2; --sage:#8fb996; --sky:#7fb8e6;
+  --sun:#f5b945; --rose:#e7727d; --char:#2a2420; --chip:#f5e9da;
+  --shadow:0 3px 0 rgba(42,36,32,.12);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1b1714; --panel:#26201c; --ink:#f5ece2; --muted:#bcae9f; --line:#3d342d; --chip:#322a24;
+  --shadow:0 3px 0 rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+  --bg:#1b1714; --panel:#26201c; --ink:#f5ece2; --muted:#bcae9f; --line:#3d342d; --chip:#322a24;
+  --shadow:0 3px 0 rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html{font-size:19px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+h1,h2,h3{font-family:Fredoka,Inter,sans-serif;line-height:1.15;margin:0 0 .5em}
+h1{font-size:clamp(2.2rem,6vw,3.6rem)}
+h2{font-size:1.9rem}
+h3{font-size:1.25rem}
+p{margin:0 0 .9em}
+a{color:var(--clay-dk)}
+.muted{color:var(--muted)}
+header.hero{background:linear-gradient(135deg,#e9a36f,#f5cf8a 60%,#b9d9b0);color:#2a2420;padding:48px 0 40px}
+.hero .kicker{font-family:Fredoka;font-weight:600;font-size:1.05rem;opacity:.8}
+.hero p.lead{font-size:1.2rem;max-width:760px}
+.clocks{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+.clock{background:#2a2420;color:#fff;border-radius:18px;padding:14px 20px;min-width:230px}
+.clock small{display:block;opacity:.75;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+.clock b{font-family:Fredoka;font-size:2rem;display:block}
+.clock span{font-size:.85rem;opacity:.8}
+nav.toc{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:2px solid var(--line)}
+nav.toc .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;font-weight:600;font-size:.85rem}
+section{padding:44px 0;border-bottom:2px dashed var(--line)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.two{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:3px 10px;margin:0 6px 8px 0;background:var(--chip);color:var(--ink)}
+.tag.go{background:var(--sage);color:#1e2a20}
+.tag.warn{background:var(--sun);color:#2a2420}
+.tag.bad{background:var(--rose);color:#fff}
+.tag.clay{background:var(--clay);color:#fff}
+table{width:100%;border-collapse:collapse;font-size:.9rem;background:var(--panel)}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--chip);font-family:Fredoka;font-weight:600;font-size:.95rem}
+.scroll{overflow-x:auto;border:2px solid var(--line);border-radius:14px}
+.timeline{list-style:none;padding:0;border-left:4px solid var(--sun);margin:0 0 0 10px}
+.timeline li{position:relative;padding:0 0 22px 22px}
+.timeline li::before{content:"";position:absolute;left:-12px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--clay);border:4px solid var(--bg)}
+.timeline .when{font-family:Fredoka;font-weight:700;font-size:1.1rem}
+.timeline .day{display:inline-block;background:var(--ink);color:var(--bg);border-radius:8px;padding:1px 8px;font-size:.75rem;margin-right:6px;vertical-align:middle}
+ul.check{list-style:none;padding:0;margin:0}
+ul.check li{padding:8px 0 8px 36px;position:relative;border-bottom:1px solid var(--line)}
+ul.check li::before{content:"";position:absolute;left:0;top:10px;width:22px;height:22px;border:3px solid var(--sage);border-radius:7px}
+.pitch{font-family:Fredoka;font-size:1.3rem;background:var(--chip);border-left:6px solid var(--clay);padding:14px 18px;border-radius:12px;margin:8px 0}
+code{background:var(--chip);padding:1px 6px;border-radius:6px;font-size:.88em}
+/* phone mockups */
+.phones{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.phone figure{margin:0}
+.phone svg{width:100%;height:auto;display:block;border-radius:30px;border:8px solid #2a2420;background:#2a2420;box-shadow:0 8px 0 rgba(42,36,32,.15)}
+.phone figcaption{margin-top:10px;font-size:.88rem}
+.phone figcaption b{font-family:Fredoka;font-size:1.05rem;display:block}
+.step{display:inline-block;background:var(--clay);color:#fff;border-radius:999px;width:26px;height:26px;text-align:center;font-weight:800;font-size:.8rem;line-height:26px;margin-right:6px}
+/* flow */
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flow .node{background:var(--panel);border:2px solid var(--clay);border-radius:14px;padding:8px 14px;font-family:Fredoka;font-weight:600}
+.flow .arrow{color:var(--clay);font-weight:800;font-size:1.3rem}
+/* assets */
+.assets{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+.asset{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.asset svg{width:100%;height:110px;display:block;background:var(--chip);border-radius:10px;margin-bottom:8px}
+.asset b{font-family:Fredoka;font-size:1rem;display:block}
+.asset small{color:var(--muted);font-size:.78rem;display:block;line-height:1.35}
+.src{display:inline-block;font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px;margin-top:6px}
+.src.blender{background:#f5a35c;color:#2a2420}
+.src.code{background:#8fb996;color:#1e2a20}
+.src.sketchfab{background:#7fb8e6;color:#14283a}
+.src.sfx{background:#c7a6e8;color:#2a1c3a}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.sw{width:110px;border-radius:14px;overflow:hidden;border:2px solid var(--line);background:var(--panel);font-size:.78rem}
+.sw i{display:block;height:64px}
+.sw span{display:block;padding:6px 8px}
+footer{padding:30px 0 60px;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">SLAPJAM 2026 · GAME PLAN · POTTERY · 2026-09-28</div>
+  <h1>Shape it. Fire it.<br>Make their day.</h1>
+  <p class="lead">A calm, cosy pottery game for phones. Customers walk into your little studio with a wish. You shape their pot on a spinning wheel with one thumb, glaze it, fire it, and watch their face when they see it. The theme, revealed at 11 pm, decides <b>who</b> the customers are and <b>what</b> they wish for.</p>
+  <div class="clocks">
+    <div class="clock"><small>Theme reveal</small><b id="c1">--</b><span>Mon 28 Sep · 11:00 pm MYT (15:00 UTC)</span></div>
+    <div class="clock"><small>Submission deadline</small><b id="c2">--</b><span>Wed 30 Sep · 10:59 pm MYT (14:59 UTC)</span></div>
+  </div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#decisions">Decisions</a><a href="#game">The game</a><a href="#screens">Screens</a><a href="#wheel">The wheel</a><a href="#loop">Why keep playing</a><a href="#assets">Asset board</a><a href="#palette">Look</a><a href="#sound">Sound</a><a href="#theme">Theme practice</a><a href="#reveal">Reveal night</a><a href="#schedule">Schedule</a><a href="#roles">Who does what</a><a href="#codex">Codex workflow</a><a href="#before">Before 11 pm</a><a href="#tech">Tech</a><a href="#submit">Submit</a><a href="#cut">Cut list</a><a href="#rules">Jam rules</a>
+</div></nav>
+
+<main>
+
+<section id="decisions"><div class="wrap">
+  <h2>Decisions so far</h2>
+  <div class="scroll"><table>
+    <tr><th>Question</th><th>Decision (2026-09-28)</th></tr>
+    <tr><td><b>Theme</b></td><td><b>🏰 Castles</b> (revealed 23:00). Our take: <b>the royal potter</b>. Every pot is a castle tower, and the castle grows out of your pottery. The dragon is the last customer. Project: <code>~/Desktop/project/game/royal-potter</code></td></tr>
+    <tr><td>Game</td><td><b>Pottery wheel</b>: one craft, done beautifully. The multi-craft workshop was cut because it's too big for 48 hours</td></tr>
+    <tr><td>Feeling</td><td><b>Fun and calming</b>. Soft stakes: nothing is ever "game over"; the fun is the reveal</td></tr>
+    <tr><td>Why keep playing</td><td><b>All three:</b> customers with a small story, shelves that fill with your pots, and stars for each order</td></tr>
+    <tr><td>Failing</td><td>Clay <b>can collapse</b>, but only as a funny moment. Free retry, no game over</td></tr>
+    <tr><td>Setting</td><td><b>Neutral for now</b>: a sunny little studio. The theme dresses it at 11 pm</td></tr>
+    <tr><td>Style</td><td><b>Toon low-poly 3D</b>. Tested at 60 FPS on Luqman's iPhone</td></tr>
+    <tr><td>Team</td><td><b>Solo</b>: Luqman, with two AI tools: <b>Claude</b> (mechanics) and <b>Codex</b> (all creative work)</td></tr>
+    <tr><td>Who makes the art</td><td><b>Codex makes all of it</b>: writing, images, UI, 3D models (as Blender scripts), cover. Luqman approves and playtests. Claude briefs Codex and wires everything into the game</td></tr>
+    <tr><td>Dropped</td><td>Hold &amp; Launch (earlier the same evening), in favour of something only a 3D artist would make</td></tr>
+  </table></div>
+</div></section>
+
+<section id="game"><div class="wrap">
+  <h2>The game in one breath</h2>
+  <div class="pitch">In <i>[name]</i>, you run a tiny pottery studio: shape each customer's wish on a spinning wheel with your thumb, fire it, and see their face light up, until the last customer of the day walks in.</div>
+  <p style="margin-top:18px">One run is <b>one day in the studio</b>: about 6–8 customers, from morning light to evening glow, about <b>8–10 minutes</b>. That's short enough for a judge to finish, and long enough to feel like a small story.</p>
+  <h3 style="margin-top:22px">One customer, start to finish</h3>
+  <div class="flow">
+    <span class="node">🚪 Customer arrives</span><span class="arrow">→</span>
+    <span class="node">💬 Wish + shape outline</span><span class="arrow">→</span>
+    <span class="node">🏺 Shape on the wheel</span><span class="arrow">→</span>
+    <span class="node">🎨 Tap a glaze</span><span class="arrow">→</span>
+    <span class="node">🔥 Kiln</span><span class="arrow">→</span>
+    <span class="node">✨ Reveal + reaction + stars</span><span class="arrow">→</span>
+    <span class="node">🪴 A copy goes on your shelf</span>
+  </div>
+  <p class="muted" style="margin-top:10px">If the clay collapses on the wheel: a floppy "sploosh", the customer giggles, and you get a fresh lump. No penalty except time.</p>
+</div></section>
+
+<section id="screens"><div class="wrap">
+  <h2>Every screen, sketched</h2>
+  <p class="muted">Rough mockups to picture the game. Real art will be toon 3D. Dotted lines show what the player is aiming for.</p>
+  <div class="phones">
+
+  <div class="phone"><figure>
+    <svg viewBox="0 0 360 640" role="img" aria-label="Title screen">
+      <rect width="360" height="640" fill="#f6e7d2"/>
+      <rect x="40" y="70" width="280" height="190" rx="14" fill="#9fd0f0"/><circle cx="260" cy="120" r="26" fill="#f5cf6a"/>
+      <path d="M40 220 Q120 180 200 215 T320 200 V260 H40Z" fill="#a8cf9f"/>
+      <rect x="40" y="70" width="280" height="190" rx="14" fill="none" stroke="#2a2420" stroke-width="6"/>
+      <line x1="180" y1="70" x2="180" y2="260" stroke="#2a2420" stroke-width="5"/>
+      <rect y="440" width="360" height="200" fill="#c99a6b"/>
+      <ellipse cx="180" cy="445" rx="110" ry="26" fill="#8a8f98" stroke="#2a2420" stroke-width="5"/>
+      <g class="pot" data-profile="0.55,0.62,0.7,0.72,0.6,0.42,0.34,0.38,0.46" data-cx="180" data-base="440" data-h="110" data-w="70" data-fill="#d9824f"></g>
+      <text x="180" y="310" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="44" fill="#2a2420">[GAME NAME]</text>
+      <text x="180" y="560" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="30" fill="#fff">TAP TO OPEN</text>
+      <text x="180" y="592" text-anchor="middle" font-family="Inter" font-size="16" fill="#fff" opacity=".85">THE STUDIO</text>
+    </svg>
+    <figcaption><span class="step">1</span><b>Title</b>The studio at dawn, the wheel waiting. One tap opens the shop (and wakes the sound up).</figcaption>
+  </figure></div>
+
+  <div class="phone"><figure>
+    <svg viewBox="0 0 360 640" role="img" aria-label="Customer order">
+      <rect width="360" height="640" fill="#f6e7d2"/>
+      <rect x="220" y="60" width="110" height="260" rx="10" fill="#b98a5e" stroke="#2a2420" stroke-width="5"/>
+      <rect y="470" width="360" height="170" fill="#c99a6b"/>
+      <g transform="translate(180 400)">
+        <rect x="-55" y="-70" width="110" height="150" rx="55" fill="#7fb8e6" stroke="#2a2420" stroke-width="5"/>
+        <circle cx="0" cy="-110" r="48" fill="#f2c7a0" stroke="#2a2420" stroke-width="5"/>
+        <circle cx="-16" cy="-114" r="6" fill="#2a2420"/><circle cx="16" cy="-114" r="6" fill="#2a2420"/>
+        <path d="M-14 -92 Q0 -82 14 -92" stroke="#2a2420" stroke-width="4" fill="none"/>
+        <path d="M-50 -140 Q0 -190 50 -140 Z" fill="#e7727d" stroke="#2a2420" stroke-width="5"/>
+      </g>
+      <rect x="24" y="40" width="250" height="200" rx="24" fill="#fff" stroke="#2a2420" stroke-width="5"/>
+      <path d="M150 240 L170 270 L185 240Z" fill="#fff" stroke="#2a2420" stroke-width="5"/><rect x="148" y="232" width="40" height="10" fill="#fff"/>
+      <text x="44" y="80" font-family="Fredoka" font-weight="600" font-size="20" fill="#2a2420">"A tall vase for</text>
+      <text x="44" y="106" font-family="Fredoka" font-weight="600" font-size="20" fill="#2a2420">my grandma's roses"</text>
+      <g class="pot ghost" data-profile="0.5,0.62,0.66,0.55,0.36,0.26,0.28,0.4" data-cx="150" data-base="228" data-h="100" data-w="55"></g>
+      <text x="180" y="560" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="26" fill="#fff">TAP TO START</text>
+      <text x="24" y="620" font-family="Inter" font-size="15" fill="#fff" opacity=".85">Customer 3 of 7 · Morning</text>
+    </svg>
+    <figcaption><span class="step">2</span><b>The wish</b>A customer walks in with a wish and a shape outline. The wish is where the theme lives.</figcaption>
+  </figure></div>
+
+  <div class="phone"><figure>
+    <svg viewBox="0 0 360 640" role="img" aria-label="Shaping on the wheel">
+      <rect width="360" height="640" fill="#f6e7d2"/>
+      <rect x="20" y="24" width="320" height="56" rx="16" fill="#fff" stroke="#2a2420" stroke-width="4"/>
+      <text x="40" y="60" font-family="Fredoka" font-weight="600" font-size="22" fill="#2a2420">Match</text>
+      <rect x="110" y="42" width="200" height="20" rx="10" fill="#eadccb"/><rect x="110" y="42" width="150" height="20" rx="10" fill="#8fb996"/>
+      <text x="250" y="110" font-family="Fredoka" font-size="18" fill="#6b6058">wobble</text>
+      <rect x="310" y="96" width="16" height="140" rx="8" fill="#eadccb"/><rect x="310" y="196" width="16" height="40" rx="8" fill="#f5b945"/>
+      <rect y="480" width="360" height="160" fill="#c99a6b"/>
+      <ellipse cx="180" cy="485" rx="130" ry="30" fill="#8a8f98" stroke="#2a2420" stroke-width="5"/>
+      <g class="pot" data-profile="0.62,0.7,0.72,0.62,0.48,0.4,0.42,0.5" data-cx="180" data-base="480" data-h="270" data-w="95" data-fill="#c9713f" data-wet="1"></g>
+      <g class="pot ghost" data-profile="0.5,0.62,0.66,0.55,0.36,0.26,0.28,0.4" data-cx="180" data-base="480" data-h="270" data-w="95"></g>
+      <path d="M120 470 Q180 500 240 470" stroke="#2a2420" stroke-width="3" fill="none" stroke-dasharray="6 8" opacity=".5"/>
+      <circle cx="262" cy="330" r="30" fill="#fff" fill-opacity=".55" stroke="#2a2420" stroke-width="4"/>
+      <path d="M232 330 H200" stroke="#2a2420" stroke-width="5" stroke-linecap="round"/><path d="M208 320 L198 330 L208 340" stroke="#2a2420" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <text x="180" y="580" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="22" fill="#fff">drag to shape · lift to finish</text>
+    </svg>
+    <figcaption><span class="step">3</span><b>Shape</b>Clay spins. Your thumb's height picks where you touch the clay, and sideways pushes it in or pulls it out. The match bar fills as you get close to the outline.</figcaption>
+  </figure></div>
+
+  <div class="phone"><figure>
+    <svg viewBox="0 0 360 640" role="img" aria-label="Collapse">
+      <rect width="360" height="640" fill="#f6e7d2"/>
+      <rect y="480" width="360" height="160" fill="#c99a6b"/>
+      <ellipse cx="180" cy="485" rx="130" ry="30" fill="#8a8f98" stroke="#2a2420" stroke-width="5"/>
+      <path d="M90 482 Q95 420 150 430 Q170 380 205 425 Q260 405 262 482 Z" fill="#c9713f" stroke="#2a2420" stroke-width="5"/>
+      <path d="M150 430 Q160 450 180 440" stroke="#2a2420" stroke-width="3" fill="none"/>
+      <text x="180" y="340" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="58" fill="#e7727d" transform="rotate(-6 180 340)">SPLOOSH!</text>
+      <g transform="translate(290 170)">
+        <circle r="40" fill="#f2c7a0" stroke="#2a2420" stroke-width="5"/>
+        <path d="M-18 -6 Q-12 -14 -6 -6 M6 -6 Q12 -14 18 -6" stroke="#2a2420" stroke-width="4" fill="none"/>
+        <path d="M-16 10 Q0 30 16 10 Z" fill="#2a2420"/>
+      </g>
+      <text x="40" y="150" font-family="Fredoka" font-size="22" fill="#2a2420">"hehe, again?"</text>
+      <rect x="80" y="540" width="200" height="64" rx="32" fill="#8fb996" stroke="#2a2420" stroke-width="5"/>
+      <text x="180" y="582" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="26" fill="#2a2420">NEW CLAY</text>
+    </svg>
+    <figcaption><span class="step">!</span><b>Collapse (for laughs)</b>Push too thin or too fast and the pot flops. The customer giggles. One tap for fresh clay, no game over.</figcaption>
+  </figure></div>
+
+  <div class="phone"><figure>
+    <svg viewBox="0 0 360 640" role="img" aria-label="Glaze and kiln">
+      <rect width="360" height="640" fill="#f6e7d2"/>
+      <rect x="95" y="150" width="170" height="210" rx="30" fill="#8a6a55" stroke="#2a2420" stroke-width="6"/>
+      <rect x="125" y="210" width="110" height="110" rx="18" fill="#f5b945" stroke="#2a2420" stroke-width="5"/>
+      <path d="M150 300 Q160 250 180 290 Q195 240 210 300Z" fill="#e7727d"/>
+      <rect x="160" y="120" width="40" height="36" fill="#8a6a55" stroke="#2a2420" stroke-width="5"/>
+      <text x="180" y="100" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="24" fill="#2a2420">Pick a glaze</text>
+      <rect y="440" width="360" height="200" fill="#c99a6b"/>
+      <g stroke="#2a2420" stroke-width="5">
+        <circle cx="60" cy="480" r="28" fill="#7fb8e6"/><circle cx="120" cy="480" r="28" fill="#8fb996"/>
+        <circle cx="180" cy="480" r="34" fill="#f6f1e8" stroke-width="7"/><circle cx="240" cy="480" r="28" fill="#e7727d"/><circle cx="300" cy="480" r="28" fill="#3a4f7a"/>
+      </g>
+      <text x="180" y="570" text-anchor="middle" font-family="Fredoka" font-weight="600" font-size="24" fill="#fff">tap a colour, then fire 🔥</text>
+    </svg>
+    <figcaption><span class="step">4</span><b>Glaze + kiln</b>Tap one colour (the customer hints at one they like, for a bonus star). The kiln glows for 2 seconds of suspense.</figcaption>
+  </figure></div>
+
+  <div class="phone"><figure>
+    <svg viewBox="0 0 360 640" role="img" aria-label="Reveal">
+      <rect width="360" height="640" fill="#fff3dc"/>
+      <g stroke="#f5b945" stroke-width="10" stroke-linecap="round" opacity=".7">
+        <line x1="180" y1="300" x2="180" y2="120"/><line x1="180" y1="300" x2="60" y2="180"/><line x1="180" y1="300" x2="300" y2="180"/><line x1="180" y1="300" x2="40" y2="320"/><line x1="180" y1="300" x2="320" y2="320"/>
+      </g>
+      <g class="pot" data-profile="0.52,0.62,0.66,0.56,0.37,0.27,0.29,0.41" data-cx="180" data-base="420" data-h="220" data-w="85" data-fill="#7fb8e6" data-shine="1"></g>
+      <rect y="440" width="360" height="200" fill="#c99a6b"/>
+      <text x="180" y="100" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="54" fill="#f5b945" stroke="#2a2420" stroke-width="2">★ ★ ★</text>
+      <g transform="translate(290 510)">
+        <circle r="44" fill="#f2c7a0" stroke="#2a2420" stroke-width="5"/>
+        <path d="M-22 -10 l6 -6 l6 6 l-6 8z M10 -10 l6 -6 l6 6 l-6 8z" fill="#e7727d" stroke="#2a2420" stroke-width="2"/>
+        <path d="M-16 12 Q0 28 16 12" stroke="#2a2420" stroke-width="4" fill="none"/>
+      </g>
+      <text x="30" y="500" font-family="Fredoka" font-weight="600" font-size="24" fill="#fff">"Oh! She'll</text>
+      <text x="30" y="530" font-family="Fredoka" font-weight="600" font-size="24" fill="#fff">love it!"</text>
+      <text x="30" y="600" font-family="Inter" font-size="16" fill="#fff">Shape 92% · Glaze ✓</text>
+    </svg>
+    <figcaption><span class="step">5</span><b>The reveal</b>The best moment of the game: the kiln opens, the pot shines, stars pop one by one, and the customer reacts.</figcaption>
+  </figure></div>
+
+  <div class="phone"><figure>
+    <svg viewBox="0 0 360 640" role="img" aria-label="End of day shelves">
+      <rect width="360" height="640" fill="#f3c9a0"/>
+      <text x="180" y="62" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="32" fill="#2a2420">End of the day</text>
+      <g fill="#8a6a55" stroke="#2a2420" stroke-width="5">
+        <rect x="30" y="210" width="300" height="14" rx="4"/><rect x="30" y="350" width="300" height="14" rx="4"/><rect x="30" y="490" width="300" height="14" rx="4"/>
+      </g>
+      <g class="pot" data-profile="0.6,0.7,0.62,0.4,0.3,0.36" data-cx="75" data-base="210" data-h="90" data-w="38" data-fill="#7fb8e6"></g>
+      <g class="pot" data-profile="0.9,1,1,0.95" data-cx="160" data-base="210" data-h="50" data-w="45" data-fill="#8fb996"></g>
+      <g class="pot" data-profile="0.5,0.55,0.55,0.55,0.55" data-cx="255" data-base="210" data-h="80" data-w="35" data-fill="#e7727d"></g>
+      <g class="pot" data-profile="0.6,0.78,0.8,0.62,0.44,0.4,0.52" data-cx="90" data-base="350" data-h="110" data-w="42" data-fill="#f6f1e8"></g>
+      <g class="pot" data-profile="0.5,0.62,0.66,0.56,0.37,0.27,0.29,0.41" data-cx="200" data-base="350" data-h="115" data-w="40" data-fill="#3a4f7a"></g>
+      <g class="pot" data-profile="0.8,0.9,0.85,0.7" data-cx="280" data-base="350" data-h="60" data-w="38" data-fill="#f5b945"></g>
+      <g class="pot" data-profile="0.62,0.72,0.72,0.6,0.46,0.46" data-cx="120" data-base="490" data-h="95" data-w="40" data-fill="#d9824f"></g>
+      <rect x="215" y="415" width="90" height="75" rx="10" fill="none" stroke="#2a2420" stroke-width="4" stroke-dasharray="8 8"/>
+      <text x="260" y="460" text-anchor="middle" font-family="Fredoka" font-size="28" fill="#2a2420">?</text>
+      <text x="180" y="570" text-anchor="middle" font-family="Fredoka" font-weight="700" font-size="30" fill="#2a2420">★ 17 / 21</text>
+      <text x="180" y="610" text-anchor="middle" font-family="Inter" font-size="16" fill="#2a2420">someone is knocking…</text>
+    </svg>
+    <figcaption><span class="step">6</span><b>Shelves + last customer</b>Every pot you made sits on your shelves. The empty spot is for the special last customer, who carries the theme's twist.</figcaption>
+  </figure></div>
+
+  </div>
+</div></section>
+
+<section id="wheel"><div class="wrap">
+  <h2>The wheel: how the thumb shapes clay</h2>
+  <div class="two">
+    <div class="card">
+      <h3>Controls</h3>
+      <p><span class="tag clay">Up / down</span> Where your thumb is vertically = <b>which part</b> of the pot you touch (the rim, the belly, the base).</p>
+      <p><span class="tag clay">Left / right</span> Your thumb's distance from the centre = <b>how wide</b> the clay gets at that height. Move towards the centre to squeeze it in, away to let it swell out.</p>
+      <p><span class="tag clay">Lift</span> Take your thumb off and tap <b>Done</b> when you're happy.</p>
+      <p class="muted">The clay moves towards your thumb gently, not instantly, so it feels soft and wet, not like a slider.</p>
+    </div>
+    <div class="card">
+      <h3>How it's scored, and how it collapses</h3>
+      <p><b>Match %</b>: how close your shape is to the wish outline, measured at ~20 heights. 60% = ★, 80% = ★★, 92% = ★★★.</p>
+      <p><b>Glaze bonus</b>: pick the colour the customer hinted at → a sparkle and a happier reaction.</p>
+      <p><b>Wobble</b> rises when you squeeze a wall very thin, or build a heavy top on a thin neck. Full wobble = <b>sploosh</b>. It's a joke, not a punishment.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>How it's built (simple version)</h3>
+    <p>The pot is a list of about 24 widths, from bottom to top. Every frame, Godot spins that list into a round 3D shape (a "lathe", like a real wheel). Your thumb changes a few numbers in the list. That's the whole trick: one list of numbers is the pot, the score, the collapse check and the shelf copy.</p>
+  </div>
+</div></section>
+
+<section id="loop"><div class="wrap">
+  <h2>Why keep playing: all three</h2>
+  <div class="grid">
+    <div class="card"><span class="tag go">Story</span><h3>One day, 7 customers</h3><p>Morning light → evening glow through the window. Each customer has one line of wish and one line of reaction. The <b>last customer is special</b>: the theme's twist lives there, and it's the ending.</p></div>
+    <div class="card"><span class="tag go">Shelves</span><h3>Your pots stay</h3><p>Each finished pot gets a copy on the shelves, in your shape and your glaze. At the end, your whole day is on display. It's free to build (it reuses the pot you just made), and it's the screenshot people share.</p></div>
+    <div class="card"><span class="tag go">Stars</span><h3>1–3 stars per order</h3><p>The total goes on the end screen (★ 17 / 21) with your best day. It gives a reason to replay the day, without ever failing you.</p></div>
+  </div>
+</div></section>
+
+<section id="assets"><div class="wrap">
+  <h2>Asset board: everything we need to make</h2>
+  <p>Coloured labels show who makes each thing: <b>orange = Codex Blender script</b>, <b>blue = Codex image or writing</b>, <b>green = Claude in code</b>, <b>purple = CC0 sound</b>. Luqman approves all of it.</p>
+  <div class="assets">
+    <div class="asset"><svg viewBox="0 0 160 110"><ellipse cx="80" cy="70" rx="55" ry="14" fill="#8a8f98" stroke="#2a2420" stroke-width="4"/><rect x="30" y="72" width="100" height="26" fill="#6f747c" stroke="#2a2420" stroke-width="4"/><ellipse cx="80" cy="64" rx="20" ry="5" fill="#b8bcc2"/></svg><b>Potter's wheel</b><small>The star prop. Seen in every shaping shot.</small><span class="src blender">Codex · Blender script</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><g class="pot" data-profile="0.62,0.7,0.72,0.62,0.48,0.4,0.42,0.5" data-cx="80" data-base="100" data-h="85" data-w="34" data-fill="#c9713f" data-wet="1"></g></svg><b>Clay pot</b><small>Made live from the list of widths. No model needed.</small><span class="src code">Claude · code</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><rect x="45" y="20" width="70" height="80" rx="14" fill="#8a6a55" stroke="#2a2420" stroke-width="4"/><rect x="58" y="42" width="44" height="42" rx="8" fill="#f5b945" stroke="#2a2420" stroke-width="3"/></svg><b>Kiln</b><small>Glows and opens for the reveal.</small><span class="src blender">Codex · Blender script</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><g fill="#8a6a55" stroke="#2a2420" stroke-width="4"><rect x="15" y="45" width="130" height="8"/><rect x="15" y="90" width="130" height="8"/><rect x="15" y="10" width="8" height="90"/><rect x="137" y="10" width="8" height="90"/></g></svg><b>Shelves</b><small>Fill up with the day's pots.</small><span class="src blender">Codex · Blender script</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><rect x="10" y="10" width="140" height="92" fill="#f6e7d2"/><rect x="95" y="20" width="45" height="60" rx="6" fill="#9fd0f0" stroke="#2a2420" stroke-width="4"/><rect x="10" y="80" width="140" height="22" fill="#c99a6b"/></svg><b>Studio room</b><small>Walls, window, floor, workbench. Neutral until the theme.</small><span class="src blender">Codex · Blender script</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><rect x="60" y="50" width="40" height="55" rx="20" fill="#7fb8e6" stroke="#2a2420" stroke-width="4"/><circle cx="80" cy="36" r="20" fill="#f2c7a0" stroke="#2a2420" stroke-width="4"/><circle cx="73" cy="34" r="3"/><circle cx="87" cy="34" r="3"/></svg><b>Customer base</b><small>One simple "bean" body. Hats, hair and colours make 7 customers.</small><span class="src blender">Codex · Blender script</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><path d="M50 50 Q80 10 110 50Z" fill="#e7727d" stroke="#2a2420" stroke-width="4"/><circle cx="40" cy="80" r="14" fill="#8fb996" stroke="#2a2420" stroke-width="4"/><rect x="95" y="68" width="40" height="24" rx="6" fill="#f5b945" stroke="#2a2420" stroke-width="4"/></svg><b>Customer props</b><small>Hats, glasses, a flower, a bag. Swapped to fit the theme.</small><span class="src blender">Codex · Blender script</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><g stroke="#2a2420" stroke-width="3"><circle cx="30" cy="55" r="14" fill="#7fb8e6"/><circle cx="62" cy="55" r="14" fill="#8fb996"/><circle cx="94" cy="55" r="14" fill="#e7727d"/><circle cx="126" cy="55" r="14" fill="#3a4f7a"/></g></svg><b>Glazes</b><small>Shiny toon materials, 5–6 colours.</small><span class="src code">Claude · code</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><rect x="15" y="20" width="130" height="55" rx="18" fill="#fff" stroke="#2a2420" stroke-width="4"/><path d="M60 75 L70 95 L80 75" fill="#fff" stroke="#2a2420" stroke-width="4"/><text x="80" y="54" text-anchor="middle" font-family="Fredoka" font-size="16" fill="#2a2420">"a tall vase…"</text></svg><b>Wish bubble + UI</b><small>Big, rounded, cosy. Codex draws it, Claude wires it (match bar, wobble bar, stars).</small><span class="src sketchfab">Codex · image</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><rect x="25" y="15" width="110" height="80" rx="8" fill="#f3c9a0" stroke="#2a2420" stroke-width="4"/><text x="80" y="62" text-anchor="middle" font-family="Fredoka" font-size="18" fill="#2a2420">COVER</text></svg><b>Style sheet + cover + icon</b><small>One key image sets the style. Cover 630×500, icon.</small><span class="src sketchfab">Codex · image</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><text x="80" y="45" text-anchor="middle" font-family="Fredoka" font-size="16" fill="#2a2420">7 customers</text><text x="80" y="72" text-anchor="middle" font-family="Fredoka" font-size="16" fill="#2a2420">wish · reaction</text></svg><b>Writing</b><small>Game name, customer lines, last customer, itch.io text.</small><span class="src sketchfab">Codex · writing</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><circle cx="80" cy="55" r="30" fill="none" stroke="#f5b945" stroke-width="8" stroke-dasharray="4 10"/><text x="80" y="66" text-anchor="middle" font-size="30" fill="#f5b945">★</text></svg><b>Juice effects</b><small>Clay splatter, kiln sparkles, star pops, sploosh.</small><span class="src code">Claude · code</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd0f0"/><stop offset="1" stop-color="#f3c9a0"/></linearGradient></defs><rect x="10" y="10" width="140" height="92" rx="8" fill="url(#skyg)"/></svg><b>Window sky</b><small>Morning → evening, one step brighter or warmer per customer.</small><span class="src code">Claude · code</span></div>
+    <div class="asset"><svg viewBox="0 0 160 110"><path d="M20 70 Q40 30 60 70 T100 70 T140 70" stroke="#c7a6e8" stroke-width="8" fill="none" stroke-linecap="round"/></svg><b>Sound</b><small>Wheel hum, wet clay, kiln, chimes, giggles, lofi music.</small><span class="src sfx">sfx CLI · CC0</span></div>
+  </div>
+</div></section>
+
+<section id="palette"><div class="wrap">
+  <h2>The look</h2>
+  <div class="two">
+    <div>
+      <p><b>Toon low-poly 3D, warm and soft.</b> Light falls in 2–3 hard bands, with thick dark outlines, sunlight through one window, and nothing too saturated. The clay looks <b>wet</b> while shaping (a moving highlight) and turns <b>glossy</b> after the kiln.</p>
+      <p>Camera: fixed, slightly above the wheel, looking down a little, so you see both the shape and the top of the pot. Portrait makes the pot the hero of the screen.</p>
+      <p class="muted">Neutral for now. At 11 pm the theme may repaint the room, the customers and the glaze colours.</p>
+    </div>
+    <div class="swatches">
+      <div class="sw"><i style="background:#d9824f"></i><span>Clay</span></div>
+      <div class="sw"><i style="background:#f6e7d2"></i><span>Plaster wall</span></div>
+      <div class="sw"><i style="background:#c99a6b"></i><span>Wood floor</span></div>
+      <div class="sw"><i style="background:#8fb996"></i><span>Sage</span></div>
+      <div class="sw"><i style="background:#7fb8e6"></i><span>Sky glaze</span></div>
+      <div class="sw"><i style="background:#f5b945"></i><span>Kiln glow</span></div>
+      <div class="sw"><i style="background:#e7727d"></i><span>Rose</span></div>
+      <div class="sw"><i style="background:#2a2420"></i><span>Outline</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="sound"><div class="wrap">
+  <h2>Sound list (all CC0, through <code>sfx</code>)</h2>
+  <div class="scroll"><table>
+    <tr><th>Moment</th><th>Sound</th><th>Why it matters</th></tr>
+    <tr><td>Wheel spinning</td><td>A soft, low hum loop that speeds up a little when you touch the clay</td><td>The calm heartbeat of the game</td></tr>
+    <tr><td>Shaping</td><td>Wet squish, pitched by how hard you push</td><td>Makes the thumb feel like it's in clay</td></tr>
+    <tr><td>Customer arrives</td><td>Shop bell</td><td>Cosy signal of a new round</td></tr>
+    <tr><td>Glaze tap</td><td>Soft "blop"</td><td>Satisfying choice</td></tr>
+    <tr><td>Kiln</td><td>Whoosh + crackle, then a ding</td><td>Suspense before the reveal</td></tr>
+    <tr><td>Stars</td><td>Rising chimes, one per star</td><td>The reward moment</td></tr>
+    <tr><td>Collapse</td><td>Floppy "sploosh" + giggle</td><td>Turns failure into a laugh</td></tr>
+    <tr><td>Music</td><td>One gentle lofi or acoustic loop</td><td>Calm</td></tr>
+  </table></div>
+</div></section>
+
+<section id="theme"><div class="wrap">
+  <h2>Theme practice: how pottery bends to a theme</h2>
+  <p>Three questions every time: <b>who</b> are the customers, <b>what</b> do they wish for, and <b>who</b> is the special last customer?</p>
+  <div class="scroll"><table>
+    <tr><th>If the theme is…</th><th>The twist</th><th>Last customer</th></tr>
+    <tr><td><b>Only one</b></td><td>One lump of clay for the whole day. Every customer's pot is re-shaped from the one before.</td><td>Asks for the very first pot back</td></tr>
+    <tr><td><b>Growth</b></td><td>Every customer's plant has grown, and each needs a bigger pot than the last.</td><td>A tree</td></tr>
+    <tr><td><b>Balance</b></td><td>Pots get stacked into a tower on the shelf. Your shapes must stack.</td><td>Wants the tower topped off</td></tr>
+    <tr><td><b>Out of control</b></td><td>The wheel's speed drifts on its own. Ride it.</td><td>The wheel goes wild</td></tr>
+    <tr><td><b>Deeper</b></td><td>Wishes ask for deeper and deeper bowls.</td><td>Someone wants a well</td></tr>
+    <tr><td><b>Connection</b></td><td>Customers come in pairs, and their pots must fit together (a jar and its lid, two halves).</td><td>A pot that joins everyone's</td></tr>
+    <tr><td><b>Memory / Time</b></td><td>Customers bring a broken piece. Rebuild the pot from a shape you saw for 3 seconds.</td><td>A pot from your own past</td></tr>
+    <tr><td><b>Home</b></td><td>Every customer is moving into a new home. One pot for each room.</td><td>You, the potter, moving home</td></tr>
+    <tr><td><b>Gravity</b></td><td>Tall thin pots sag while you shape. Fight the slump.</td><td>The tallest pot possible</td></tr>
+  </table></div>
+  <p class="muted" style="margin-top:12px">Practice examples, not decisions.</p>
+</div></section>
+
+<section id="reveal"><div class="wrap">
+  <h2>Reveal night: the first hour</h2>
+  <ol class="timeline">
+    <li><div class="when">11:00 · Read the theme (5 min)</div>Copy it exactly from itch.io or Discord.</li>
+    <li><div class="when">11:05 · Word storm (10 min)</div>10 words each. Strike out the first 3, because everyone else has them.</li>
+    <li><div class="when">11:15 · Fit it to the studio (10 min)</div>For 2–3 candidates: who are the customers, what do they wish for, what does the theme change about the wheel or the clay, and who is the last customer?</li>
+    <li><div class="when">11:25 · Pitch test (10 min)</div>
+      <div class="pitch">In <i>[name]</i>, you shape <i>[what]</i> for <i>[who]</i>, but <i>[the theme twist]</i>.</div>
+      Is the theme clear within the first customer? Is the twist doable by Tuesday night?</li>
+    <li><div class="when">11:35 · Decide and lock (10 min)</div>Luqman chooses. We lock the twist and the last customer. Claude briefs Codex for the name, customers, palette and style sheet.</li>
+    <li><div class="when">11:45 · Project starts</div>Only now is the project folder made.</li>
+  </ol>
+</div></section>
+
+<section id="schedule"><div class="wrap">
+  <h2>Schedule (Malaysia time)</h2>
+  <ol class="timeline">
+    <li><div class="when"><span class="day">MON 28</span>before 11:00 pm · Get ready</div>Join the jam and the Discord. Rest.</li>
+    <li><div class="when"><span class="day">MON 28</span>11:00 pm – 12:30 am · Reveal + decide</div>Lock the design. Start the project. Codex starts on the style sheet overnight, ready for Luqman to approve in the morning.</li>
+    <li><div class="when"><span class="day">TUE 29</span>9:00 am – 12:30 pm · MVP: the wheel</div>Clay spins, the thumb shapes it, the outline shows, the match % works. <b>If shaping clay feels good on the iPhone, the game works.</b></li>
+    <li><div class="when"><span class="day">TUE 29</span>12:30 pm · First upload ✅</div>The wheel on itch.io as a draft page.</li>
+    <li><div class="when"><span class="day">TUE 29</span>1:30 – 6:00 pm · Core</div>The customer loop, wish → shape → glaze → kiln → reveal → shelf. Collapse. 7 customers, end screen. <b>Codex, in parallel:</b> Blender scripts for the wheel, kiln, shelves, studio and customers. Luqman approves the style sheet and the customer writing.</li>
+    <li><div class="when"><span class="day">TUE 29</span>evening · Art in + playtest</div>Models in, palette and light locked. Play a full day on the phone and write down what feels wrong.</li>
+    <li><div class="when"><span class="day">WED 30</span>9:00 am – 1:00 pm · Feel + sound</div>Fix the list. Wet clay look, kiln sparkles, star pops, sploosh. All the sounds and the music.</li>
+    <li><div class="when"><span class="day">WED 30</span>2:00 – 6:00 pm · Face of the game</div>Codex's UI art, cover and icon in. The last customer's scene, cosy themed UI, balance. Luqman approves the cover.</li>
+    <li><div class="when"><span class="day">WED 30</span>6:00 pm · FEATURE FREEZE 🧊</div>Fixes only.</li>
+    <li><div class="when"><span class="day">WED 30</span>6:00 – 8:00 pm · Page + final build</div>Cover (a shelf full of pots is the obvious shot), screenshots, a GIF of shaping, description, credits.</li>
+    <li><div class="when"><span class="day">WED 30</span>by 8:30 pm · SUBMIT 🚀</div>That leaves 2½ hours before the 10:59 pm deadline.</li>
+  </ol>
+</div></section>
+
+<section id="roles"><div class="wrap">
+  <h2>Who does what</h2>
+  <div class="grid">
+    <div class="card"><span class="tag clay">Luqman</span><h3>Approver + player</h3><ul>
+      <li>Picks the theme idea and the name on reveal night</li>
+      <li><b>Approves or rejects</b> everything Codex makes, at the checkpoints below</li>
+      <li>Plays every build on the iPhone and says how the clay feels</li>
+      <li>Joins, uploads and submits on itch.io (his login)</li></ul></div>
+    <div class="card"><span class="tag go">Claude</span><h3>Mechanics + glue</h3><ul>
+      <li>The clay (list of widths), scoring, wobble and collapse</li>
+      <li>The customer loop, kiln, reveal, shelves, end screen</li>
+      <li>Writes every brief for Codex, and puts what comes back into Godot</li>
+      <li>Effects, sound (<code>sfx</code>), the web export, the credits list, the clock</li></ul></div>
+    <div class="card"><span class="tag warn">Codex</span><h3>All the creative work</h3><ul>
+      <li><b>Writing:</b> the name, 7 customers (wish + reaction), the last customer's scene, the itch.io text</li>
+      <li><b>2D images:</b> style reference, concept art, UI (bubbles, buttons, stars), cover image, icon</li>
+      <li><b>3D:</b> Blender Python scripts that build the wheel, kiln, shelves, studio and customers in low-poly</li>
+      <li><b>Look:</b> the palette and glaze colours</li></ul></div>
+  </div>
+</div></section>
+
+<section id="codex"><div class="wrap">
+  <h2>Codex workflow: one style, no drift</h2>
+  <p>The biggest risk with an AI making all the art is that <b>every picture comes out in a different style</b>. Judges notice straight away. The fix is to lock the style first and make everything against it.</p>
+  <ol class="timeline">
+    <li><div class="when">Step 1 · Style sheet</div>Straight after reveal night: Codex makes <b>one key image</b> of the studio in the theme, plus the palette. <b>Luqman approves it.</b> This becomes the style reference for everything else.</li>
+    <li><div class="when">Step 2 · Writing</div>Name, 7 customers, the last customer. <b>Luqman approves.</b> Claude checks it's all English and short enough for a phone bubble.</li>
+    <li><div class="when">Step 3 · 3D models</div>Codex writes Blender scripts. Claude runs them, exports GLB, and applies the one toon material, so the models match even if they're simple.</li>
+    <li><div class="when">Step 4 · UI + cover</div>Made last, against the approved style sheet, so the cover looks like the real game.</li>
+  </ol>
+  <div class="grid" style="margin-top:12px">
+    <div class="card"><h3>How Claude briefs Codex</h3><p>Each job is sent from the terminal (<code>codex exec</code>) with: the approved style sheet, exact sizes, the file name to save, and "English text only". What comes back goes into the game's folder.</p></div>
+    <div class="card"><h3>Luqman's approval checkpoints</h3><p>① style sheet · ② customer writing · ③ models in the game · ④ cover. A "no" at any point means a redo with his notes. There are only four checkpoints, so he's never stuck reviewing all day.</p></div>
+    <div class="card"><h3>Credits</h3><p>The itch.io page lists <b>Claude Code</b> (code), <b>Codex + its image generator</b> (art, writing, models), <b>Godot</b>, <b>Blender</b> (running Codex's scripts), and every CC0 sound source.</p></div>
+  </div>
+</div></section>
+
+<section id="before"><div class="wrap">
+  <h2>Before 11 pm tonight</h2>
+  <ul class="check">
+    <li>Click <b>Join jam</b> on <a href="https://itch.io/jam/slapjam-ai-1">itch.io/jam/slapjam-ai-1</a></li>
+    <li>Join the <a href="https://discord.gg/RjBDf8GGne">Slapjam Discord</a></li>
+    <li>Think about it: what pot would <i>you</i> love to make on a phone? That is your main job now: to taste and judge</li>
+    <li>Rest, and be back just before 11 pm</li>
+  </ul>
+</div></section>
+
+<section id="tech"><div class="wrap">
+  <h2>Tech checklist (for when we build)</h2>
+  <div class="grid">
+    <div class="card"><h3>Godot settings</h3><ul>
+      <li>720×1280, stretch <code>canvas_items</code>, aspect <code>expand</code>, portrait</li>
+      <li>Compatibility renderer</li>
+      <li>Web export: <b>thread support OFF</b>, <code>index.html</code> at the zip root</li></ul></div>
+    <div class="card"><h3>The pot</h3><ul>
+      <li>~24 widths × ~32 sides = a light mesh, rebuilt every frame</li>
+      <li>Shelf copies are frozen meshes, so they cost almost nothing</li>
+      <li>Autoplay bot checks that 3 stars are reachable on every wish</li></ul></div>
+    <div class="card"><h3>Phone gotchas</h3><ul>
+      <li>Sound only after the first tap ("tap to open the shop")</li>
+      <li>Thumb must not cover the pot, so the touch area sits to the side</li>
+      <li>Build under 50 MB. Big UI, text ~24px+</li></ul></div>
+  </div>
+</div></section>
+
+<section id="submit"><div class="wrap">
+  <h2>Submission checklist</h2>
+  <ul class="check">
+    <li>HTML project, zip uploaded, "played in the browser" ticked</li>
+    <li>Viewport 720×1280, <b>Mobile friendly</b>, <b>Portrait</b>, fullscreen button</li>
+    <li>Game page <b>Public</b></li>
+    <li>Cover (630×500), 3–5 screenshots, a GIF of clay being shaped</li>
+    <li>Description: pitch, how to play, how it uses the theme</li>
+    <li>Credits: Claude Code, Codex + image generator, Godot, Blender, CC0 sounds. Solo entry</li>
+    <li>Tested on the iPhone from the public link</li>
+    <li>Submitted before <b>10:59 pm MYT Wednesday</b></li>
+  </ul>
+</div></section>
+
+<section id="cut"><div class="wrap">
+  <h2>Cut list: what goes first if we're behind</h2>
+  <div class="scroll"><table>
+    <tr><th>#</th><th>Cut</th><th>Fallback</th></tr>
+    <tr><td>1</td><td>7 customers</td><td>5 customers</td></tr>
+    <tr><td>2</td><td>Customer props and hats</td><td>Just body colours</td></tr>
+    <tr><td>3</td><td>Glaze bonus hint</td><td>The glaze is just a choice</td></tr>
+    <tr><td>4</td><td>Window sky changing through the day</td><td>One sunny sky</td></tr>
+    <tr><td>5</td><td>Best-day record</td><td>Stars on the end screen only</td></tr>
+    <tr><td>—</td><td><b>Never cut:</b> how the clay feels, the reveal moment, the shelves, the last customer, sound</td><td>This is the game</td></tr>
+  </table></div>
+</div></section>
+
+<section id="rules"><div class="wrap">
+  <h2>Jam rules, in short</h2>
+  <div class="grid">
+    <div class="card"><span class="tag bad">Hard rule</span><h3>Portrait phone browser</h3><p>720×1280, HTML5 on itch.io, touch controls, or it's not rated.</p></div>
+    <div class="card"><span class="tag bad">Hard rule</span><h3>Made during the jam</h3><p>28 Sep 11 pm → 30 Sep 10:59 pm MYT. Tools and asset packs are fine.</p></div>
+    <div class="card"><span class="tag warn">Scored</span><h3>Fun · Visual · Theme</h3><p>Results on 7 October.</p></div>
+    <div class="card"><span class="tag">Must do</span><h3>Credit everything</h3><p>Every AI tool and asset source goes on the page.</p></div>
+  </div>
+</div></section>
+
+</main>
+
+<footer><div class="wrap">Slapjam 2026 game plan · pottery · 2026-09-28 · Luqman + Claude · itch.io/jam/slapjam-ai-1</div></footer>
+
+<script>
+// Draws each pot silhouette from a list of widths (bottom → top), the same idea the game uses.
+(function(){
+  var NS="http://www.w3.org/2000/svg";
+  document.querySelectorAll("g.pot").forEach(function(g){
+    var prof=g.dataset.profile.split(",").map(Number);
+    var cx=+g.dataset.cx, base=+g.dataset.base, h=+g.dataset.h, w=+g.dataset.w;
+    var n=prof.length, pts=[];
+    for(var i=0;i<n;i++){ pts.push([prof[i]*w, base-(i/(n-1))*h]); }
+    function side(sign){
+      var d="";
+      for(var i=0;i<n;i++){
+        var x=cx+sign*pts[i][0], y=pts[i][1];
+        if(i===0){ d+=(sign>0?"M":"L")+x+" "+y; continue; }
+        var px=cx+sign*pts[i-1][0], py=pts[i-1][1];
+        d+=" Q"+px+" "+((py+y)/2+0)+" "+((px+x)/2)+" "+((py+y)/2);
+        if(i===n-1) d+=" L"+x+" "+y;
+      }
+      return d;
+    }
+    var right=side(1);
+    var leftPts=[]; for(var j=n-1;j>=0;j--) leftPts.push([cx-pts[j][0],pts[j][1]]);
+    var left=""; leftPts.forEach(function(p,k){ left+=(k===0?" L":" L")+p[0]+" "+p[1]; });
+    var d=right+" L"+(cx-pts[n-1][0])+" "+pts[n-1][1]+left+" Z";
+    var path=document.createElementNS(NS,"path");
+    path.setAttribute("d",d);
+    if(g.classList.contains("ghost")){
+      path.setAttribute("fill","none"); path.setAttribute("stroke","#2a2420");
+      path.setAttribute("stroke-width","3"); path.setAttribute("stroke-dasharray","8 7"); path.setAttribute("opacity",".7");
+    } else {
+      path.setAttribute("fill",g.dataset.fill||"#d9824f");
+      path.setAttribute("stroke","#2a2420"); path.setAttribute("stroke-width","4"); path.setAttribute("stroke-linejoin","round");
+    }
+    g.appendChild(path);
+    if(!g.classList.contains("ghost")){
+      var top=pts[n-1];
+      var rim=document.createElementNS(NS,"ellipse");
+      rim.setAttribute("cx",cx); rim.setAttribute("cy",top[1]); rim.setAttribute("rx",top[0]); rim.setAttribute("ry",Math.max(3,top[0]*0.22));
+      rim.setAttribute("fill","#5a3522"); rim.setAttribute("stroke","#2a2420"); rim.setAttribute("stroke-width","3");
+      g.appendChild(rim);
+      if(g.dataset.wet||g.dataset.shine){
+        var mid=pts[Math.floor(n/3)];
+        var hl=document.createElementNS(NS,"path");
+        var hx=cx-mid[0]*0.5;
+        hl.setAttribute("d","M"+hx+" "+(base-h*0.15)+" Q"+(hx-6)+" "+(base-h*0.4)+" "+hx+" "+(base-h*0.65));
+        hl.setAttribute("stroke","#fff"); hl.setAttribute("stroke-width", g.dataset.shine?"7":"4");
+        hl.setAttribute("stroke-linecap","round"); hl.setAttribute("fill","none"); hl.setAttribute("opacity",g.dataset.shine?".8":".45");
+        g.appendChild(hl);
+      }
+    }
+  });
+  var targets=[["c1","2026-09-28T15:00:00Z"],["c2","2026-09-30T14:59:59Z"]];
+  function fmt(ms){
+    if(ms<=0) return "started / passed";
+    var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),x=s%60;
+    return (d?d+"d ":"")+h+"h "+String(m).padStart(2,"0")+"m "+String(x).padStart(2,"0")+"s";
+  }
+  function tick(){var now=Date.now();targets.forEach(function(t){document.getElementById(t[0]).textContent=fmt(new Date(t[1]).getTime()-now);});}
+  tick();setInterval(tick,1000);
+})();
+</script>
+</body>
+</html>
